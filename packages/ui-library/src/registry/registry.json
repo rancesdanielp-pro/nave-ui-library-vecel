@@ -1,0 +1,976 @@
+{
+    "button": {
+        "name": "Button",
+        "description": "Botón con varias opciones de personalización.",
+        "component": "Button",
+        "slots": {
+            "children": {
+                "type": "string",
+                "default": "Label"
+            }
+        },
+        "files": [
+            "components/base/buttons/Button.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-slot",
+            "class-variance-authority"
+        ],
+        "props": {
+            "variant": {
+                "type": "'primary' | 'secondary' | 'tertiary' | 'neutral'",
+                "description": "Variant of the button."
+            },
+            "size": {
+                "type": "'sm' | 'md' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg'",
+                "description": "Size of the button."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral' | 'destructive'",
+                "description": "Tone of the button."
+            },
+            "asChild": {
+                "type": "boolean",
+                "description": "Render as child component."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the button is disabled."
+            }
+        }
+    },
+    "separator": {
+        "name": "Separator",
+        "description": "Separador visual para dividir contenido.",
+        "component": "Separator",
+        "files": [
+            "components/base/layout/Separator.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-separator"
+        ],
+        "props": {
+            "orientation": {
+                "type": "'horizontal' | 'vertical'",
+                "description": "Orientation of the separator."
+            },
+            "decorative": {
+                "type": "boolean",
+                "description": "Whether the separator is decorative."
+            }
+        }
+    },
+    "badge": {
+        "name": "Badge",
+        "description": "Badge para mostrar etiquetas o estados.",
+        "component": "Badge",
+        "files": [
+            "components/base/data-display/system-feedback/Badge.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-slot",
+            "class-variance-authority"
+        ],
+        "props": {
+            "tone": {
+                "type": "'success' | 'warning' | 'error' | 'info' | 'neutral' | 'brand'",
+                "description": "Tone of the badge."
+            },
+            "size": {
+                "type": "'small' | 'medium' | 'large'",
+                "description": "Size of the badge."
+            },
+            "shape": {
+                "type": "'rounded' | 'pill'",
+                "description": "Shape of the badge."
+            }
+        }
+    },
+    "input": {
+        "name": "Input",
+        "description": "Campo de entrada de texto con soporte para estados y validación.",
+        "component": "Input",
+        "files": [
+            "components/base/data-entry/inputs/Input.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "class-variance-authority"
+        ],
+        "void": true,
+        "props": {
+            "size": {
+                "type": "'sm' | 'md'",
+                "description": "Size of the input."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral'",
+                "description": "Tone of the input."
+            },
+            "error": {
+                "type": "boolean",
+                "description": "Whether the input has an error."
+            },
+            "helperText": {
+                "type": "string",
+                "description": "Helper text for the input."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the input."
+            },
+            "placeholder": {
+                "type": "string",
+                "description": "Placeholder text for the input."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "checkbox": {
+        "name": "Checkbox",
+        "description": "Checkbox para selección múltiple con soporte para estados indeterminado.",
+        "component": "Checkbox",
+        "files": [
+            "components/base/data-entry/selection-controls/Checkbox.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-checkbox",
+            "class-variance-authority",
+            "lucide-react"
+        ],
+        "void": true,
+        "props": {
+            "size": {
+                "type": "'regular' | 'small'",
+                "description": "Size of the checkbox."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral' | 'destructive'",
+                "description": "Tone of the checkbox."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the checkbox."
+            },
+            "description": {
+                "type": "string",
+                "description": "Description text for the checkbox."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "radio": {
+        "name": "Radio",
+        "description": "Radio button para selección única.",
+        "component": "RadioGroup",
+        "files": [
+            "components/base/data-entry/selection-controls/Radio.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-radio-group",
+            "class-variance-authority"
+        ],
+        "void": true,
+        "props": {
+            "size": {
+                "type": "'regular' | 'small'",
+                "description": "Size of the radio."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral' | 'destructive'",
+                "description": "Tone of the radio."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the radio."
+            },
+            "description": {
+                "type": "string",
+                "description": "Description text for the radio."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "switch": {
+        "name": "Switch",
+        "description": "Switch toggle para activar/desactivar opciones.",
+        "component": "Switch",
+        "files": [
+            "components/base/data-entry/selection-controls/Switch.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-switch",
+            "class-variance-authority"
+        ],
+        "void": true,
+        "props": {
+            "size": {
+                "type": "'regular' | 'small'",
+                "description": "Size of the c."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral' | 'destructive'",
+                "description": "Tone of the ."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the switch."
+            },
+            "description": {
+                "type": "string",
+                "description": "Description text for the switch."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "card": {
+        "name": "Card",
+        "description": "Card contenedor para agrupar contenido relacionado.",
+        "component": "Card",
+        "files": [
+            "components/base/data-display/cards-blocks/Card.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "class-variance-authority"
+        ],
+        "props": {
+            "variant": {
+                "type": "'primary' | 'secondary' | 'tertiary'",
+                "description": "Variant of the card."
+            },
+            "title": {
+                "type": "React.ReactNode",
+                "description": "Title for the card."
+            },
+            "action": {
+                "type": "React.ReactNode",
+                "description": "Action element for the card header."
+            }
+        }
+    },
+    "banner": {
+        "name": "Banner",
+        "description": "Banner para mostrar información destacada.",
+        "component": "Banner",
+        "files": [
+            "components/base/data-display/cards-blocks/Banner.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "class-variance-authority"
+        ],
+        "props": {
+            "tone": {
+                "type": "'success' | 'warning' | 'error' | 'info'",
+                "description": "Tone of the ."
+            },
+            "title": {
+                "type": "string",
+                "description": "Title for the banner."
+            },
+            "subtitle": {
+                "type": "string",
+                "description": "Subtitle for the banner."
+            }
+        }
+    },
+    "integration-card": {
+        "name": "IntegrationCard",
+        "description": "Card especializada para mostrar integraciones.",
+        "component": "IntegrationCard",
+        "files": [
+            "components/base/data-display/cards-blocks/IntegrationCard.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "badgeText": {
+                "type": "string",
+                "description": "Text displayed inside the badge."
+            },
+            "logoSrc": {
+                "type": "string",
+                "description": "Path or URL of the logo image."
+            },
+            "title": {
+                "type": "string",
+                "description": "Main title of the card."
+            },
+            "description": {
+                "type": "string",
+                "description": "Descriptive text providing additional information."
+            },
+            "linkLabel": {
+                "type": "string",
+                "description": "Label text for the action link."
+            },
+            "onLinkClick": {
+                "type": "() => void",
+                "description": "Callback function executed when the link is clicked."
+            }
+        }
+    },
+    "promo-banner": {
+        "name": "PromoBanner",
+        "description": "Banner promocional con estilo destacado.",
+        "component": "PromoBanner",
+        "files": [
+            "components/base/data-display/cards-blocks/PromoBanner.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "title": {
+                "type": "string",
+                "description": "Title text for the promo."
+            },
+            "imageSrc": {
+                "type": "string",
+                "description": "URL of the image displayed on the right side of the promo."
+            }
+        }
+    },
+    "drag-slider": {
+        "name": "DragSlider",
+        "description": "Slider con funcionalidad de arrastre.",
+        "component": "DragSlider",
+        "files": [
+            "components/base/data-display/cards-blocks/DragSlider.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {}
+    },
+    "accordion": {
+        "name": "Accordion",
+        "description": "Accordion para mostrar/ocultar contenido colapsable.",
+        "component": "Accordion",
+        "files": [
+            "components/base/data-display/disclosure/Accordion.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-accordion",
+            "lucide-react"
+        ],
+        "props": {
+            "type": {
+                "type": "'single' | 'multiple'",
+                "description": "Type of accordion."
+            },
+            "collapsible": {
+                "type": "boolean",
+                "description": "Whether items can be collapsed."
+            }
+        }
+    },
+    "avatar": {
+        "name": "Avatar",
+        "description": "Avatar para mostrar imágenes de perfil o iniciales.",
+        "component": "Avatar",
+        "files": [
+            "components/base/data-display/lists/Avatar.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-avatar"
+        ],
+        "props": {
+            "src": {
+                "type": "string",
+                "description": "Image source URL."
+            },
+            "alt": {
+                "type": "string",
+                "description": "Alt text for the image."
+            },
+            "fallback": {
+                "type": "string",
+                "description": "Fallback text when image fails to load."
+            }
+        }
+    },
+    "list-item": {
+        "name": "ListItem",
+        "description": "Item de lista con estilo consistente.",
+        "component": "ListItem",
+        "files": [
+            "components/base/data-display/lists/ListItem.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {}
+    },
+    "table": {
+        "name": "Table",
+        "description": "Tabla para mostrar datos tabulares.",
+        "component": "Table",
+        "files": [
+            "components/base/data-display/lists/Table.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {}
+    },
+    "dropdown": {
+        "name": "Dropdown",
+        "description": "Dropdown menu con opciones desplegables.",
+        "component": "Dropdown",
+        "files": [
+            "components/base/data-display/overlays/Dropdown.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-dropdown-menu"
+        ],
+        "props": {}
+    },
+    "popover": {
+        "name": "Popover",
+        "description": "Popover para mostrar contenido flotante.",
+        "component": "Popover",
+        "files": [
+            "components/base/data-display/overlays/Popover.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-popover"
+        ],
+        "props": {}
+    },
+    "tooltip": {
+        "name": "Tooltip",
+        "description": "Tooltip para mostrar información contextual al pasar el mouse.",
+        "component": "Tooltip",
+        "files": [
+            "components/base/data-display/overlays/Tooltip.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-tooltip"
+        ],
+        "props": {
+            "delayDuration": {
+                "type": "number",
+                "description": "Delay before showing tooltip."
+            }
+        }
+    },
+    "alert": {
+        "name": "Alert",
+        "description": "Alert para mostrar mensajes importantes al usuario.",
+        "component": "Alert",
+        "files": [
+            "components/base/data-display/system-feedback/Alert.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "class-variance-authority"
+        ],
+        "props": {}
+    },
+    "empty-state": {
+        "name": "EmptyState",
+        "description": "Empty state para mostrar cuando no hay datos.",
+        "component": "EmptyState",
+        "files": [
+            "components/base/data-display/system-feedback/EmptyState.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "title": {
+                "type": "string",
+                "description": "Main title of the card."
+            },
+            "description": {
+                "type": "string",
+                "description": "Descriptive text providing additional information."
+            }
+        }
+    },
+    "loader": {
+        "name": "Loader",
+        "description": "Loader animado para indicar carga.",
+        "component": "Loader",
+        "files": [
+            "components/base/data-display/system-feedback/Loader.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "size": {
+                "type": "'sm' | 'md' | 'lg'",
+                "description": "Size of the loader."
+            }
+        }
+    },
+    "progress": {
+        "name": "Progress",
+        "description": "Barra de progreso para mostrar avance.",
+        "component": "Progress",
+        "files": [
+            "components/base/data-display/system-feedback/Progress.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-progress"
+        ],
+        "props": {
+            "value": {
+                "type": "number",
+                "description": "Current progress value."
+            }
+        }
+    },
+    "file-upload-file": {
+        "name": "FileUploadFile",
+        "description": "Componente para mostrar archivos cargados.",
+        "component": "FileUploadFile",
+        "files": [
+            "components/base/data-display/system-feedback/FileUploadFile.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "multiple": {
+                "type": "boolean",
+                "description": "Allows selecting multiple files."
+            },
+            "accept": {
+                "type": "string[]",
+                "description": "List of accepted MIME types."
+            },
+            "maxSizeMB": {
+                "type": "number",
+                "description": "Maximum allowed file size in megabytes."
+            },
+            "onFilesChange": {
+                "type": "(files: File[]) => void",
+                "description": "Callback triggered when the selected files change."
+            },
+            "onError": {
+                "type": "(errors: FileError[]) => void",
+                "description": "Callback triggered when a validation error occurs."
+            }
+        }
+    },
+    "label": {
+        "name": "Label",
+        "description": "Label para inputs y formularios.",
+        "component": "Label",
+        "files": [
+            "components/base/data-entry/inputs/Label.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-label"
+        ],
+        "props": {
+            "htmlFor": {
+                "type": "string",
+                "description": "ID of the input element."
+            }
+        }
+    },
+    "textarea": {
+        "name": "Textarea",
+        "description": "Textarea para entrada de texto multilínea.",
+        "component": "Textarea",
+        "files": [
+            "components/base/data-entry/inputs/Textarea.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "rows": {
+                "type": "number",
+                "description": "Number of visible text lines."
+            },
+            "error": {
+                "type": "boolean",
+                "description": "Whether the input has an error."
+            },
+            "helperText": {
+                "type": "string",
+                "description": "Helper text for the input."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the input."
+            },
+            "placeholder": {
+                "type": "string",
+                "description": "Placeholder text for the input."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "password-input": {
+        "name": "PasswordInput",
+        "description": "Input especializado para contraseñas con toggle de visibilidad.",
+        "component": "PasswordInput",
+        "files": [
+            "components/base/data-entry/inputs/PasswordInput.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "lucide-react"
+        ],
+        "props": {
+            "size": {
+                "type": "'sm' | 'md'",
+                "description": "Size of the input."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral'",
+                "description": "Tone of the input."
+            },
+            "error": {
+                "type": "boolean",
+                "description": "Whether the input has an error."
+            },
+            "helperText": {
+                "type": "string",
+                "description": "Helper text for the input."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the input."
+            },
+            "placeholder": {
+                "type": "string",
+                "description": "Placeholder text for the input."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "search-bar": {
+        "name": "SearchBar",
+        "description": "Barra de búsqueda con icono.",
+        "component": "SearchBar",
+        "files": [
+            "components/base/data-entry/inputs/SearchBar.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "lucide-react"
+        ],
+        "props": {
+            "size": {
+                "type": "'sm' | 'md'",
+                "description": "Size of the input."
+            },
+            "tone": {
+                "type": "'brand' | 'neutral'",
+                "description": "Tone of the input."
+            },
+            "error": {
+                "type": "boolean",
+                "description": "Whether the input has an error."
+            },
+            "helperText": {
+                "type": "string",
+                "description": "Helper text for the input."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the input."
+            },
+            "placeholder": {
+                "type": "string",
+                "description": "Placeholder text for the input."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
+    },
+    "calendar": {
+        "name": "Calendar",
+        "description": "Calendario para selección de fechas.",
+        "component": "Calendar",
+        "files": [
+            "components/base/data-entry/inputs/Calendar.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "react-day-picker"
+        ],
+        "props": {
+            "mode": {
+                "type": "'single' | 'multiple' | 'range'",
+                "description": "Selection mode."
+            }
+        }
+    },
+    "date-picker": {
+        "name": "DatePicker",
+        "description": "Date picker con calendario desplegable.",
+        "component": "DatePicker",
+        "files": [
+            "components/base/data-entry/inputs/DatePicker.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "react-day-picker",
+            "@radix-ui/react-popover"
+        ],
+        "props": {}
+    },
+    "combobox": {
+        "name": "Combobox",
+        "description": "Combobox para búsqueda y selección combinadas.",
+        "component": "Combobox",
+        "files": [
+            "components/base/data-entry/inputs/Combobox.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-popover"
+        ],
+        "props": {
+            "value": {
+                "type": "string",
+                "description": "Currently selected value."
+            },
+            "onValueChange": {
+                "type": "(value: string) => void",
+                "description": "Callback executed when the selected value changes."
+            },
+            "items": {
+                "type": "{ label: string; value: string }[]",
+                "description": "List of selectable items."
+            },
+            "placeholder": {
+                "type": "string",
+                "description": "Placeholder text displayed when no value is selected."
+            }
+        }
+    },
+    "icon": {
+        "name": "Icon",
+        "description": "Componente para renderizar iconos con diferentes tamaños y colores.",
+        "component": "Icon",
+        "files": [
+            "components/base/foundations/icon/Icon.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-slot",
+            "class-variance-authority"
+        ],
+        "props": {
+            "size": {
+                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+                "description": "Size of the icon."
+            },
+            "color": {
+                "type": "'default' | 'primary' | 'muted' | 'danger' | 'success'",
+                "description": "Color variant of the icon."
+            },
+            "asChild": {
+                "type": "boolean",
+                "description": "Render as child component."
+            }
+        }
+    },
+    "icon-label": {
+        "name": "IconLabel",
+        "description": "Componente que combina icono con etiqueta de texto.",
+        "component": "IconLabel",
+        "files": [
+            "components/base/foundations/icon/IconLabel.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "icon": {
+                "type": "React.ReactNode",
+                "description": "Icon element."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label text."
+            }
+        }
+    },
+    "breadcrumb": {
+        "name": "Breadcrumb",
+        "description": "Breadcrumb para navegación jerárquica.",
+        "component": "Breadcrumb",
+        "files": [
+            "components/base/navegation/Breadcrumb.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-slot"
+        ],
+        "props": {}
+    },
+    "drawer": {
+        "name": "Drawer",
+        "description": "Drawer lateral para navegación o contenido adicional.",
+        "component": "Drawer",
+        "files": [
+            "components/base/navegation/Drawer.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "vaul"
+        ],
+        "props": {
+            "side": {
+                "type": "'left' | 'right' | 'top' | 'bottom'",
+                "description": "Side from which drawer appears."
+            }
+        }
+    },
+    "modal-dialog": {
+        "name": "ModalDialog",
+        "description": "Modal dialog para mostrar contenido sobre la página principal.",
+        "component": "ModalDialog",
+        "files": [
+            "components/base/navegation/ModalDialog.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-dialog"
+        ],
+        "props": {
+            "open": {
+                "type": "boolean",
+                "description": "Whether the modal is open."
+            },
+            "onOpenChange": {
+                "type": "(open: boolean) => void",
+                "description": "Callback when open state changes."
+            }
+        }
+    },
+    "navbar": {
+        "name": "Navbar",
+        "description": "Navbar de navegación principal.",
+        "component": "Navbar",
+        "files": [
+            "components/base/navegation/Navbar.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {}
+    },
+    "pagination": {
+        "name": "Pagination",
+        "description": "Componente de paginación para navegar entre páginas de contenido.",
+        "component": "Pagination",
+        "files": [
+            "components/base/navegation/Pagination.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "lucide-react"
+        ],
+        "props": {
+            "currentPage": {
+                "type": "number",
+                "description": "Current page number."
+            },
+            "totalPages": {
+                "type": "number",
+                "description": "Total number of pages."
+            },
+            "onPageChange": {
+                "type": "(page: number) => void",
+                "description": "Callback when page changes."
+            }
+        }
+    },
+    "tabs": {
+        "name": "Tabs",
+        "description": "Tabs para organizar contenido en pestañas navegables.",
+        "component": "Tabs",
+        "files": [
+            "components/base/navegation/Tabs.tsx"
+        ],
+        "dependencies": [
+            "react",
+            "@radix-ui/react-tabs"
+        ],
+        "props": {
+            "defaultValue": {
+                "type": "string",
+                "description": "Default active tab."
+            },
+            "orientation": {
+                "type": "'horizontal' | 'vertical'",
+                "description": "Orientation of tabs."
+            }
+        }
+    },
+    "sidebar": {
+        "name": "Sidebar",
+        "description": "Sidebar de navegación lateral con soporte para estado colapsado.",
+        "component": "Sidebar",
+        "files": [
+            "components/base/navegation/_Sidebar.tsx"
+        ],
+        "dependencies": [
+            "react"
+        ],
+        "props": {
+            "title": {
+                "type": "string",
+                "description": "Title displayed in the sidebar."
+            },
+            "items": {
+                "type": "SidebarItem[]",
+                "description": "Array of navigation items."
+            },
+            "collapsed": {
+                "type": "boolean",
+                "description": "Whether the sidebar is collapsed."
+            },
+            "footer": {
+                "type": "React.ReactNode",
+                "description": "Footer content for the sidebar."
+            }
+        }
+    }
+}

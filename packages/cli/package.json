@@ -1,0 +1,16 @@
+{
+  "name": "nave-ui",
+  "version": "1.0.0",
+  "bin": {
+    "nave-ui": "./bin/nave-ui.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --out-dir dist"
+  },
+  "dependencies": {
+    "commander": "^11.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1"
+  }
+}
