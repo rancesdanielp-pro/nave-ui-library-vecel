@@ -1,0 +1,29 @@
+:root {
+  /* Info */
+  --color-info-100: #d1e9ff;
+  --color-info-300: #84caff;
+  --color-info-500: #2e90fa;
+  --color-info-700: #175cd3;
+  --color-info-900: #194185;
+
+  /* Warning */
+  --color-warning-100: #fef0c7;
+  --color-warning-300: #fec84b;
+  --color-warning-500: #f79009;
+  --color-warning-700: #b54708;
+  --color-warning-900: #7a2e0e;
+
+  /* Error */
+  --color-error-100: #fee4e2;
+  --color-error-300: #fda29b;
+  --color-error-500: #f04438;
+  --color-error-700: #b42318;
+  --color-error-900: #7a271a;
+
+  /* Success */
+  --color-success-100: #dcfae6;
+  --color-success-300: #75e0a7;
+  --color-success-500: #17b26a;
+  --color-success-700: #067647;
+  --color-success-900: #074d31;
+}

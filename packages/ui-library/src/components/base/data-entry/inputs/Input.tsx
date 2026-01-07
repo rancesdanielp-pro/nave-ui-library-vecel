@@ -56,7 +56,6 @@ const inputVariants = cva(inputBase, {
   },
 });
 
-
 interface InputProps extends Omit<React.ComponentProps<'input'>, 'size'> {
   tokens?: any;
   platform?: 'web' | 'mobile';
@@ -97,6 +96,7 @@ export function Input({
       <input
         disabled={disabled}
         className={cn(inputVariants({ size, tone, error }), className)}
+        style={styles as React.CSSProperties}
         {...props}
       />
 

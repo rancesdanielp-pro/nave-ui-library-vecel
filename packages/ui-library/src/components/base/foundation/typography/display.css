@@ -1,0 +1,16 @@
+:root {
+  --display-l-size: 36px;
+  --display-l-line: 1.1;
+  --display-l-weight: 500;
+  --display-l-letter: -0.06em;
+
+  --display-m-size: 30px;
+  --display-m-line: 1.1;
+  --display-m-weight: 500;
+  --display-m-letter: -0.06em;
+
+  --display-s-size: 24px;
+  --display-s-line: 1.1;
+  --display-s-weight: 500;
+  --display-s-letter: -0.06em;
+}

@@ -32,7 +32,7 @@ export const tokenVariants = [
         placeholderColor: '#666666',
         borderRadius: '8px',
         borderWidth: '1px',
-        borderColor: '#E2E5E9',
+        borderColor: '#652BDF',
         borderStyle: 'solid',
         focusBorderColor: '#652BDF',
         focusBorderWidth: '1px',

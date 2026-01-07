@@ -1,0 +1,13 @@
+:root {
+  --heading-l-size: 24px;
+  --heading-l-weight: 550;
+  --heading-l-letter: -0.04em;
+
+  --heading-m-size: 20px;
+  --heading-m-weight: 550;
+  --heading-m-letter: -0.04em;
+
+  --heading-s-size: 18px;
+  --heading-s-weight: 550;
+  --heading-s-letter: -0.04em;
+}

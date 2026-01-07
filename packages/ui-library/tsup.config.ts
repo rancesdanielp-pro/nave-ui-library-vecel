@@ -3,16 +3,26 @@ import { defineConfig } from 'tsup';
 export default defineConfig([
   {
     entry: {
-      index: 'src/react.ts',
+      index: 'src/index.ts',
     },
     outDir: 'dist/react',
     format: ['esm'],
     dts: {
       resolve: true
     },
-    external: ['react', 'react-dom'],
+    // ✅ AGREGA 'next' y 'next/link' AQUÍ
+    external: [
+      'react', 
+      'react-dom', 
+      'next', 
+      'next/link', 
+      'next/navigation',
+      'lucide-react'
+    ],
     splitting: false,
     clean: true,
+    // Asegúrate de que tsup sepa que el entorno es para navegador
+    platform: 'browser',
   },
   {
     entry: {
