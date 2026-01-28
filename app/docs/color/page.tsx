@@ -3,7 +3,6 @@
 
 import { DocsPage } from '../DocsPage'
 
-import '@/packages/ui-liibrary/styles.css';
 import { ColorExample } from '@/packages/ui-library/dist/react';
 
 export default function ColorsPage() {
