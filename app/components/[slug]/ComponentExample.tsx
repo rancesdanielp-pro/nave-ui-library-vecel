@@ -6,7 +6,7 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
-} from 'nave-ui-library/react';
+} from '@/packages/ui-library/dist/react';
 import { CodeBlock } from './CodeBlock';
 
 type ComponentExampleProps = {

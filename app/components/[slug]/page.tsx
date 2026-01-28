@@ -1,6 +1,4 @@
-import { GeneratorComponent } from '@/app/generator/generator-component';
 import registry from '@/packages/ui-library/src/registry/registry.json';
-import { DynamicRenderer } from './dynamic-renderer';
 
 export default async function Page({
   params,

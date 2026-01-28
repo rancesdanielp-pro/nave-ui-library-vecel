@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
-import { Sidebar, SidebarSection } from 'nave-ui-library/react';
+import { Sidebar, SidebarSection } from '@/packages/ui-library/dist/react';
 
 // 1. Definimos el icono fuera del render para evitar recrearlo innecesariamente
 const dotIcon = (
