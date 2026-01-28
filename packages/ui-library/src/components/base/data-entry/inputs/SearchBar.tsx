@@ -4,32 +4,66 @@ import * as React from 'react';
 import { Search, X } from 'lucide-react';
 import { cn } from '../../../../utils/cn';
 import { cva } from 'class-variance-authority';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 
 const inputBase =
-  'w-full rounded-md border border-[#E2E5E9] outline-none transition-colors ' +
-  'pl-10 pr-10 ' +
-  'disabled:bg-[#E2E5E9] disabled:text-[#A3AAB8] disabled:cursor-not-allowed focus:border-[#652BDF]';
-
+  'w-full rounded-[var(--input-search-radius)] text-[--color-text-primary] border outline-none ' +
+  'transition-[border-color,box-shadow] ' +
+  'disabled:bg-[--color-bg-disabled] disabled:text-[--color-text-disabled] disabled:border-[--border-hover] disabled:cursor-not-allowed';
 
 const inputVariants = cva(inputBase, {
   variants: {
     size: {
-      sm: 'h-9 py-2 text-sm',
-      md: 'h-11 py-3 text-sm',
+      sm: `
+        text-sm
+        pl-[36px]   /* icon-left */
+        pr-[36px]   /* icon-right */
+        py-[6px]
+      `,
+      md: `
+        text-base
+        pl-[44px]
+        pr-[44px]
+        py-[10px]
+      `,
+    },
+    error: {
+      true: 'border-[--color-error-main]',
+      false: '',
     },
   },
+  compoundVariants: [
+    {
+      error: false,
+      className: `
+      border-[--border-default]
+      hover:border-[--border-hover]
+      focus:border-[--input-search-border-color]
+      focus:ring-2
+      focus:ring-[--input-search-focus-ring]
+      focus:ring-offset-0
+    `,
+    },
+    {
+      error: true,
+      className: `
+      border-[--color-error-main]
+      hover:border-[--color-error-dark]
+      focus:border-[--color-error-main]
+      focus:ring-2
+      focus:ring-[--color-error-lighter]
+    `,
+    },
+  ],
   defaultVariants: {
     size: 'md',
+    error: false,
   },
 });
-interface SearchBarProps
-  extends Omit<React.ComponentProps<'input'>, 'size' | 'type'> {
+interface SearchBarProps extends Omit<
+  React.ComponentProps<'input'>,
+  'size' | 'type'
+> {
   tokens?: any;
   platform?: 'web' | 'mobile';
   size?: 'sm' | 'md';
@@ -48,15 +82,15 @@ export function SearchBar({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const clearRef = React.useRef<HTMLButtonElement>(null);
 
-  const mergedTokens = resolveTokens(
-    { componentName: 'input', tokens },
-    theme
-  );
+  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
 
-  const styles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--input-search-text': mergedTokens?.color ?? '#000000',
+    '--input-search-radius': mergedTokens?.radius ?? '8px',
+    '--input-search-border-width': mergedTokens?.borderWidth ?? '1px',
+    '--input-search-border-color': mergedTokens?.border ?? 'transparent',
+    '--input-search-focus-ring': mergedTokens?.focusBorder ?? 'transparent',
+  } as React.CSSProperties;
 
   const clearSearch = () => {
     if (!inputRef.current) return;
@@ -76,17 +110,20 @@ export function SearchBar({
   return (
     <div className="relative w-full">
       {/* Search icon */}
-      <Search
-        size={18}
-        className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6C7280]"
-      />
-
+      <div
+        className={cn(
+          'absolute inset-y-0 left-[12px] flex items-center pointer-events-none text-[--color-text-tertiary]',
+          disabled && 'text-[--color-text-disabled] '
+        )}
+      >
+        <Search size={18} />
+      </div>
       <input
         ref={inputRef}
         type="text"
         disabled={disabled}
         onInput={handleInput}
-        //style={platform === 'web' ? styles : undefined}
+        style={styles as React.CSSProperties}
         className={cn(inputVariants({ size }), className)}
         {...props}
       />
@@ -98,7 +135,9 @@ export function SearchBar({
         tabIndex={-1}
         disabled={disabled}
         onClick={clearSearch}
-        className="absolute right-3 top-1/2 -translate-y-1/2 hidden text-[#6C7280] hover:text-[#020303] disabled:text-[#A3AAB8]"
+        className="absolute right-2 inset-y-0
+            flex items-center justify-center
+            w-8 text-[--color-text-helper] hover:text-[--color-text-primary] disabled:text-[--color-text-disabled]"
       >
         <X size={16} />
       </button>

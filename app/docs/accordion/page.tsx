@@ -1,6 +1,14 @@
 'use client'
-
-import * as React from 'react'
+/*
+import { 
+  Accordion, 
+  AccordionItem, 
+  AccordionTrigger, 
+  AccordionContent,
+  Badge,
+  Card 
+} from 'nave-ui-library/react';
+*/
 import { 
   Accordion, 
   AccordionItem, 
@@ -43,7 +51,7 @@ export default function AccordionPage() {
             /* Contenedor con ancho fijo consistente */
             <div className="w-full max-w-2xl mx-auto h-auto">
               <Card title="Ayuda y Soporte" className="w-full">
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion type="single" collapsible className="w-full" size="md">
                   <AccordionItem value="item-1">
                     <AccordionTrigger>¿Cómo funciona el sistema de pagos?</AccordionTrigger>
                     <AccordionContent>
@@ -65,7 +73,7 @@ export default function AccordionPage() {
       </ContentCards>
 
       {/* ───────────── SECCIÓN: RICH CONTENT ───────────── */}
-      <ContentCards title="Rich Content Trigger">
+      <ContentCards title="Rich Content Trigger Size: sm">
         <p className="text-sm text-slate-500 mb-6">
           Los triggers pueden contener estructuras complejas. El ancho se mantiene idéntico en estado abierto y cerrado.
         </p>
@@ -73,7 +81,7 @@ export default function AccordionPage() {
           preview={
             <div className="w-full max-w-2xl mx-auto">
               <Card title="Seguridad de Cuenta" className="w-full">
-                <Accordion type="multiple" className="w-full">
+                <Accordion type="multiple" className="w-full" size="sm">
                   <AccordionItem value="security">
                     <AccordionTrigger className="hover:no-underline">
                       <div className="flex items-center gap-3">

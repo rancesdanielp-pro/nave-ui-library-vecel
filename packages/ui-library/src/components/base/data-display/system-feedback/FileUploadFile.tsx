@@ -4,11 +4,7 @@ import * as React from 'react';
 import { cn } from '../../../../utils/cn';
 import { Button } from '../../buttons';
 
-export type FileUploadFile = {
-  id: string;
-  file: File;
-  previewUrl?: string;
-};
+export type FileUploadState = 'default' | 'drag' | 'error' | 'disabled';
 
 export type FileUploadProps = {
   /** Tipos permitidos (ej: ['application/pdf','image/jpeg','image/png']) */
@@ -18,13 +14,19 @@ export type FileUploadProps = {
   /** Múltiples archivos */
   multiple?: boolean;
 
-  /** Textos (como Figma) */
+  /** Textos */
   title?: string;
   description?: string;
   buttonLabel?: string;
 
-  /** Ícono superior (40x40). Si no lo pasás, usa uno default inline SVG */
+  /** Ícono superior */
   icon?: React.ReactNode;
+
+  /** Estado visual controlado desde afuera */
+  isDragging?: boolean;
+
+  /** Estado visual semántico */
+  state?: FileUploadState;
 
   /** Clases extra */
   className?: string;
@@ -44,7 +46,6 @@ function getAcceptAttr(accept?: string[]) {
 }
 
 function DefaultUploadIcon() {
-  // icon 40x40 aprox como el de figma (tray + arrow)
   return (
     <svg
       width="40"
@@ -67,49 +68,57 @@ function DefaultUploadIcon() {
   );
 }
 
+const stateStyles: Record<FileUploadState, string> = {
+  default: 'border-[--border-default] bg-[--color-white]',
+  drag: 'border-[--color-nave-500] bg-[--color-nave-500]/5',
+  error: 'border-[--border-error] bg-[--surface-error]',
+  disabled:
+    'border-[--border-disabled] bg-[--surface-disabled] opacity-60 pointer-events-none',
+};
+
 export function FileUpload({
   accept = ['application/pdf', 'image/jpeg', 'image/png'],
   maxSizeMB = 3,
   multiple = false,
-
   title = 'Hacé clic o arrastrá los archivos para cargarlos',
   description = `Deben ser PDF, JPG o PNG de hasta ${maxSizeMB} MB.`,
   buttonLabel = 'Subir archivo',
-
   icon,
+  state = 'default',
   className,
-
   onFilesChange,
   onError,
 }: FileUploadProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
-  const [isDragging, setIsDragging] = React.useState(false);
+  const isDisabled = state === 'disabled';
 
   const validateFiles = React.useCallback(
     (files: File[]) => {
       const errors: string[] = [];
-
       const allowed = new Set((accept ?? []).map((t) => t.toLowerCase()));
       const filtered: File[] = [];
 
-      for (const f of files) {
+      for (const file of files) {
         const typeOk =
-          allowed.size === 0 ? true : allowed.has((f.type || '').toLowerCase());
+          allowed.size === 0
+            ? true
+            : allowed.has((file.type || '').toLowerCase());
 
-        const sizeOk = bytesToMB(f.size) <= maxSizeMB;
+        const sizeOk = bytesToMB(file.size) <= maxSizeMB;
 
         if (!typeOk) {
-          errors.push(`Tipo no permitido: ${f.name}`);
+          errors.push(`Tipo no permitido: ${file.name}`);
           continue;
         }
+
         if (!sizeOk) {
           errors.push(
-            `Archivo demasiado grande (${maxSizeMB} MB máx): ${f.name}`
+            `Archivo demasiado grande (${maxSizeMB} MB máx): ${file.name}`
           );
           continue;
         }
 
-        filtered.push(f);
+        filtered.push(file);
       }
 
       if (!multiple && filtered.length > 1) {
@@ -122,94 +131,74 @@ export function FileUpload({
     [accept, maxSizeMB, multiple]
   );
 
-  const handlePick = React.useCallback(() => {
-    inputRef.current?.click();
-  }, []);
+  const handlePick = () => {
+    if (!isDisabled) inputRef.current?.click();
+  };
 
-  const handleFiles = React.useCallback(
-    (incoming: File[]) => {
-      const { files, errors } = validateFiles(incoming);
+  const handleFiles = (incoming: File[]) => {
+    if (isDisabled) return;
 
-      if (errors.length) onError?.(errors);
-      if (files.length) onFilesChange?.(files);
-    },
-    [onError, onFilesChange, validateFiles]
-  );
+    const { files, errors } = validateFiles(incoming);
 
-  const onInputChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const list = Array.from(e.target.files ?? []);
-      handleFiles(list);
-      // reset para permitir subir el mismo archivo otra vez
-      e.target.value = '';
-    },
-    [handleFiles]
-  );
+    if (errors.length) onError?.(errors);
+    if (files.length) onFilesChange?.(files);
+  };
 
-  const onDrop = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const list = Array.from(e.target.files ?? []);
+    handleFiles(list);
+    e.target.value = '';
+  };
 
-      const list = Array.from(e.dataTransfer.files ?? []);
-      if (list.length) handleFiles(list);
-    },
-    [handleFiles]
-  );
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    if (isDisabled) return;
 
-  const onDragOver = React.useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    // necesario para que el drop funcione
-    e.dataTransfer.dropEffect = 'copy';
-    setIsDragging(true);
-  }, []);
 
-  const onDragLeave = React.useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
-    },
-    []
-  );
+    const list = Array.from(e.dataTransfer.files ?? []);
+    if (list.length) handleFiles(list);
+  };
 
   return (
     <div
       className={cn(
-        'w-full rounded-[16px] bg-white p-6 sm:p-8',
+        'w-full rounded-[16px] bg-[--color-white] p-6 sm:p-8',
         className
       )}
     >
       <div
         role="button"
-        tabIndex={0}
+        aria-disabled={isDisabled}
+        tabIndex={isDisabled ? -1 : 0}
         onClick={handlePick}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') handlePick();
+          if (!isDisabled && (e.key === 'Enter' || e.key === ' ')) handlePick();
         }}
         onDrop={onDrop}
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
+        onDragOver={(e) => {
+          if (isDisabled) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'copy';
+        }}
         className={cn(
           'w-full rounded-[16px] border border-dashed',
           'px-6 py-10 sm:px-10 sm:py-14',
           'flex flex-col items-center justify-center gap-3 sm:gap-4',
           'outline-none transition-colors',
-          isDragging
-            ? 'border-[#652BDF] bg-[#652BDF]/5'
-            : 'border-[#DADDE3] bg-white'
+          stateStyles[state]
         )}
       >
-        <div className="text-[#6C7280]">{icon ?? <DefaultUploadIcon />}</div>
+        <div className="text-[--color-text-tertiary]">
+          {icon ?? <DefaultUploadIcon />}
+        </div>
 
         <div className="text-center space-y-1">
-          <div className="text-[16px] font-[550] leading-[1.3] tracking-[-0.04em] text-[#111827]">
+          <div className="text-base font-[550] leading-[1.3] tracking-[-0.04em] text-[--color-black]">
             {title}
           </div>
 
-          <div className="text-[14px] font-normal leading-[1.3] tracking-[-0.04em] text-[#6B7280]">
+          <div className="text-sm leading-[1.3] tracking-[-0.04em] text-[--color-text-tertiary]">
             {description}
           </div>
         </div>
@@ -217,6 +206,7 @@ export function FileUpload({
         <div className="pt-2">
           <Button
             variant="secondary"
+            disabled={isDisabled}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -232,6 +222,7 @@ export function FileUpload({
           type="file"
           className="hidden"
           multiple={multiple}
+          disabled={isDisabled}
           accept={getAcceptAttr(accept)}
           onChange={onInputChange}
         />
@@ -239,17 +230,3 @@ export function FileUpload({
     </div>
   );
 }
-
-/*
-USO:
-
-<FileUpload
-  multiple
-  accept={['application/pdf','image/jpeg','image/png']}
-  maxSizeMB={3}
-  onFilesChange={(files) => console.log(files)}
-  onError={(errs) => console.log(errs)}
-/>
-
-Si querés controlar "preview" y listado de archivos, lo armamos encima de esto.
-*/

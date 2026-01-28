@@ -3,44 +3,50 @@
 import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { cn } from '../../../../utils/cn';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../../theme';
+import { useTheme, resolveTokens } from '../../../../theme';
 
 interface LabelProps extends React.ComponentProps<typeof LabelPrimitive.Root> {
-  platform?: 'web' | 'mobile';
   tokens?: any;
 }
 
 export function Label({
   className,
   tokens,
-  platform = 'web',
   style,
   ...props
 }: LabelProps) {
   const theme = useTheme();
-  const mergedTokens = resolveTokens({ componentName: 'label', tokens }, theme);
-  const styles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
 
-  const stylesReafactoring = {
-    ...styles,
-    display: 'block',
-    width: 'auto',
-  };
+  // 1) Resolvemos tokens del tema
+  const mergedTokens = resolveTokens({ componentName: 'label', tokens }, theme) ?? {};
+
+  // 2) Mapeamos a variables CSS
+  const styles = {
+    '--lbl-size': mergedTokens?.fontSize ?? '14px',
+    '--lbl-color': mergedTokens?.color ?? 'inherit',
+    '--lbl-weight': mergedTokens?.fontWeight ?? '500',
+    '--lbl-padding': mergedTokens?.padding ?? '0px',
+    ...style,
+  } as React.CSSProperties;
+
+
 
   return (
     <LabelPrimitive.Root
-      style={stylesReafactoring}
       data-slot="label"
+      style={styles}
       className={cn(
-        'flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
+        // Layout base
+        'display-block w-auto select-none transition-colors',
+        'leading-none items-center gap-2',
+        
+        // Aplicación de variables
+        'text-[var(--lbl-size)] text-[var(--lbl-color)] font-[var(--lbl-weight)] p-[var(--lbl-padding)]',
+        
+        // Estados (heredados de grupos o peers)
+        'group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50',
+        'peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
+        
         className
       )}
       {...props}

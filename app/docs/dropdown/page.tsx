@@ -1,6 +1,26 @@
 'use client'
 
 import * as React from 'react'
+/*
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  Button,
+} from 'nave-ui-library/react';
+*/
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -72,7 +92,7 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive">
+                <DropdownMenuItem>
                   <span>Cerrar sesión</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

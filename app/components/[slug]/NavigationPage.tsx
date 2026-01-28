@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
-import { Sidebar, SidebarSection } from '@/packages/ui-library/dist/react';
+import { Sidebar, SidebarSection } from 'nave-ui-library/react';
 
 // 1. Definimos el icono fuera del render para evitar recrearlo innecesariamente
 const dotIcon = (
@@ -35,6 +35,8 @@ export default function NavigationPage() {
       items: [
         { id: 'icon', label: 'Icon', href: '/docs/icon', active: pathname === '/docs/icon', icon: dotIcon },
         { id: 'label', label: 'Label', href: '/docs/label', active: pathname === '/docs/label', icon: dotIcon },
+        { id: 'colors', label: 'colors', href: '/docs/color', active: pathname === '/docs/color', icon: dotIcon },
+        { id: 'typography', label: 'typography', href: '/docs/typography', active: pathname === '/docs/typography', icon: dotIcon },
       ],
     },
     {
@@ -75,6 +77,7 @@ export default function NavigationPage() {
       items: [
         { id: 'avatar', label: 'Avatars', href: '/docs/avatar', active: pathname === '/docs/avatar', icon: dotIcon },
         { id: 'cards', label: 'Cards', href: '/docs/cards', active: pathname === '/docs/cards', icon: dotIcon },
+        { id: 'colorCards', label: 'colorCards', href: '/docs/colorExample', active: pathname === '/docs/colorExample', icon: dotIcon },
         { id: 'integrationCard', label: 'Integration Cards', href: '/docs/integrationCard', active: pathname === '/docs/integrationCard', icon: dotIcon },
         { id: 'table', label: 'Tables', href: '/docs/table', active: pathname === '/docs/table', icon: dotIcon },
         { id: 'listItem', label: 'Lists', href: '/docs/listItem', active: pathname === '/docs/listItem', icon: dotIcon },
@@ -122,6 +125,8 @@ export default function NavigationPage() {
       title: 'Design Token',
       items: [
         { id: 'design', label: 'Design Token', href: '/docs/designtoken', active: pathname === '/docs/designtoken', icon: dotIcon },
+        { id: 'themes', label: 'Design Themes', href: '/docs/formtokens', active: pathname === '/docs/formtokens', icon: dotIcon },
+
       ],
     },
   ];

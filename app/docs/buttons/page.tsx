@@ -1,5 +1,6 @@
-'use client'
+'use client';
 
+//import { Button, Icon } from 'nave-ui-library/react';
 import { Button, Icon } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage';
 import { ContentCards } from '../ContentCards';
@@ -21,10 +22,11 @@ export default function ButtonsPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <p className="text-sm text-slate-500 mb-4">
-          Para utilizar el componente, importa los estilos base y el componente Button:
+          Para utilizar el componente, importa los estilos base y el componente
+          Button:
         </p>
-        <CodeBlock 
-          code={`import 'nave-ui-library/styles.css'\nimport { Button } from 'nave-ui-library/react'`} 
+        <CodeBlock
+          code={`import 'nave-ui-library/styles.css'\nimport { Button } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -42,7 +44,7 @@ export default function ButtonsPage() {
         />
       </ContentCards>
 
-      {/* ───────────── SECCIÓN: TONES ───────────── */}
+      {/* ───────────── SECCIÓN: TONES ───────────── 
       <ContentCards title="Tones">
         <ComponentExample
           preview={
@@ -53,15 +55,19 @@ export default function ButtonsPage() {
                 <Button tone="destructive">Destructive</Button>
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                <Button variant="secondary" tone="brand">Outline Brand</Button>
-                <Button variant="secondary" tone="destructive">Outline Danger</Button>
+                <Button variant="secondary" tone="brand">
+                  Outline Brand
+                </Button>
+                <Button variant="secondary" tone="destructive">
+                  Outline Danger
+                </Button>
               </div>
             </div>
           }
           code={`<Button tone="brand">Brand</Button>\n<Button tone="destructive">Destructive</Button>\n<Button variant="secondary" tone="brand">Outline</Button>`}
         />
       </ContentCards>
-
+      */}
       {/* ───────────── SECCIÓN: SIZES ───────────── */}
       <ContentCards title="Sizes">
         <ComponentExample
@@ -90,67 +96,59 @@ export default function ButtonsPage() {
         />
       </ContentCards>
 
-{/* ───────────── SECCIÓN: BUTTON ICON ───────────── */}
-        <ContentCards title="Button Icon">
-          <ComponentExample
-            preview={
-              <div className="flex flex-col items-center gap-4">
-                <Button
-                  variant="secondary"
-                  tone="brand"
-                  aria-label="label"
-                  className="flex items-center gap-2"
-                >
-                  <Icon>
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <rect
-                        x="2"
-                        y="5"
-                        width="20"
-                        height="14"
-                        rx="2"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M2 10h20"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </Icon>
-                  Icon right
-                </Button>
+      {/* ───────────── SECCIÓN: BUTTON ICON ───────────── */}
+      <ContentCards title="Button Icon">
+        <ComponentExample
+          preview={
+            <div className="flex flex-col items-center gap-4">
+              <Button
+                variant="secondary"
+                tone="brand"
+                aria-label="label"
+                className="flex items-center gap-2"
+              >
+                <Icon>
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="2"
+                      y="5"
+                      width="20"
+                      height="14"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path d="M2 10h20" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </Icon>
+                Icon right
+              </Button>
 
-                <Button
-                  variant="secondary"
-                  tone="brand"
-                  aria-label="label"
-                  className="flex items-center gap-2"
-                >
-                  Icon left
-                  <Icon>
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <rect
-                        x="2"
-                        y="5"
-                        width="20"
-                        height="14"
-                        rx="2"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M2 10h20"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </Icon>
-                </Button>
-              </div>
-            }
-            code={`<Button variant="secondary" tone="brand" className="flex items-center gap-2">
+              <Button
+                variant="secondary"
+                tone="brand"
+                aria-label="label"
+                className="flex items-center gap-2"
+              >
+                Icon left
+                <Icon>
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="2"
+                      y="5"
+                      width="20"
+                      height="14"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path d="M2 10h20" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </Icon>
+              </Button>
+            </div>
+          }
+          code={`<Button variant="secondary" tone="brand" className="flex items-center gap-2">
           <Icon>
             <svg viewBox="0 0 24 24" fill="none">
               <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -169,9 +167,8 @@ export default function ButtonsPage() {
             </svg>
           </Icon>
         </Button>`}
-          />
-        </ContentCards>
-
+        />
+      </ContentCards>
 
       {/* ───────────── SECCIÓN: REGISTRY JSON ───────────── */}
       <div className="mt-16 border-t pt-10">
@@ -179,9 +176,7 @@ export default function ButtonsPage() {
         <p className="text-sm text-slate-500 mb-6">
           Propiedades técnicas y configuración del registro del componente.
         </p>
-        <CodeBlock 
-          code={JSON.stringify(componentRegistry, null, 2)} 
-        />
+        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
       </div>
     </DocsPage>
   );

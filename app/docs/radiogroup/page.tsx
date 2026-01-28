@@ -1,5 +1,6 @@
 'use client'
 
+//import { RadioGroup, RadioItem } from 'nave-ui-library/react';
 import { RadioGroup, RadioItem } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
@@ -47,25 +48,6 @@ import { RadioGroup, RadioItem } from 'nave-ui-library/react'`}
             </div>
           }
           code={`<RadioGroup defaultValue="option-1">\n  <RadioItem value="option-1" label="Opción 1" />\n  <RadioItem \n    value="option-2" \n    label="Opción 2" \n    description="Descripción..." \n  />\n</RadioGroup>`}
-        />
-      </ContentCards>
-
-      {/* ───────────── SECCIÓN: TONES ───────────── */}
-      <ContentCards title="Tones">
-        <p className="text-sm text-slate-500 mb-6">
-          Soporta diferentes tonos para indicar estados semánticos como <code>brand</code>, <code>neutral</code> y <code>destructive</code>.
-        </p>
-        <ComponentExample
-          preview={
-            <div className="flex flex-col gap-6 w-full max-w-sm">
-              <RadioGroup defaultValue="brand">
-                <RadioItem value="brand" tone="brand" label="Brand Tone (Default)" />
-                <RadioItem value="neutral" tone="neutral" label="Neutral Tone" />
-                <RadioItem value="destructive" tone="destructive" label="Destructive Tone" />
-              </RadioGroup>
-            </div>
-          }
-          code={`<RadioItem tone="brand" label="Brand" />\n<RadioItem tone="neutral" label="Neutral" />\n<RadioItem tone="destructive" label="Destructive" />`}
         />
       </ContentCards>
 

@@ -1,6 +1,7 @@
 'use client'
 
-import * as React from 'react'
+//import { PromoBanner } from 'nave-ui-library/react';
+
 import { PromoBanner } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'

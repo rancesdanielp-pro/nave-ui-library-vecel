@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './styles/globals.css';
 import NavigationPage from './components/[slug]/NavigationPage';
 import './utils/tokens';
+import { BrandProvider } from './docs/BrandContext';
 
 export const metadata: Metadata = {
   title: 'Design System',
@@ -25,7 +26,9 @@ export default function RootLayout({
           {/* Page content */}
           <main className="flex-1 px-8 py-6">
             <div className="container">
-            {children}
+              <BrandProvider>
+                {children}
+              </BrandProvider>
             </div>
           </main>
         </div>

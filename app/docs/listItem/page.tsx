@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { ListItem, Card } from '@/packages/ui-library/dist/react';
+import { ListItem, Card } from 'nave-ui-library/react';
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'

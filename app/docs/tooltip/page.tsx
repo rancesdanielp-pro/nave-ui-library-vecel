@@ -1,6 +1,15 @@
 'use client'
-
-import * as React from 'react'
+/*
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  Button,
+  Avatar,
+  AvatarImage,
+  AvatarFallback
+} from 'nave-ui-library/react';
+*/
 import {
   Tooltip,
   TooltipTrigger,
@@ -10,7 +19,6 @@ import {
   AvatarImage,
   AvatarFallback
 } from '@/packages/ui-library/dist/react';
-
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'

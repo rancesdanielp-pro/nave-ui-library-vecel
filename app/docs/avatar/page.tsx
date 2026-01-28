@@ -61,28 +61,28 @@ import { Avatar, AvatarImage, AvatarFallback } from 'nave-ui-library/react'`}
           preview={
             <div className="flex items-end justify-center gap-8">
               <div className="flex flex-col items-center gap-2">
-                <Avatar className="size-6">
-                  <AvatarFallback className="text-[10px]">SM</AvatarFallback>
+                <Avatar size="sm" className='bg-slate-200'>
+                  <AvatarFallback>SM</AvatarFallback>
                 </Avatar>
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
               </div>
 
               <div className="flex flex-col items-center gap-2">
-                <Avatar className="size-10">
+                <Avatar size="md" className='bg-slate-200'>
                   <AvatarFallback>MD</AvatarFallback>
                 </Avatar>
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Medium</span>
               </div>
 
               <div className="flex flex-col items-center gap-2">
-                <Avatar className="size-16">
-                  <AvatarFallback className="text-xl">LG</AvatarFallback>
+                <Avatar size="lg" className='bg-slate-200'>
+                  <AvatarFallback>LG</AvatarFallback>
                 </Avatar>
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Large</span>
               </div>
             </div>
           }
-          code={`<Avatar className="size-6">...</Avatar>\n<Avatar className="size-10">...</Avatar>\n<Avatar className="size-16">...</Avatar>`}
+          code={`<Avatar size="sm">...</Avatar>\n<Avatar size="md">...</Avatar>\n<Avatar size="lg">...</Avatar>`}
         />
       </ContentCards>
 
@@ -91,11 +91,11 @@ import { Avatar, AvatarImage, AvatarFallback } from 'nave-ui-library/react'`}
         <ComponentExample
           preview={
             <div className="flex justify-center gap-6">
-              <Avatar className="size-12">
+              <Avatar size="lg">
                 <AvatarFallback className="bg-brand text-white">NA</AvatarFallback>
               </Avatar>
 
-              <Avatar className="size-12">
+              <Avatar size="lg">
                 <AvatarFallback className="bg-slate-200 text-slate-600">UI</AvatarFallback>
               </Avatar>
             </div>

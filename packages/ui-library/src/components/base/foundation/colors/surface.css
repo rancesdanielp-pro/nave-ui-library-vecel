@@ -1,0 +1,10 @@
+:root {
+  --color-bg-white: #ffffff;
+  --color-bg-50: #f9f9fa;
+  --color-bg-100: #e2e5e9;
+  --color-bg-200: #c3c7d1;
+  --color-bg-300: #a3aab8;
+  --border-default: #e2e5e9;
+  --border-hover: #c3c7d1;
+  --color-bg-disabled: #e2e5e9;
+}

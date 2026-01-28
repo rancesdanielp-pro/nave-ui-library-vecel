@@ -1,0 +1,109 @@
+'use client'
+
+import { DocsPage } from '../DocsPage'
+import { ContentCards } from '../ContentCards'
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
+import registry from '@/packages/ui-library/src/registry/registry.json'
+import { tokenVariants } from '@/app/utils/tokens'
+import { ColorExample } from '@/packages/ui-library/dist/react'
+
+export default function ColorsPage() {
+  // Obtenemos el registro específico para el componente de ejemplo de color
+  const componentRegistry = (registry as any)['colorExample']
+  // Usamos el tema de Nave como base para la documentación
+  const naveTheme = tokenVariants[0].tokens
+
+  return (
+    <DocsPage
+      title="Color Example"
+      description="El componente ColorExample (o Swatch) se utiliza dentro del catálogo para visualizar y documentar los tokens de color del sistema de diseño, permitiendo validar el contraste y los códigos HEX."
+      theme={naveTheme}
+    >
+      {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
+      <ContentCards title="Imports">
+        <p className="text-sm text-slate-500 mb-4">
+          Importa el componente para documentar tus paletas:
+        </p>
+        <CodeBlock 
+          code={`import { ColorExample } from 'nave-ui-library/react'`} 
+        />
+      </ContentCards>
+
+      {/* ───────────── SECCIÓN: PRIMARY COLOR ───────────── */}
+      <ContentCards title="Primary Color">
+        <p className="text-sm text-slate-500 mb-4">
+          Ejemplo visualizando el token de acción primaria:
+        </p>
+        <ComponentExample
+          preview={
+            <div className="flex gap-4">
+              <ColorExample 
+                colorToken={"#6200EE"}
+                accessibilityGrade="AAA 1.1.1"
+                colorName="Primary Action"
+                hexCode={"#6200EE"}
+              />
+            </div>
+          }
+          code={`<ColorExample 
+  colorToken={theme.tokens['brand-primary']}
+  accessibilityGrade="AAA 1.1.1"
+  colorName="Primary Action"
+  hexCode="#6200EE"
+/>`}
+        />
+      </ContentCards>
+
+      {/* ───────────── SECCIÓN: STATUS COLORS ───────────── */}
+      <ContentCards title="Status Colors">
+        <p className="text-sm text-slate-500 mb-4">
+          Visualización de tokens de estado (Error, Success, Warning):
+        </p>
+        <ComponentExample
+          preview={
+            <div className="flex flex-wrap gap-4">
+              <ColorExample 
+                colorToken="#EF4444"
+                accessibilityGrade="AA 4.5.1"
+                colorName="Semantic Error"
+                hexCode="#EF4444"
+              />
+              <ColorExample 
+                colorToken="#10B981"
+                accessibilityGrade="AA 4.5.1"
+                colorName="Semantic Success"
+                hexCode="#10B981"
+              />
+            </div>
+          }
+          code={`<div className="flex gap-4">
+  <ColorExample 
+    colorToken="#EF4444"
+    accessibilityGrade="AA 4.5.1"
+    colorName="Semantic Error"
+    hexCode="#EF4444"
+  />
+  <ColorExample 
+    colorToken="#10B981"
+    accessibilityGrade="AA 4.5.1"
+    colorName="Semantic Success"
+    hexCode="#10B981"
+  />
+</div>`}
+        />
+      </ContentCards>
+
+      {/* ───────────── SECCIÓN: REGISTRY JSON ───────────── */}
+      <div className="mt-16 border-t pt-10">
+        <h2 className="text-xl font-bold mb-2 text-slate-900">Registry</h2>
+        <p className="text-sm text-slate-500 mb-6">
+          Metadatos técnicos y configuración del componente ColorExample.
+        </p>
+        <CodeBlock 
+          code={JSON.stringify(componentRegistry, null, 2)} 
+        />
+      </div>
+    </DocsPage>
+  )
+}

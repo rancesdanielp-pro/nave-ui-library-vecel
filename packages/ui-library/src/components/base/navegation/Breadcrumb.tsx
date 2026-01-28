@@ -1,30 +1,57 @@
+'use client';
+
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
 import { cn } from '../../../utils/cn';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../theme';
-
-const breadcrumbSizes = {
-  md: 'text-sm gap-2.5',
-  sm: 'text-xs gap-2',
-};
+import { useTheme, resolveTokens } from '../../../theme';
 
 /* -----------------------------------------------------------------------------
- * Breadcrumb (wrapper)
+ * Breadcrumb (Root)
+ * - Centraliza tokens e inyecta variables CSS
  * ---------------------------------------------------------------------------*/
 
-function Breadcrumb(props: React.ComponentProps<'nav'>) {
-  return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
+function Breadcrumb({
+  className,
+  tokens,
+  style,
+  ...props
+}: React.ComponentProps<'nav'> & { tokens?: any }) {
+  const theme = useTheme();
+
+  // Resolvemos los tokens del componente 'breadcrumb'
+  const mergedTokens = resolveTokens({ componentName: 'breadcrumb', tokens }, theme) ?? {};
+
+  const styles = {
+    '--bc-link-color': mergedTokens?.link?.color ?? 'inherit',
+    '--bc-link-weight': mergedTokens?.link?.fontWeight ?? '600',
+    '--bc-link-hover': mergedTokens?.link?.hoverDecoration ?? 'underline',
+    '--bc-page-color': mergedTokens?.page?.color ?? 'gray',
+    '--bc-page-weight': mergedTokens?.page?.fontWeight ?? '500',
+    '--bc-sep-color': mergedTokens?.separator?.color ?? '#A3AAB8',
+    ...style,
+  } as React.CSSProperties;
+
+
+  return (
+    <nav
+      aria-label="breadcrumb"
+      data-slot="breadcrumb"
+      style={styles}
+      className={cn('group/breadcrumb', className)}
+      {...props}
+    />
+  );
 }
 
 /* -----------------------------------------------------------------------------
  * BreadcrumbList
  * ---------------------------------------------------------------------------*/
+
+const breadcrumbSizes = {
+  md: 'text-sm gap-2.5',
+  sm: 'text-xs gap-2',
+};
 
 function BreadcrumbList({
   className,
@@ -34,8 +61,9 @@ function BreadcrumbList({
   return (
     <ol
       data-slot="breadcrumb-list"
+      data-size={size}
       className={cn(
-        'flex flex-wrap items-center',
+        'flex flex-wrap items-center text-slate-700',
         breadcrumbSizes[size],
         className
       )}
@@ -59,94 +87,60 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
 }
 
 /* -----------------------------------------------------------------------------
- * BreadcrumbLink (THEMED)
+ * BreadcrumbLink
  * ---------------------------------------------------------------------------*/
 
 type BreadcrumbLinkProps = React.ComponentProps<'a'> & {
   asChild?: boolean;
-  variant?: string;
-  tokens?: any;
-  platform?: 'web' | 'native';
 };
 
 function BreadcrumbLink({
   asChild,
   className,
-  style,
-  variant = 'default',
-  tokens,
-  platform = 'web',
   ...props
 }: BreadcrumbLinkProps) {
-  const theme = useTheme();
-
-  const mergedTokens = resolveTokens(
-    { componentName: 'breadcrumbLink', variant, tokens },
-    theme
-  );
-
-  const resolvedStyles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
-
   const Comp = asChild ? Slot : 'a';
 
   return (
     <Comp
       data-slot="breadcrumb-link"
-      //style={platform === 'web' ? resolvedStyles : undefined}
-      className={cn('font-medium text-[#652BDF] hover:underline', className)}
+      className={cn(
+        'transition-colors',
+        'text-[var(--bc-link-color)] font-[var(--bc-link-weight)]',
+        'hover:underline hover:decoration-[var(--bc-link-hover)]',
+        className
+      )}
       {...props}
     />
   );
 }
 
 /* -----------------------------------------------------------------------------
- * BreadcrumbPage (THEMED)
+ * BreadcrumbPage (Current)
  * ---------------------------------------------------------------------------*/
-
-type BreadcrumbPageProps = React.ComponentProps<'span'> & {
-  variant?: string;
-  tokens?: any;
-  platform?: 'web' | 'native';
-};
 
 function BreadcrumbPage({
   className,
-  style,
-  variant = 'current',
-  tokens,
-  platform = 'web',
   ...props
-}: BreadcrumbPageProps) {
-  const theme = useTheme();
-
-  const mergedTokens = resolveTokens(
-    { componentName: 'breadcrumbPage', variant, tokens },
-    theme
-  );
-
-  const resolvedStyles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
-
+}: React.ComponentProps<'span'>) {
   return (
     <span
       data-slot="breadcrumb-page"
       role="link"
       aria-disabled="true"
       aria-current="page"
-      //style={platform === 'web' ? resolvedStyles : undefined}
-      className={cn('text-[#6E7991] text-sm font-medium cursor-default', className)}
+      className={cn(
+        'cursor-default transition-colors',
+        'text-[var(--bc-page-color)] font-[var(--bc-page-weight)]',
+        className
+      )}
       {...props}
     />
   );
 }
 
 /* -----------------------------------------------------------------------------
- * BreadcrumbSeparator (opcionalmente themed)
+ * BreadcrumbSeparator
  * ---------------------------------------------------------------------------*/
 
 function BreadcrumbSeparator({
@@ -160,12 +154,12 @@ function BreadcrumbSeparator({
       role="presentation"
       aria-hidden="true"
       className={cn(
-        'flex items-center text-muted-foreground [&>svg]:size-3.5',
+        'flex items-center text-[var(--bc-sep-color)] [&>svg]:size-3.5',
         className
       )}
       {...props}
     >
-      {children ?? <ChevronRight className='text-[#A3AAB8]' />}
+      {children ?? <ChevronRight />}
     </li>
   );
 }
@@ -183,18 +177,14 @@ function BreadcrumbEllipsis({
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       aria-hidden="true"
-      className={cn('flex size-9 items-center justify-center', className)}
+      className={cn('flex size-5 items-center justify-center', className)}
       {...props}
     >
-      <MoreHorizontal className="size-4 text-[#6E7991]" />
+      <MoreHorizontal className="size-4 text-[var(--bc-page-color)]" />
       <span className="sr-only">More</span>
     </span>
   );
 }
-
-/* -----------------------------------------------------------------------------
- * Exports
- * ---------------------------------------------------------------------------*/
 
 export {
   Breadcrumb,

@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+//import { Switch } from 'nave-ui-library/react';
 import { Switch } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
@@ -73,14 +73,14 @@ import { Switch } from 'nave-ui-library/react'`}
       {/* ───────────── SECCIÓN: SIZES ───────────── */}
       <ContentCards title="Sizes">
         <p className="text-sm text-slate-500 mb-6">
-          Disponible en tamaños <code>regular</code> y <code>small</code> para adaptarse a diferentes densidades de interfaz.
+          Disponible en tamaños <code>medium</code> y <code>small</code> para adaptarse a diferentes densidades de interfaz.
         </p>
         <ComponentExample
           preview={
             <div className="flex items-start justify-center gap-16">
               <div className="flex flex-col items-center gap-3">
-                <Switch size="regular" defaultChecked />
-                <span className="text-[10px] uppercase text-slate-400 font-bold">Regular (Default)</span>
+                <Switch size='medium' defaultChecked />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Medium (Default)</span>
               </div>
               <div className="flex flex-col items-center gap-3">
                 <Switch size="small" defaultChecked />
@@ -88,7 +88,7 @@ import { Switch } from 'nave-ui-library/react'`}
               </div>
             </div>
           }
-          code={`<Switch size="regular" />\n<Switch size="small" />`}
+          code={`<Switch size="medium" />\n<Switch size="small" />`}
         />
       </ContentCards>
 

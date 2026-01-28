@@ -12,8 +12,9 @@ import {
 } from '../../../../theme';
 import { cva } from 'class-variance-authority';
 
-interface CheckboxProps
-  extends React.ComponentProps<typeof CheckboxPrimitive.Root> {
+interface CheckboxProps extends React.ComponentProps<
+  typeof CheckboxPrimitive.Root
+> {
   tokens?: any;
   platform?: 'web' | 'mobile';
   size?: 'regular' | 'small';
@@ -26,10 +27,10 @@ interface CheckboxProps
 
 const checkboxLabel = 'text-sm font-[550] leading-[1.3] tracking-[-0.04em]';
 
-const checkboxDescription = 'text-xs text-[#6C7280] leading-[1.3]';
+const checkboxDescription = 'text-xs text-[--color-text-helper] leading-[1.3]';
 
 const checkboxFocus =
-  'focus-visible:ring-2 focus-visible:ring-[#F67E07] focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+  'focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
 const checkboxBase =
   'inline-flex items-center justify-center shrink-0 border rounded-md transition-colors outline-none focus-visible:ring-2 disabled:cursor-not-allowed';
@@ -50,42 +51,41 @@ const checkboxVariants = cva(checkboxBase, {
   compoundVariants: [
     // UNCHECKED
     {
-      tone: 'brand',
       className:
-        'border-[#D1D5DB] bg-white hover:border-[#652BDF] ring-[#F67E07]',
+        'data-[state=unchecked]:bg-[--checkbox-background-color] data-[state=unchecked]:border-[--border-default] data-[state=unchecked]:hover:border-[--border-hover]',
     },
 
     // CHECKED
     {
-      tone: 'brand',
       className:
-        'data-[state=checked]:bg-[#652BDF] data-[state=checked]:border-none data-[state=checked]:data-[disabled]:bg-[#E2E5E9]',
+        'data-[state=checked]:bg-[--checkbox-active-background-color] data-[state=checked]:border-none data-[state=checked]:hover:bg-[--checkbox-active-background-hover]',
     },
 
     // INDETERMINATE
     {
-      tone: 'brand',
       className:
-        'data-[state=indeterminate]:bg-[#652BDF] data-[state=indeterminate]:border-none data-[state=indeterminate]:border-[#652BDF] data-[state=indeterminate]:data-[disabled]:bg-[#E2E5E9]',
+        'data-[state=indeterminate]:bg-[--checkbox-active-background-color] data-[state=indeterminate]:border-none data-[state=indeterminate]:hover:bg-[--checkbox-active-background-hover]',
     },
 
-    // FOCUS
+    // DISABLED + UNCHECKED
     {
-      tone: 'brand',
-      className: 'focus-visible:ring-[#F67E07]',
+      className:
+        'data-[disabled][data-state=unchecked]:bg-[--color-bg-disabled] data-[disabled][data-state=unchecked]:border-[--border-hover] data-[disabled][data-state=unchecked]:hover:bg-[--color-bg-disabled]]',
     },
 
-    // DISABLED
+    // DISABLED + CHECKED
     {
-      tone: 'brand',
       className:
-        'data-[disabled]:bg-[#E2E5E9] data-[disabled]:border-[#C3C7D1]',
+        'data-[disabled][data-state=checked]:bg-[--color-bg-disabled] data-[disabled][data-state=checked]:border-none data-[disabled][data-state=checked]:hover:bg-[--color-bg-disabled]',
+    },
+    //  DISABLED + INDETERMINATE 
+    {
+      className:
+        'data-[disabled][data-state=indeterminate]:bg-[--color-bg-disabled] data-[disabled][data-state=indeterminate]:border-none data-[disabled][data-state=indeterminate]:hover:bg-[--color-bg-disabled]',
     },
   ],
-
   defaultVariants: {
     size: 'regular',
-    tone: 'brand',
   },
 });
 export function Checkbox({
@@ -107,19 +107,26 @@ export function Checkbox({
     theme
   );
 
-  const styles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--checkbox-width': mergedTokens?.track?.width ?? 36,
+    '--checkbox-height': mergedTokens?.track?.height ?? 20,
 
-  const stylesReafactoring = {
-    ...styles,
-    width: '25px',
-    height: '25px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
+    // TRACK Backgrounds
+    '--checkbox-background-color':
+      mergedTokens?.track?.background ?? 'var(--color-bg-200)',
+    '--checkbox-active-background-color':
+      mergedTokens.checked?.background ?? 'var(--color-accent-default)',
+    '--checkbox-active-background-hover':
+      mergedTokens?.checked?.backgroundHover ?? 'var(--color-accent-dark)',
+    '--checkbox-background-disabled': 'var(--color-bg-200)',
+
+    // THUMB
+    '--checkbox-thumb-color':
+      mergedTokens?.thumb?.color ?? 'var(--color-bg-white)',
+    '--checkbox-thumb-disabled':
+      mergedTokens?.disabled?.thumb ?? 'var(--color-bg-disabled)',
+  } as React.CSSProperties;
+
 
   return (
     <label
@@ -130,6 +137,7 @@ export function Checkbox({
     >
       <CheckboxPrimitive.Root
         disabled={disabled}
+        style={styles}
         className={cn(
           checkboxVariants({ size, tone }),
           className,
@@ -137,7 +145,7 @@ export function Checkbox({
         )}
         {...props}
       >
-        <CheckboxPrimitive.Indicator className="flex items-center justify-center text-white data-[state=checked]:data-[disabled]:text-[#6C7280] data-[state=indeterminate]:data-[disabled]:text-[#6C7280]">
+        <CheckboxPrimitive.Indicator className="flex items-center justify-center text-white data-[state=checked]:data-[disabled]:text-[--color-text-disabled] data-[state=indeterminate]:data-[disabled]:text-[--color-text-disabled]">
           {state === 'indeterminate' ? (
             <Minus className={size === 'regular' ? 'h-4 w-4' : 'h-3 w-3'} />
           ) : (

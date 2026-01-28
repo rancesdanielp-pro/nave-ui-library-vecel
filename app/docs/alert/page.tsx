@@ -1,25 +1,23 @@
-'use client'
+'use client';
+
+//import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react';
 
 import {
   Alert,
   AlertTitle,
   AlertDescription,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
 } from '@/packages/ui-library/dist/react';
 
-import { DocsPage } from '../DocsPage'
-import { ContentCards } from '../ContentCards'
-import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
-import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
-import registry from '@/packages/ui-library/src/registry/registry.json'
-import { tokenVariants } from '@/app/utils/tokens'
+import { DocsPage } from '../DocsPage';
+import { ContentCards } from '../ContentCards';
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
+import registry from '@/packages/ui-library/src/registry/registry.json';
+import { tokenVariants } from '@/app/utils/tokens';
 
 export default function AlertsPage() {
-  const componentRegistry = (registry as any)['alert']
-  const naveTheme = tokenVariants[0].tokens
+  const componentRegistry = (registry as any)['alert'];
+  const naveTheme = tokenVariants[0].tokens;
 
   return (
     <DocsPage
@@ -32,9 +30,9 @@ export default function AlertsPage() {
         <p className="text-sm text-slate-500 mb-4">
           Importa los componentes necesarios desde la librería:
         </p>
-        <CodeBlock 
+        <CodeBlock
           code={`import 'nave-ui-library/styles.css'
-import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react'`} 
+import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -42,10 +40,10 @@ import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react'`}
       <ContentCards title="Default">
         <ComponentExample
           preview={
-            <Alert className="max-w-lg">
-              <AlertTitle>Heads up!</AlertTitle>
+            <Alert tone="success">
+              <AlertTitle>Pago acreditado</AlertTitle>
               <AlertDescription>
-                This is a default alert — check it out!
+                El dinero ya se encuentra disponible en tu cuenta.
               </AlertDescription>
             </Alert>
           }
@@ -59,20 +57,64 @@ import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react'`}
       </ContentCards>
 
       {/* ───────────── SECCIÓN: DESTRUCTIVE ───────────── */}
-      <ContentCards title="Destructive">
+      <ContentCards title="Tones">
         <ComponentExample
           preview={
-            <Alert variant="destructive" className="max-w-lg">
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>
-                Something went wrong. Please try again.
-              </AlertDescription>
-            </Alert>
+            <>
+              <div className="flex flex-col gap-3">
+                <Alert tone="success">
+                  <AlertTitle>Pago acreditado</AlertTitle>
+                  <AlertDescription>
+                    El dinero ya se encuentra disponible en tu cuenta.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert tone="neutral">
+                  <AlertTitle>Neutral</AlertTitle>
+                  <AlertDescription>
+                    This is a neutral informational alert.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert tone="info">
+                  <AlertTitle>Info</AlertTitle>
+                  <AlertDescription>
+                    Additional information is available.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert tone="success">
+                  <AlertTitle>Success</AlertTitle>
+                  <AlertDescription>
+                    Action completed successfully.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert tone="warning">
+                  <AlertTitle>Warning</AlertTitle>
+                  <AlertDescription>
+                    Please review the details before proceeding.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert tone="error">
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>Something went wrong.</AlertDescription>
+                </Alert>
+
+                <Alert tone="destructive">
+                  <AlertTitle>Destructive</AlertTitle>
+                  <AlertDescription>
+                    This action cannot be undone.
+                  </AlertDescription>
+                </Alert>
+              </div>
+            </>
           }
-          code={`<Alert variant="destructive">
-  <AlertTitle>Error</AlertTitle>
+          code={`<Alert tone="success">
+  <AlertTitle>Pago acreditado</AlertTitle>
   <AlertDescription>
-    Something went wrong. Please try again.
+    El dinero ya se encuentra disponible en tu cuenta.
   </AlertDescription>
 </Alert>`}
         />
@@ -82,22 +124,26 @@ import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react'`}
       <ContentCards title="With Icon">
         <ComponentExample
           preview={
-            <Alert className="max-w-lg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
+            <Alert
+              tone="success"
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              }
+            >
               <AlertTitle>Notice</AlertTitle>
               <AlertDescription>
                 This alert includes an icon for visual emphasis.
@@ -120,10 +166,8 @@ import { Alert, AlertTitle, AlertDescription } from 'nave-ui-library/react'`}
         <p className="text-sm text-slate-500 mb-6">
           Metadatos técnicos y configuración del componente Alert.
         </p>
-        <CodeBlock 
-          code={JSON.stringify(componentRegistry, null, 2)} 
-        />
+        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
       </div>
     </DocsPage>
-  )
+  );
 }

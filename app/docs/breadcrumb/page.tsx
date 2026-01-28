@@ -9,7 +9,7 @@ import {
   BreadcrumbPage as BreadcrumbPageBase,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-} from '@/packages/ui-library/dist/react';
+} from '@/packages/ui-library/dist/react'; // Ajustado a tu ruta de desarrollo
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
@@ -18,7 +18,6 @@ import registry from '@/packages/ui-library/src/registry/registry.json'
 import { tokenVariants } from '@/app/utils/tokens'
 
 // --- SOLUCIÓN PARA EL ERROR TS(2559) ---
-// Forzamos a TypeScript a reconocer que los componentes aceptan children
 const Breadcrumb = BreadcrumbBase as any;
 const BreadcrumbList = BreadcrumbListBase as any;
 const BreadcrumbItem = BreadcrumbItemBase as any;
@@ -45,22 +44,18 @@ export default function BreadcrumbPageDoc() {
       {/* ───────────── SECCIÓN: BÁSICO ───────────── */}
       <ContentCards title="Basic Usage">
         <p className="text-sm text-slate-500 mb-6">
-          La estructura estándar utilizando links interactivos y un separador visual.
+          La estructura estándar utilizando links interactivos y un separador visual. Los colores se resuelven automáticamente mediante los tokens del tema.
         </p>
         <ComponentExample
           preview={
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="#">First level</BreadcrumbLink>
+                  <BreadcrumbLink href="#">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbEllipsis />
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Current level</BreadcrumbPage>
+                  <BreadcrumbPage>Ventas</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -130,13 +125,13 @@ export default function BreadcrumbPageDoc() {
         />
       </ContentCards>
 
-      {/* ───────────── SECCIÓN: DETALLES TÉCNICOS ───────────── */}
+      {/* ───────────── SECCIÓN: CARACTERÍSTICAS ───────────── */}
       <ContentCards title="Características">
         <div className="space-y-4">
           <ul className="list-disc list-inside text-sm text-slate-500 space-y-2">
             <li><strong>Accesibilidad:</strong> Utiliza la etiqueta semántica <code>nav</code> con <code>aria-label="breadcrumb"</code> y el atributo <code>aria-current="page"</code> en el nivel activo.</li>
             <li><strong>Composición:</strong> Gracias al uso de <code>asChild</code> de Radix UI, puedes integrar fácilmente componentes de ruteo como <code>next/link</code> sin generar tags anidados inválidos.</li>
-            <li><strong>Estética:</strong> Los links utilizan el color de marca <code>#652BDF</code> con un estado hover de subrayado, mientras que la página actual utiliza el gris neutro <code>#6E7991</code>.</li>
+            <li><strong>Estática:</strong> Los links y la página actual ahora consumen variables CSS dinámicas (<code>--bc-link-color</code>, etc.) inyectadas desde la raíz del componente.</li>
           </ul>
         </div>
       </ContentCards>

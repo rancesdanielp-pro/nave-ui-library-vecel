@@ -1,131 +1,159 @@
 'use client';
 
-import * as SelectPrimitive from '@radix-ui/react-select';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from "../../../../utils/cn"
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from "../../../../theme"
+import * as React from 'react';
+import * as Popover from '@radix-ui/react-popover';
+import { ChevronDownIcon } from 'lucide-react';
+import { cn } from '../../../../utils/cn';
+import { resolveTokens, useTheme } from '../../../../theme';
+import { cva } from 'class-variance-authority';
 
-const SELECT_SIZES = {
-  sm: {
-    height: '32px',
-    padding: '0 12px',
-    fontSize: '13px',
-  },
-  default: {
-    height: '40px',
-    padding: '0 16px',
-    fontSize: '14px',
-  },
-  lg: {
-    height: '48px',
-    padding: '0 20px',
-    fontSize: '16px',
-  },
-};
-
-
-export interface SelectItem {
+interface SelectItem {
   label: string;
   value: string;
 }
 
-interface Props {
+interface SelectProps {
   value?: string;
   onValueChange?: (value: string) => void;
   placeholder?: string;
   items: SelectItem[];
-  className?: string;
+  size?: 'sm' | 'md';
+  disabled?: boolean;
   tokens?: any;
-  style?: React.CSSProperties;
-  platform?: 'web' | 'native';
-  size?: keyof typeof SELECT_SIZES;
+  className?: string;
+  error?: boolean;
 }
+
+const selectBase =
+  'w-full inline-flex items-center justify-between ' +
+  'rounded-[var(--select-radius)] border outline-none ' +
+  'text-[--color-text-primary] ' +
+  'transition-[border-color,box-shadow] ' +
+  'disabled:bg-[--color-bg-disabled] ' +
+  'disabled:text-[--color-text-disabled] ' +
+  'disabled:border-[--border-hover] ' +
+  'disabled:cursor-not-allowed';
+
+const selectVariants = cva(selectBase, {
+  variants: {
+    size: {
+      sm: 'h-9 px-3 text-sm',
+      md: 'h-11 px-3 text-base',
+    },
+    error: {
+      true: '',
+      false: '',
+    },
+  },
+  compoundVariants: [
+    {
+      error: false,
+      className: `
+        border-[--border-default]
+        hover:border-[--border-hover]
+        focus:border-[--select-border-color]
+        focus:ring-2
+        focus:ring-[--select-focus-ring]
+        focus:ring-offset-0
+      `,
+    },
+    {
+      error: true,
+      className: `
+        border-[--color-error-main]
+        hover:border-[--color-error-dark]
+        focus:border-[--color-error-main]
+        focus:ring-2
+        focus:ring-[--color-error-lighter]
+      `,
+    },
+  ],
+  defaultVariants: {
+    size: 'md',
+    error: false,
+  },
+});
+
 export function Select({
   value,
   onValueChange,
   placeholder = 'Seleccionar...',
   items,
-  className,
+  size = 'md',
+  error = false,
+  disabled,
   tokens,
-  platform = 'web',
-  size = 'default',
-}: Props) {
+  className,
+}: SelectProps) {
   const theme = useTheme();
 
-  // 🔥 1. RESOLVER TOKENS
   const mergedTokens = resolveTokens(
     { componentName: 'select', tokens },
     theme
   );
 
-  // 🔥 2. RESOLVER ESTILOS BASE PARA WEB O NATIVE
-  const styles =
-    platform === 'web'
-      ? resolveWebStyles(mergedTokens)
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--select-text': mergedTokens?.color ?? '#000000',
+    '--select-radius': mergedTokens?.radius ?? '8px',
+    '--select-border-width': mergedTokens?.borderWidth ?? '1px',
+    '--select-border-color': mergedTokens?.border ?? 'transparent',
+    '--select-focus-ring': mergedTokens?.focusBorder ?? 'transparent',
+  } as React.CSSProperties;
 
-  // 🔥 3. ESTILOS ESPECÍFICOS PARA SUBCOMPONENTES
-  const triggerStyle = {
-    ...styles,
-    ...SELECT_SIZES[size],     
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-  };
 
-  const itemStyle = {
-    fontSize: styles.fontSize,
-    padding: mergedTokens.padding ?? '10px',
-  };
+  const selectedItem = items.find((i) => i.value === value);
 
   return (
-    <SelectPrimitive.Root value={value} onValueChange={onValueChange}>
-      {/* Trigger */}
-      <SelectPrimitive.Trigger
-        className={cn('outline-none', className)}
-        style={triggerStyle}
-      >
-        <SelectPrimitive.Value
-          placeholder={placeholder}
-          style={{ color: styles.color }}
-        />
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <button
+          disabled={disabled}
+          style={styles}
+          className={cn(
+            selectVariants({ size, error }),
+            'group w-full inline-flex items-center justify-between rounded-[var(--select-radius)] ',
+            className
+          )}
+        >
+          <span className="truncate">{selectedItem?.label ?? placeholder}</span>
 
-        <SelectPrimitive.Icon>
-          <ChevronsUpDown className="h-4 w-4 opacity-50" />
-        </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
+          <ChevronDownIcon
+            className="
+            h-4 w-4 shrink-0 text-[--color-text-tertiary]
+            transition-transform duration-200
+            group-data-[state=open]:rotate-90
+            "
+          />
+        </button>
+      </Popover.Trigger>
 
-      {/* Content */}
-      <SelectPrimitive.Content
-        className="relative z-50 w-full shadow-lg rounded-md"
+      <Popover.Content
+        align="start"
+        sideOffset={4}
+        className="
+          z-50 rounded-md border border-[--border-default]
+          bg-white shadow-lg p-1
+        "
         style={{
-          backgroundColor: mergedTokens.dropdownBackground ?? '#FFFFFF',
-          borderRadius: mergedTokens.borderRadius ?? '6px',
+          width: 'var(--radix-popover-trigger-width)',
         }}
       >
-        <SelectPrimitive.Viewport className="p-1">
+        <ul className="max-h-60 overflow-auto">
           {items.map((item) => (
-            <SelectPrimitive.Item
+            <li
               key={item.value}
-              value={item.value}
-              className="relative flex cursor-pointer select-none items-center rounded-sm outline-none hover:bg-gray-100"
-              style={itemStyle}
+              onClick={() => onValueChange?.(item.value)}
+              className="
+                flex items-center justify-between
+                h-10 px-3 rounded-sm text-sm cursor-pointer
+                hover:bg-[--border-default]
+              "
             >
-              <SelectPrimitive.ItemText>{item.label}</SelectPrimitive.ItemText>
-
-              <SelectPrimitive.ItemIndicator className="absolute right-2 flex items-center">
-                <Check className="h-4 w-4" />
-              </SelectPrimitive.ItemIndicator>
-            </SelectPrimitive.Item>
+              <span>{item.label}</span>
+            </li>
           ))}
-        </SelectPrimitive.Viewport>
-      </SelectPrimitive.Content>
-    </SelectPrimitive.Root>
+        </ul>
+      </Popover.Content>
+    </Popover.Root>
   );
 }

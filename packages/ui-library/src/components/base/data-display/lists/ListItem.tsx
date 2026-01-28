@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { cn } from '../../../../utils/cn';
 import { Badge } from '../system-feedback';
 

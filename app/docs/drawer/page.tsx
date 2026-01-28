@@ -1,6 +1,20 @@
 'use client'
-
-import * as React from 'react'
+/*
+import { 
+  Drawer, 
+  DrawerTrigger, 
+  DrawerContent, 
+  DrawerHeader, 
+  DrawerBody, 
+  DrawerFooter, 
+  DrawerTitle, 
+  DrawerDescription, 
+  DrawerCloseButton,
+  Button,
+  ListItem,
+  Input
+} from 'nave-ui-library/react';
+*/
 import { 
   Drawer, 
   DrawerTrigger, 
@@ -80,14 +94,14 @@ import { \n  Drawer, \n  DrawerTrigger, \n  DrawerContent, \n  DrawerHeader, \n 
       </ContentCards>
 
       {/* ───────────── SECCIÓN: SIDE PANEL (RIGHT) ───────────── */}
-      <ContentCards title="Side Panel (Right)">
+      <ContentCards title="Side Panel (left)">
         <p className="text-sm text-slate-500 mb-6">
           Ideal para filtros de búsqueda o paneles de configuración en escritorio y tablets.
         </p>
         <ComponentExample
           preview={
             <div className="flex justify-center">
-              <Drawer direction="right">
+              <Drawer direction="left">
                 <DrawerTrigger asChild>
                   <Button variant="tertiary" className="gap-2">
                     open

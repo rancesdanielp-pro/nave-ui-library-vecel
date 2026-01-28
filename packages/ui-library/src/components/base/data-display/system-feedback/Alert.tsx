@@ -1,119 +1,139 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '../../../../utils/cn';
+import { resolveTokens, useTheme } from '../../../../theme';
 
-import { cn } from "../../../../utils/cn"
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from "../../../../theme"
 /* -------------------------------------------------------------------------- */
-/*                                   CVA                                      */
+/* CVA */
 /* -------------------------------------------------------------------------- */
-
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid items-start gap-y-0.5",
+  'w-full rounded-lg border text-sm flex items-start gap-3',
   {
     variants: {
       variant: {
-        default: "",
-        destructive: "",
+        default: '',
+        destructive: '',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
   }
-)
+);
 
-/* -------------------------------------------------------------------------- */
-/*                                   Alert                                    */
-/* -------------------------------------------------------------------------- */
+type Tone =
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'neutral'
+  | 'destructive';
 
 type ThemedProps = {
-  tokens?: any
-  platform?: "web" | "native"
-}
+  tokens?: any;
+  platform?: 'web' | 'native';
+  tone?: Tone;
+  icon?: React.ReactNode;
+};
 
+/* -------------------------------------------------------------------------- */
+/* Alert Component */
+/* -------------------------------------------------------------------------- */
 function Alert({
+  children,
   className,
   style,
-  variant = "default",
+  variant = 'default',
   tokens,
-  platform = "web",
+  platform = 'web',
+  tone = 'neutral',
+  icon,
   ...props
-}: React.ComponentProps<"div"> &
+}: React.ComponentProps<'div'> &
   VariantProps<typeof alertVariants> &
-  ThemedProps) {
-  const theme = useTheme()
+  ThemedProps & { children?: React.ReactNode }) {
+  const theme = useTheme();
 
   const mergedTokens = resolveTokens(
-    { componentName: "alert", variant, tokens },
+    { componentName: 'alert', variant, tone, tokens },
     theme
-  )
+  );
 
-  const resolvedStyles =
-    platform === "web"
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens)
+  const tokenTone = mergedTokens?.tones?.[tone] ?? {};
+
+  const styles =
+    platform === 'web'
+      ? {
+          '--alert-bg': tokenTone?.background ?? '#F8FAFC',
+          '--alert-border': tokenTone?.border ?? '#E2E8F0',
+          '--alert-text': tokenTone?.text ?? '#1F2937',
+          '--alert-icon-color': tokenTone?.iconColor ?? '#6B7280',
+          ...style,
+        }
+      : undefined;
 
   return (
     <div
-      data-slot="alert"
       role="alert"
-      style={platform === "web" ? resolvedStyles : undefined}
+      data-slot="alert"
+      style={styles as React.CSSProperties}
       className={cn(
         alertVariants({ variant }),
-        "has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr]",
-        "has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+        'bg-[var(--alert-bg)] border-[var(--alert-border)] text-[var(--alert-text)] p-3',
         className
       )}
       {...props}
-    />
-  )
+    >
+      {icon && (
+        <div
+          className="shrink-0 flex items-center justify-center leading-none"
+          style={{ color: 'var(--alert-icon-color)' }}
+        >
+          {icon}
+        </div>
+      )}
+
+      {/* Contenedor layout interno más prolijo */}
+      <div className="flex flex-col gap-1 min-w-0">{children}</div>
+    </div>
+  );
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                Alert Title                                 */
+/* AlertTitle */
 /* -------------------------------------------------------------------------- */
-
-function AlertTitle({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="alert-title"
       className={cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
+        'font-medium text-[var(--alert-text)] leading-tight',
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 /* -------------------------------------------------------------------------- */
-/*                             Alert Description                               */
+/* AlertDescription */
 /* -------------------------------------------------------------------------- */
-
 function AlertDescription({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="alert-description"
       className={cn(
-        "col-start-2 grid gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed",
+        'text-sm text-[var(--alert-text)] leading-relaxed',
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
-export { Alert, AlertTitle, AlertDescription }
+export { Alert, AlertTitle, AlertDescription, alertVariants };

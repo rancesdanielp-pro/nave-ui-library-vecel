@@ -61,24 +61,15 @@ function Calendar({
     theme
   );
 
-  const styles =
-    theme.platform === 'web'
-      ? resolveWebStyles(mergedTokens)
-      : resolveNativeStyles(mergedTokens);
-
+  const styles = {
+    '--calendar-bg': mergedTokens?.background ?? '#FFFFFF',
+    '--calendar-text': mergedTokens?.text ?? '#000000',
+    '--calendar-muted': mergedTokens?.mutedText ?? '#666666',
+    '--calendar-accent': mergedTokens?.accent ?? '#a3aab8',
+    '--calendar-radius': mergedTokens?.radius ?? '8px',
+  };
   return (
-    <div
-      data-slot="calendar"
-      style={
-        {
-          backgroundColor: styles.backgroundColor,
-          color: styles.color,
-          '--calendar-accent': mergedTokens.accentColor,
-          '--calendar-accent-foreground': mergedTokens.accentForeground,
-          '--calendar-hover': mergedTokens.hoverBackground,
-        } as React.CSSProperties
-      }
-    >
+    <div data-slot="calendar" style={styles as React.CSSProperties}>
       <DayPicker
         showOutsideDays={showOutsideDays}
         captionLayout={captionLayout}
@@ -88,7 +79,8 @@ function Calendar({
           ...formatters,
         }}
         className={cn(
-          'group/calendar p-3',
+          'group/calendar p-3 rounded-[var(--calendar-radius)]',
+          'bg-[color:var(--calendar-bg)]',
           String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
           String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
           className
@@ -181,6 +173,8 @@ function CalendarDayButton({
       data-range-middle={modifiers.range_middle}
       className={cn(
         'w-full aspect-square rounded-md',
+        'hover:bg-[color:var(--calendar-hover)]',
+        'focus-visible:ring-2 focus-visible:ring-[color:var(--calendar-accent)]',
         'data-[selected=true]:bg-[color:var(--calendar-accent)]',
         'data-[selected=true]:text-[color:var(--calendar-accent-foreground)]',
         'data-[range-middle=true]:bg-[color:var(--calendar-hover)]',

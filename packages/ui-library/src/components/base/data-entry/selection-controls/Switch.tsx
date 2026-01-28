@@ -3,20 +3,15 @@
 import * as React from 'react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cn } from '../../../../utils/cn';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 import { cva } from 'class-variance-authority';
 
-interface SwitchProps
-  extends React.ComponentProps<typeof SwitchPrimitive.Root> {
+interface SwitchProps extends React.ComponentProps<
+  typeof SwitchPrimitive.Root
+> {
   tokens?: any;
   platform?: 'web' | 'native';
-  size?: 'regular' | 'small';
-  tone?: 'brand' | 'neutral' | 'destructive';
+  size?: 'medium' | 'small';
   label?: string;
   description?: string;
   state?: 'checked' | 'indeterminate';
@@ -24,58 +19,61 @@ interface SwitchProps
 }
 
 const switchBase =
-  'inline-flex items-center rounded-full transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#F67E07] focus-visible:ring-offset-2 disabled:cursor-not-allowed';
+  'inline-flex items-center rounded-full transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] focus-visible:ring-offset-2 disabled:cursor-not-allowed p-[2px]';
 
 const thumbBase = 'block rounded-full bg-white transition-transform';
 
 const switchVariants = cva(switchBase, {
   variants: {
     size: {
-      regular: 'h-5 w-9',
-      small: 'h-4 w-7',
-    },
-    tone: {
-      brand: '',
-      neutral: '',
-      destructive: '',
+      medium: 'h-5 w-9', // 20 x 36
+      small: 'h-4 w-7', // 16 x 28
     },
   },
   compoundVariants: [
-    // UNCHECKED
+    // UNCHECKED DEFAULT
     {
-      tone: 'brand',
-      className: 'bg-[#C3C7D1]',
+      className: 'data-[state=unchecked]:bg-[--switch-background-color]',
     },
-
-    // CHECKED
+    // UNCHECKED HOVER
     {
-      tone: 'brand',
-      className: 'data-[state=checked]:bg-[#652BDF]',
+      className: 'data-[state=unchecked]:hover:bg-[--color-bg-300]',
     },
-
-    // CHECKED + DISABLED
+    // UNCHECKED HOVER DISABLED
     {
-      tone: 'brand',
-      className: 'data-[state=checked]:data-[disabled]:bg-[#E2E5E9]',
+      className:
+        'data-[state=unchecked]:data-[disabled]:bg-[--color-bg-disabled]',
     },
-
-    // UNCHECKED + DISABLED
+    // CHECKED DEFAULT
     {
-      tone: 'brand',
-      className: 'data-[disabled]:bg-[#E2E5E9]',
+      className: 'data-[state=checked]:bg-[--switch-active-background-color]',
+    },
+    // CHECKED HOVER
+    {
+      className:
+        'data-[state=checked]:hover:bg-[--switch-active-background-hover]',
+    },
+    // CHECKED DISABLED
+    {
+      className:
+        'data-[state=checked]:data-[disabled]:bg-[--color-bg-disabled] ' +
+        'data-[state=checked]:data-[disabled]:hover:bg-[--color-bg-disabled]',
+    },
+    // UNCHECKED DISABLED
+    {
+      className:
+        'data-[state=unchecked]:data-[disabled]:hover:bg-[--color-bg-disabled]',
     },
   ],
   defaultVariants: {
-    size: 'regular',
-    tone: 'brand',
+    size: 'medium',
   },
 });
 
 const Switch = ({
   className,
   tokens,
-  size,
-  tone,
+  size = 'medium',
   label,
   state,
   description,
@@ -91,21 +89,32 @@ const Switch = ({
     theme
   );
 
-  const styles =
-    platform === 'web'
-      ? resolveWebStyles(mergedTokens)
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--switch-width': mergedTokens?.track?.width ?? 36,
+    '--switch-height': mergedTokens?.track?.height ?? 20,
 
-  const stylesReafactoring = {
-    ...styles,
-    trackWidth: mergedTokens?.trackWidth ?? 36,
-    trackHeight: mergedTokens?.trackHeight ?? 20,
-    backgroundColor: mergedTokens?.backgroundColor ?? '#CCCCCC',
-    activeBackgroundColor: mergedTokens?.activeBackgroundColor ?? '#652BDF',
-    thumbSize: mergedTokens?.thumbSize ?? 16,
-    thumbColor: mergedTokens?.thumbColor ?? '#FFFFFF',
-    transitionDuration: mergedTokens?.transitionDuration ?? '150ms',
-  };
+    // TRACK Backgrounds
+    '--switch-background-color':
+      mergedTokens?.track?.offBackground ?? 'var(--color-bg-200)',
+    '--switch-active-background-color':
+      mergedTokens?.track?.onBackground ?? 'var(--color-accent-default)',
+    '--switch-active-background-hover':
+      mergedTokens?.track?.onBackgroundHover ?? 'var(--color-accent-dark)',
+    '--switch-background-disabled':
+      mergedTokens?.disabled?.track ?? 'var(--color-bg-disabled)',
+
+    // THUMB
+    '--switch-thumb-size':
+      size === 'medium' ? (mergedTokens?.handle?.size ?? '12px') : '16px',
+    '--switch-thumb-color':
+      mergedTokens?.handle?.color ?? 'var(--color-bg-white)',
+    '--switch-thumb-disabled':
+      mergedTokens?.disabled?.handle ?? 'var(--color-bg-disabled)',
+
+    // MISC
+    '--switch-transition-duration': mergedTokens?.motion?.duration ?? '150ms',
+    '--switch-thumb-translate': size === 'medium' ? '8px' : '6px',
+  } as React.CSSProperties;
 
   return (
     <label
@@ -117,16 +126,17 @@ const Switch = ({
       <SwitchPrimitive.Root
         disabled={disabled}
         data-slot="switch"
-        className={cn(switchBase, switchVariants({ size, tone }), className)}
+        style={styles}
+        className={cn(switchBase, switchVariants({ size }), className)}
         {...props}
       >
         <SwitchPrimitive.Thumb
           data-slot="switch-thumb"
           className={cn(
             thumbBase,
-            size === 'regular' ? 'h-4 w-4' : 'h-3 w-3',
-            'data-[state=checked]:translate-x-4 data-[state=checked]:data-[disabled]:bg-[#A3AAB8]',
-            'data-[state=unchecked]:translate-x-0 data-[state=unchecked]:data-[disabled]:bg-[#A3AAB8]'
+            size === 'medium' ? 'h-4 w-4' : 'h-3 w-3',
+            'data-[state=checked]:translate-x-[var(--switch-thumb-translate)] data-[state=checked]:data-[disabled]:bg-[var(--color-bg-300)]',
+            'data-[state=unchecked]:translate-x-0 data-[state=unchecked]:data-[disabled]:bg-[--color-bg-300]'
           )}
         />
       </SwitchPrimitive.Root>
@@ -134,12 +144,16 @@ const Switch = ({
       {(label || description) && (
         <div className="flex flex-col gap-0.5">
           {label && (
-            <span className="text-sm font-[550] leading-[1.3] tracking-[-0.04em]">
+            <span
+              className={`${size === 'medium' ? 'text-base' : 'text-sm'} text-[var(--color-text-primary)] font-[550] leading-[1.3] tracking-[-0.04em]`}
+            >
               {label}
             </span>
           )}
           {description && (
-            <span className="text-xs text-[#6C7280] leading-[1.3]">
+            <span
+              className={`${size === 'medium' ? 'text-sm' : 'text-xs'} text-[var(--color-text-tertiary)] leading-[1.3]`}
+            >
               {description}
             </span>
           )}

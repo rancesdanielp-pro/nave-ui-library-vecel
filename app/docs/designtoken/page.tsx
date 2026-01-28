@@ -42,13 +42,14 @@ export default function TokensStrategyPage() {
   <div className="space-y-4">
     <h4 className="text-xs font-bold uppercase text-slate-400">Botones y Radio</h4>
     <div className="flex flex-wrap gap-4 items-center">
+
       <Button 
         key={`btn-${activeVariant.name}`} 
         tokens={activeVariant.tokens}
         style={{ 
-          backgroundColor: activeVariant.tokens.button.backgroundColor,
-          borderRadius: activeVariant.tokens.button.borderRadius,
-          color: activeVariant.tokens.button.color
+          backgroundColor: activeVariant.tokens.semanticTokens.action.primary,
+          borderRadius: activeVariant.tokens.foundations.radius.md,
+          color: activeVariant.tokens.semanticTokens.text.inverse
         }}
       >
         Primary Action
@@ -58,8 +59,8 @@ export default function TokensStrategyPage() {
         key={`dot-${activeVariant.name}`}
         className="w-6 h-6 rounded-full border-2 transition-all duration-500 shadow-sm" 
         style={{ 
-          borderColor: activeVariant.tokens.colors.primary, 
-          backgroundColor: activeVariant.tokens.colors.primary 
+          borderColor: activeVariant.tokens.foundations.colors.brand.primary, 
+          backgroundColor: activeVariant.tokens.foundations.colors.brand.primary 
         }} 
       />
     </div>
@@ -74,14 +75,13 @@ export default function TokensStrategyPage() {
         // Agregamos !important (!) a las clases de borde de tailwind para que el style gane
         className="!border-2 transition-all duration-500"
         style={{ 
-          borderColor: activeVariant.tokens.input.borderColor,
-          borderRadius: activeVariant.tokens.input.borderRadius,
-          backgroundColor: activeVariant.tokens.input.backgroundColor,
-          color: activeVariant.tokens.input.color
+          borderColor: activeVariant.tokens.semanticTokens.border.default,
+          borderRadius: activeVariant.tokens.foundations.radius.md,
+          color: activeVariant.tokens.semanticTokens.text.primary
         }}
       />
       <p className="text-[10px] text-slate-400 font-mono italic">
-        Border: {activeVariant.tokens.input.borderColor}
+        Border: {activeVariant.tokens.semanticTokens.border.default}
       </p>
     </div>
   </div>

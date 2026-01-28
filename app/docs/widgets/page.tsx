@@ -1,15 +1,27 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import { LastMovements, Movement } from '@/packages/ui-library/dist/react';
-import { DocsPage } from '../DocsPage'
-import { ContentCards } from '../ContentCards'
-import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
-import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
-import { tokenVariants } from '@/app/utils/tokens'
+import * as React from 'react';
+//import { LastMovements, Movement } from 'nave-ui-library/react';
+import {
+  LastMovements,
+  Movement,
+  Loader,
+  Label,
+  ListItem,
+  EmptyState,
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Banner,
+} from '@/packages/ui-library/dist/react';
+import { DocsPage } from '../DocsPage';
+import { ContentCards } from '../ContentCards';
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
+import { tokenVariants } from '@/app/utils/tokens';
 
 export default function LastMovementsPage() {
-  const naveTheme = tokenVariants[0].tokens
+  const naveTheme = tokenVariants[0].tokens;
 
   // Datos de ejemplo para la demo
   const mockMovements: Movement[] = [
@@ -38,17 +50,21 @@ export default function LastMovementsPage() {
       status: 'failed',
     },
     {
-        id: '4',
-        date: '17 Dic, 10:00',
-        title: 'QR',
-        subtitle: 'Sucursal Palermo',
-        amount: '$ 8.900,50',
-        status: 'refunded',
-      },
-  ]
+      id: '4',
+      date: '17 Dic, 10:00',
+      title: 'QR',
+      subtitle: 'Sucursal Palermo',
+      amount: '$ 8.900,50',
+      status: 'refunded',
+    },
+  ];
 
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
-  const [isExpanded, setIsExpanded] = React.useState(true)
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [expandedDefault, setExpandedDefault] = React.useState(true);
+  const [expandedLoading, setExpandedLoading] = React.useState(true);
+  const [expandedEmpty, setExpandedEmpty] = React.useState(true);
+  const [expandedErrorAlert, setExpandedErrorAlert] = React.useState(true);
+  const [expandedErrorBanner, setExpandedErrorBanner] = React.useState(true);
 
   return (
     <DocsPage
@@ -58,76 +74,255 @@ export default function LastMovementsPage() {
     >
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
-        <CodeBlock 
-          code={`import { LastMovements } from 'nave-ui-library/react'`} 
+        <CodeBlock
+          code={`import { LastMovements } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: INTERACTIVO ───────────── */}
       <ContentCards title="Complete Interactive Widget">
         <p className="text-sm text-slate-500 mb-6">
-          Este widget utiliza un <code>Popover</code> con un <code>Calendar</code> en su acción de cabecera para filtrar los datos.
+          Este widget utiliza un <code>Popover</code> con un{' '}
+          <code>Calendar</code> en su acción de cabecera para filtrar los datos.
         </p>
         <ComponentExample
           preview={
             <div className="w-full max-w-2xl mx-auto">
-              <LastMovements 
+              <LastMovements
                 title="Últimos movimientos"
-                items={mockMovements}
+                period="Este mes"
+                state="default"
                 date={date}
-                period=''
-                expanded={isExpanded}
+                expanded={expandedDefault}
                 onDateChange={setDate}
-                onExpandedChange={setIsExpanded}
-                onItemClick={(id) => alert(`Navegando al detalle de: ${id}`)}
-              />
+                onExpandedChange={setExpandedDefault}
+              >
+                {mockMovements.map((item) => (
+                  <ListItem
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    amount={item.amount}
+                    status={item.status as any}
+                    onItemClick={() => console.log(item.id)}
+                  />
+                ))}
+              </LastMovements>
             </div>
           }
-          code={`<LastMovements \n  title="Últimos movimientos" \n  items={movements} \n  date={date} \n  onDateChange={setDate} \n/>`}
+          code={`const [date, setDate] = useState<Date>();
+const [expanded, setExpanded] = useState(true);
+
+<LastMovements
+  title="Últimos movimientos"
+  period="Este mes"
+  date={date}
+  expanded={expanded}
+  onDateChange={setDate}
+  onExpandedChange={setExpanded}
+>
+  {movements.map((item) => (
+    <ListItem key={item.id} {...item} />
+  ))}
+</LastMovements>`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: ESTADOS (LOADING & EMPTY) ───────────── */}
-      <ContentCards title="States: Loading & Empty">
+      <ContentCards title="States">
         <p className="text-sm text-slate-500 mb-6">
-          El widget maneja nativamente esqueletos de carga y un estado vacío con ilustraciones.
+          El widget soporta distintos estados visuales según el ciclo de vida de
+          los datos: carga, vacío y error. Cada estado puede personalizar su
+          contenido.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Loading State</span>
-            <LastMovements 
-              title="Movimientos" 
-              state="loading" 
-              items={[]} 
-              period=''
-            />
-          </div>
-          <div className="space-y-4">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Empty State</span>
-            <LastMovements 
-              title="Movimientos" 
-              state="empty" 
-              items={[]} 
-              period=''
-            />
-          </div>
-        </div>
-      </ContentCards>
 
-      {/* ───────────── SECCIÓN: MAPEO DE ESTADOS ───────────── */}
-      <ContentCards title="Status Mapping">
-        <p className="text-sm text-slate-600 mb-4">
-            El widget mapea estados técnicos a etiquetas amigables y variantes de color (Badges):
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {['success', 'pending', 'failed', 'created', 'refunded'].map((s) => (
-                <div key={s} className="p-3 border rounded-md bg-white flex flex-col gap-1">
-                    <span className="text-[10px] text-slate-400 font-mono">{s}</span>
-                    <span className="text-sm font-medium">Mapea a Badge</span>
-                </div>
-            ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* ───────── Loading ───────── */}
+          <div className="space-y-4">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Loading State
+            </span>
+
+            <ComponentExample
+              preview={
+                <LastMovements
+                  title="Movimientos"
+                  period="Este mes"
+                  state="loading"
+                  date={date}
+                  expanded={expandedLoading}
+                  onDateChange={setDate}
+                  onExpandedChange={setExpandedLoading}
+                  loadingContent={
+                    <div className="flex flex-col items-center gap-2 p-4 justify-center">
+                      <Loader size="lg" />
+                      <Label>Cargando datos...</Label>
+                    </div>
+                  }
+                />
+              }
+              code={`const [date, setDate] = useState<Date>();
+const [expanded, setExpanded] = useState(true);
+
+<LastMovements
+  title="Movimientos"
+  period="Este mes"
+  state="loading"
+  date={date}
+  expanded={expanded}
+  onDateChange={setDate}
+  onExpandedChange={setExpanded}
+  loadingContent={
+    <div className="flex flex-col items-center gap-2 p-4">
+      <Loader size="lg" />
+      <Label>Cargando datos...</Label>
+    </div>
+  }
+/>`}
+            />
+          </div>
+
+          {/* ───────── Empty ───────── */}
+          <div className="space-y-4">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Empty State
+            </span>
+
+            <ComponentExample
+              preview={
+                <LastMovements
+                  title="Movimientos"
+                  period="Este mes"
+                  state="empty"
+                  date={date}
+                  expanded={expandedEmpty}
+                  onDateChange={setDate}
+                  onExpandedChange={setExpandedEmpty}
+                  emptyContent={
+                    <EmptyState
+                      title="No hay movimientos"
+                      description="Todavía no registramos operaciones"
+                    />
+                  }
+                />
+              }
+              code={`const [date, setDate] = useState<Date>();
+const [expanded, setExpanded] = useState(true);
+
+<LastMovements
+  title="Movimientos"
+  period="Este mes"
+  state="empty"
+  date={date}
+  expanded={expanded}
+  onDateChange={setDate}
+  onExpandedChange={setExpanded}
+  emptyContent={
+    <EmptyState
+      title="No hay movimientos"
+      description="Todavía no registramos operaciones"
+    />
+  }
+/>`}
+            />
+          </div>
+
+          {/* ───────── Error (Alert) ───────── */}
+          <div className="space-y-4">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Error State (Alert)
+            </span>
+
+            <ComponentExample
+              preview={
+                <LastMovements
+                  title="Movimientos"
+                  period="Este mes"
+                  state="error"
+                  date={date}
+                  expanded={expandedErrorAlert}
+                  onDateChange={setDate}
+                  onExpandedChange={setExpandedErrorAlert}
+                  errorContent={
+                    <Alert tone="error">
+                      <AlertTitle>Error</AlertTitle>
+                      <AlertDescription>Something went wrong.</AlertDescription>
+                    </Alert>
+                  }
+                />
+              }
+              code={`const [date, setDate] = useState<Date>();
+const [expanded, setExpanded] = useState(true);
+
+<LastMovements
+  title="Movimientos"
+  period="Este mes"
+  state="error"
+  date={date}
+  expanded={expanded}
+  onDateChange={setDate}
+  onExpandedChange={setExpanded}
+  errorContent={
+    <Alert tone="error">
+      <AlertTitle>Error</AlertTitle>
+      <AlertDescription>
+        Something went wrong.
+      </AlertDescription>
+    </Alert>
+  }
+/>`}
+            />
+          </div>
+
+          {/* ───────── Error (Banner) ───────── */}
+          <div className="space-y-4">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Error State (Banner)
+            </span>
+
+            <ComponentExample
+              preview={
+                <LastMovements
+                  title="Movimientos"
+                  period="Este mes"
+                  state="error"
+                  date={date}
+                  expanded={expandedErrorBanner}
+                  onDateChange={setDate}
+                  onExpandedChange={setExpandedErrorBanner}
+                  errorContent={
+                    <Banner
+                      tone="error"
+                      title="Error"
+                      subtitle="No pudimos sincronizar tus ventas."
+                    />
+                  }
+                />
+              }
+              code={`const [date, setDate] = useState<Date>();
+const [expanded, setExpanded] = useState(true);
+
+<LastMovements
+  title="Movimientos"
+  period="Este mes"
+  state="error"
+  date={date}
+  expanded={expanded}
+  onDateChange={setDate}
+  onExpandedChange={setExpanded}
+  errorContent={
+    <Banner
+      tone="error"
+      title="Error"
+      subtitle="No pudimos sincronizar tus ventas."
+    />
+  }
+/>`}
+            />
+          </div>
         </div>
       </ContentCards>
     </DocsPage>
-  )
+  );
 }

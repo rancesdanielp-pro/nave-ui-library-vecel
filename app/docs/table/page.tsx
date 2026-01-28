@@ -1,6 +1,25 @@
 'use client'
 
-import * as React from 'react'
+/*
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  Badge,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationEllipsis,
+  PaginationNext,
+} from 'nave-ui-library/react';
+
+*/
 import {
   Table,
   TableHeader,

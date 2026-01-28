@@ -1,7 +1,7 @@
 'use client';
 
 import registry from '@/packages/ui-library/src/registry/registry.json';
-import * as UILib from '@/packages/ui-library/dist/react';
+import * as UILib from 'nave-ui-library/react';
 import { usePlayground } from '@/app/playground/PlaygroundStore';
 
 const BOOLEAN_HTML = new Set([

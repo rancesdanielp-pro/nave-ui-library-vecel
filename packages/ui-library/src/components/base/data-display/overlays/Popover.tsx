@@ -2,12 +2,7 @@
 
 import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-import {
-  resolveTokens,
-  resolveWebStyles,
-  resolveNativeStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 
 import { cn } from '../../../../utils/cn';
 
@@ -47,10 +42,16 @@ function PopoverContent({
     theme
   );
 
-  const styles =
-    theme.platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--popover-text': mergedTokens?.color ?? '#000000',
+    '--popover-bg': mergedTokens?.background ?? '#FFFFFF',
+    '--popover-radius': mergedTokens?.radius ?? '8px',
+    '--popover-border-width': mergedTokens?.borderWidth ?? '1px',
+    '--popover-border-color': mergedTokens?.border ?? '#E5E7EB',
+    '--popover-shadow':
+      mergedTokens?.shadow ?? '0px 4px 6px rgba(0, 0, 0, 0.1)',
+  } as React.CSSProperties;
+
 
   return (
     <PopoverPrimitive.Portal>
@@ -58,13 +59,7 @@ function PopoverContent({
         data-slot="popover-content"
         align={align}
         sideOffset={sideOffset}
-        style={{
-          backgroundColor: styles.backgroundColor,
-          color: styles.color,
-          borderRadius: styles.borderRadius,
-          boxShadow: mergedTokens.shadow,
-          border: `1px solid ${styles.borderColor}`,
-        }}
+        style={styles as React.CSSProperties}
         className={cn(
           'z-50 w-72 origin-(--radix-popover-content-transform-origin)',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
@@ -75,6 +70,7 @@ function PopoverContent({
           'data-[side=right]:slide-in-from-left-2',
           'data-[side=top]:slide-in-from-bottom-2',
           'p-4 outline-hidden',
+          'bg-[--popover-bg] text-[--popover-text] border border-[--popover-border-width] border-[--popover-border-color] shadow-[--popover-shadow] rounded-[--popover-radius]',
           className
         )}
         {...props}

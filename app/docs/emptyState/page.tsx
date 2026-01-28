@@ -1,7 +1,7 @@
 'use client'
 
-import * as React from 'react'
-import { EmptyState, Button } from '@/packages/ui-library/dist/react';
+//import { EmptyState } from 'nave-ui-library/react';
+import { EmptyState } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'

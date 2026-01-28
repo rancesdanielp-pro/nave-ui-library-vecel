@@ -5,6 +5,9 @@
   --color-info-500: #2e90fa;
   --color-info-700: #175cd3;
   --color-info-900: #194185;
+  --color-info-extra-light:#F0F5FE;
+  --color-info-main:#057AF4;
+  --color-info-dark: #0465c2;
 
   /* Warning */
   --color-warning-100: #fef0c7;
@@ -12,13 +15,21 @@
   --color-warning-500: #f79009;
   --color-warning-700: #b54708;
   --color-warning-900: #7a2e0e;
+  --color-warning-extra-light: #FEFAF0;
+  --color-warning-main: #FBAA31;
+  --color-warning-dark: #c26e04;
 
   /* Error */
+  --color-error-main: #fb3131;
   --color-error-100: #fee4e2;
   --color-error-300: #fda29b;
   --color-error-500: #f04438;
   --color-error-700: #b42318;
   --color-error-900: #7a271a;
+  --color-error-main:#FB3131;
+  --color-error-dark: #c2040c;
+  --color-error-extra-light: #feeeeb;
+  --color-error-lighter: #fecfcd;
 
   /* Success */
   --color-success-100: #dcfae6;
@@ -26,4 +37,22 @@
   --color-success-500: #17b26a;
   --color-success-700: #067647;
   --color-success-900: #074d31;
+  --color-success-extra-light:#F2FDF8;
+  --color-success-main:#1AC776;
+
+  /* BLACK */
+  --color-black-text-secondary:#3A3F4B;
+
+  --color-success-dark: #128751;
+  --color-success-extra-light: #f2fdf8;
+
+  /* Neutral */
+  --color-neutral-dark: #3a3f4b;
+  --color-neutral-extra-light: #f9f9fa;
+
+  /* Brand */
+  --color-accent-default: #652bdf;
+  --color-accent-extra-light: #f6f2fd;
+
+  /*Surface/bg-100*/
 }

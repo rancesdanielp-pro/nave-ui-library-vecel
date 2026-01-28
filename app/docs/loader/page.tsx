@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import { Loader, Label } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
@@ -61,15 +60,15 @@ import { Loader } from 'nave-ui-library/react'`}
           preview={
             <div className="flex items-center justify-center gap-8">
               <div className="flex flex-col items-center gap-2">
-                <Loader className="size-4" />
+                <Loader size="sm" variant="default" />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <Loader className="size-8" />
+                <Loader size="md" variant="primary" />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Medium</span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <Loader className="size-12" />
+                <Loader size="lg" variant="secondary" />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Large</span>
               </div>
             </div>

@@ -5,11 +5,94 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '../../../../utils/cn';
+import { resolveTokens, useTheme } from '../../../../theme';
+import { cva } from 'class-variance-authority';
+
+const AccordionSizeContext = React.createContext<'sm' | 'md'>('md');
+
+export const accordionTriggerVariants = cva(
+  `
+  flex flex-1 items-center justify-between gap-4
+  rounded-md
+  text-left font-medium
+  transition-all
+  hover:text-[--accordion-bg-hover]
+  focus-visible:outline-none
+  focus-visible:ring-2
+  focus-visible:ring-[--color-focus-ring]
+  disabled:pointer-events-none disabled:opacity-50
+  [&[data-state=open]>svg]:rotate-90
+  `,
+  {
+    variants: {
+      size: {
+        sm: 'text-sm py-3',
+        md: 'text-base py-4',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  }
+);
+
+export const accordionContentVariants = cva(
+  `
+  text-[--color-text-secondary]
+  overflow-hidden
+  transition-all
+  data-[state=closed]:animate-accordion-up
+  data-[state=open]:animate-accordion-down
+  `,
+  {
+    variants: {
+      size: {
+        sm: 'text-sm',
+        md: 'text-base',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  }
+);
 
 function Accordion({
+  size = 'md',
+  tokens,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Root>) {
-  return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
+}: React.ComponentProps<typeof AccordionPrimitive.Root> & {
+  size?: 'sm' | 'md';
+  tokens?: Record<string, any>;
+}) {
+  const theme = useTheme();
+  
+  const mergedTokens = resolveTokens(
+    { componentName: 'accordion', size, tokens },
+    theme
+  );
+
+  const styles = {
+    '--accordion-bg': mergedTokens?.background ?? 'transparent',
+    '--accordion-bg-hover': mergedTokens?.focusBorder ?? '#000000',
+
+    '--accordion-text': mergedTokens?.text ?? '#000000',
+    '--accordion-radius': mergedTokens?.radius ?? '8px',
+    '--accordion-border-width': mergedTokens?.border ?? '1px',
+    '--accordion-border-color': mergedTokens?.border ?? 'transparent',
+  } as React.CSSProperties;
+
+  return (
+    <AccordionSizeContext.Provider value={size}>
+      <AccordionPrimitive.Root
+        data-slot="accordion"
+        data-size={size}
+        className="group"
+        style={styles}
+        {...props}
+      />
+    </AccordionSizeContext.Provider>
+  );
 }
 
 function AccordionItem({
@@ -20,7 +103,7 @@ function AccordionItem({
     <AccordionPrimitive.Item
       data-slot="accordion-item"
       className={cn(
-        'border-b border-[#E5E7EB]',
+        'border-b p-2 border-[--border-default]',
         '[&:last-child]:border-b-0',
         className
       )}
@@ -33,19 +116,30 @@ function AccordionTrigger({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
+  size?: 'sm' | 'md';
+}) {
+  const size = React.useContext(AccordionSizeContext);
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header>
       <AccordionPrimitive.Trigger
-        data-slot="accordion-trigger"
         className={cn(
-          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-base font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180',
+          'group w-full',
+          accordionTriggerVariants({ size }),
           className
         )}
         {...props}
       >
-        {children}
-        <ChevronDownIcon className="text-muted-foreground h-5 w-5 text-[#6E7991] pointer-events-none shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <span className="flex flex-1 items-center gap-2">{children}</span>
+        <ChevronDownIcon
+          className="
+            h-5 w-5 shrink-0
+            text-[--color-text-tertiary]
+            transition-transform duration-200
+            group-hover:text-[--accordion-bg-hover]
+            group-focus-visible:text-[--accordion-bg-hover]
+          "
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
@@ -55,14 +149,21 @@ function AccordionContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Content> & {
+  size?: 'sm' | 'md';
+}) {
+  const size = React.useContext(AccordionSizeContext);
   return (
     <AccordionPrimitive.Content
-      data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-base text-[#3A3F4B]"
+      className={cn(
+        'group',
+        accordionContentVariants({ size }),
+        'group-data-[size=md]:text-base',
+        className
+      )}
       {...props}
     >
-      <div className={cn('pt-0 pb-4', className)}>{children}</div>
+      <div className="pt-2 pb-4">{children}</div>
     </AccordionPrimitive.Content>
   );
 }

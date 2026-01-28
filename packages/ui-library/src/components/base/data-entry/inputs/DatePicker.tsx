@@ -4,61 +4,63 @@ import * as React from 'react';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '../../../../utils/cn';
 import { cva } from 'class-variance-authority';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 
 const inputBase =
-  'w-full rounded-md border outline-none transition-colors pr-10 disabled:bg-[#E2E5E9] disabled:text-[#A3AAB8] disabled:cursor-not-allowed';
+  'w-full text-left rounded-[var(--input-datepicker-radius)] text-[--color-text-primary] border outline-none ' +
+  'transition-[border-color,box-shadow] ' +
+  'disabled:bg-[--color-bg-disabled] disabled:text-[--color-text-disabled] disabled:border-[--border-hover] disabled:cursor-not-allowed';
 
-const inputLabel = 'text-sm font-[550] leading-[1.3] tracking-[-0.04em]';
+const inputLabel =
+  'text-sm text-[--color-text-primary] font-[550] leading-[1.3] tracking-[-0.04em]';
 
 const inputVariants = cva(inputBase, {
   variants: {
     size: {
-      sm: 'h-9 px-2 text-sm',
-      md: 'h-11 px-3 text-sm',
-    },
-    tone: {
-      brand: '',
-      neutral: '',
-      destructive: '',
+      sm: 'h-9 px-2 pr-10 text-sm',
+      md: 'h-11 px-3 pr-12 text-base',
     },
     error: {
-      true: 'border-[#FB3131]',
+      true: 'border-[--color-error-main]',
       false: '',
     },
   },
   compoundVariants: [
     {
-      tone: 'brand',
       error: false,
-      className:
-        'border-[#D1D5DB] focus:border-[#652BDF] focus:ring-2 focus:ring-[#652BDF]/20',
+      className: `
+      border-[--border-default]
+      hover:border-[--border-hover]
+      focus:border-[--input-datepicker-border-color]
+      focus:ring-2
+      focus:ring-[--input-datepicker-focus-ring]
+      focus:ring-offset-0
+    `,
     },
     {
-      tone: 'destructive',
       error: true,
-      className:
-        'border-[#FB3131] focus:border-[#FB3131] focus:ring-2 focus:ring-[#FB3131]/20',
+      className: `
+      border-[--color-error-main]
+      hover:border-[--color-error-dark]
+      focus:border-[--color-error-main]
+      focus:ring-2
+      focus:ring-[--color-error-lighter]
+    `,
     },
   ],
   defaultVariants: {
     size: 'md',
-    tone: 'brand',
     error: false,
   },
 });
 
-interface DatePickerInputProps
-  extends Omit<React.ComponentProps<'input'>, 'size' | 'type'> {
+interface DatePickerInputProps extends Omit<
+  React.ComponentProps<'input'>,
+  'size' | 'type'
+> {
   tokens?: any;
   platform?: 'web' | 'mobile';
   size?: 'sm' | 'md';
-  tone?: 'brand' | 'neutral' | 'destructive';
   label?: string;
   helperText?: string;
   error?: boolean;
@@ -67,12 +69,12 @@ interface DatePickerInputProps
 export function DatePickerInput({
   className,
   size,
-  tone,
   label,
   helperText,
   disabled,
   tokens,
   platform = 'web',
+  error = false,
   style,
   ...props
 }: DatePickerInputProps) {
@@ -81,10 +83,16 @@ export function DatePickerInput({
 
   const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
 
-  const styles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--input-datepicker-text': mergedTokens?.color ?? '#000000',
+    '--input-datepicker-radius': mergedTokens?.radius ?? '8px',
+    '--input-datepicker-border-width': mergedTokens?.borderWidth ?? '1px',
+    '--input-datepicker-border-color':
+      mergedTokens?.border ?? 'transparent',
+    '--input-datepicker-focus-ring':
+      mergedTokens?.focusBorder ?? 'transparent',
+  } as React.CSSProperties;
+
 
   return (
     <div className="flex flex-col gap-1.5 w-full">
@@ -93,15 +101,27 @@ export function DatePickerInput({
         <input
           ref={inputRef}
           type="text"
+          style={styles as React.CSSProperties}
           disabled={disabled}
-          className={cn(inputVariants({ size, tone }), className)}
+          className={cn(inputVariants({ size, error }), className)}
           {...props}
         />
 
-        <CalendarIcon
-          size={18}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6C7280] pointer-events-none"
-        />
+        <div
+          className={cn(
+            'absolute right-2 inset-y-0 flex items-center justify-center w-8',
+            disabled && 'pointer-events-none'
+          )}
+        >
+          <CalendarIcon
+            size={18}
+            className={cn(
+              'text-[--color-text-helper] transition-colors',
+              !disabled && 'hover:text-[--color-text-primary]',
+              disabled && 'text-[--color-text-disabled]'
+            )}
+          />
+        </div>
       </div>
     </div>
   );

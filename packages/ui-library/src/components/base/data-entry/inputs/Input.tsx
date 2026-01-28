@@ -2,56 +2,57 @@
 
 import * as React from 'react';
 import { cn } from '../../../../utils/cn';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 import { cva } from 'class-variance-authority';
 
 const inputBase =
-  'w-full rounded-md border outline-none transition-colors disabled:bg-[#E2E5E9] disabled:bg-[#E2E5E9] disabled:text-[#A3AAB8] disabled:cursor-not-allowed';
+  'w-full rounded-[var(--input-radius)] text-[--color-text-primary] border outline-none ' +
+  'transition-[border-color,box-shadow] ' +
+  'disabled:bg-[--color-bg-disabled] disabled:text-[--color-text-disabled] disabled:border-[--border-hover] disabled:cursor-not-allowed';
 
-const inputLabel = 'text-sm font-[550] leading-[1.3] tracking-[-0.04em]';
+const inputLabel =
+  'text-sm text-[--color-text-primary] font-[550] leading-[1.3] tracking-[-0.04em]';
 
-const inputHelper = 'text-xs leading-[1.3] text-[#6C7280]';
+const inputHelper = 'text-xs leading-[1.3] text-[--color-text-helper]';
 
-const inputHelperError = 'text-xs leading-[1.3] text-[#FB3131]';
+const inputHelperError = 'text-xs leading-[1.3] text-[--color-error-main]';
 
 const inputVariants = cva(inputBase, {
   variants: {
     size: {
       sm: 'h-9 px-2 text-sm',
-      md: 'h-11 px-3 text-sm',
-    },
-    tone: {
-      brand: '',
-      neutral: '',
-      destructive: '',
+      md: 'h-11 px-3 text-base',
     },
     error: {
-      true: 'border-[#FB3131]',
+      true: 'border-[--color-error-main]',
       false: '',
     },
   },
   compoundVariants: [
     {
-      tone: 'brand',
       error: false,
-      className:
-        'border-[#D1D5DB] focus:border-[#652BDF] focus:ring-2 focus:ring-[#652BDF]/20',
+      className: `
+      border-[--border-default]
+      hover:border-[--border-hover]
+      focus:border-[--input-border-color]
+      focus:ring-2
+      focus:ring-[--input-focus-ring]
+      focus:ring-offset-0
+    `,
     },
     {
-      tone: 'destructive',
       error: true,
-      className:
-        'border-[#FB3131] focus:border-[#FB3131] focus:ring-2 focus:ring-[#FB3131]/20',
+      className: `
+      border-[--color-error-main]
+      hover:border-[--color-error-dark]
+      focus:border-[--color-error-main]
+      focus:ring-2
+      focus:ring-[--color-error-lighter]
+    `,
     },
   ],
   defaultVariants: {
     size: 'md',
-    tone: 'brand',
     error: false,
   },
 });
@@ -84,10 +85,13 @@ export function Input({
 
   const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
 
-  const styles =
-    platform === 'web'
-      ? { ...resolveWebStyles(mergedTokens), ...style }
-      : resolveNativeStyles(mergedTokens);
+  const styles = {
+    '--input-text': mergedTokens?.color ?? '#000000',
+    '--input-radius': mergedTokens?.radius ?? '8px',
+    '--input-border-width': mergedTokens?.borderWidth ?? '1px',
+    '--input-border-color': mergedTokens?.border ?? 'transparent',
+    '--input-focus-ring': mergedTokens?.focusBorder ?? 'transparent',
+  } as React.CSSProperties;
 
   return (
     <div className="flex flex-col gap-1.5 w-full">
@@ -95,7 +99,7 @@ export function Input({
 
       <input
         disabled={disabled}
-        className={cn(inputVariants({ size, tone, error }), className)}
+        className={cn(inputVariants({ size, error }), className)}
         style={styles as React.CSSProperties}
         {...props}
       />

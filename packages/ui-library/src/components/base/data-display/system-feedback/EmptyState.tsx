@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button } from '../../buttons';
-import { cn } from "../../../../utils/cn"
+import { cn } from '../../../../utils/cn';
 
 import { ArrowLeftRight } from 'lucide-react';
 
@@ -23,6 +23,8 @@ export type EmptyStateProps = {
   align?: 'center' | 'left';
   /** Clases extra */
   className?: string;
+  /** Size */
+  size?: 'small' | 'medium';
 };
 
 export function EmptyState({
@@ -31,6 +33,7 @@ export function EmptyState({
   actions = [],
   align = 'center',
   className,
+  size = 'medium',
 }: EmptyStateProps) {
   const isCenter = align === 'center';
 
@@ -49,13 +52,19 @@ export function EmptyState({
         )}
       >
         <div className="flex h-12 w-12 items-center justify-center rounded-md border-none">
-          <ArrowLeftRight className="text-gray-300" />
+          <ArrowLeftRight className="text-[--color-text-tertiary]" />
         </div>
 
         <div className="space-y-1">
-          <h3 className="text-base font-semibold text-foreground">{title}</h3>
+          <h3
+            className={`text-base font-semibold text-[--color-text-primary] ${size === 'medium' ? 'text-lg' : 'text-base'}`}
+          >
+            {title}
+          </h3>
           {description && (
-            <p className="text-sm text-muted-foreground text-gray-500">
+            <p
+              className={`text-sm text-muted-foreground text-[--color-text-tertiary] ${size === 'medium' ? 'text-sm' : 'text-xs'}`}
+            >
               {description}
             </p>
           )}

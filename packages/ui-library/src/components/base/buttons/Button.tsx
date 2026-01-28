@@ -4,12 +4,7 @@ import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../../utils/cn';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../theme';
+import { resolveTokens, useTheme } from '../../../theme';
 
 export type ButtonProps = React.ComponentProps<'button'> & {
   tokens?: any;
@@ -21,23 +16,18 @@ export type ButtonProps = React.ComponentProps<'button'> & {
 };
 
 const buttonBase =
-  'inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-[color,background-color,box-shadow] outline-none disabled:pointer-events-none font-[550] leading-[1.3] tracking-[-0.04em]';
+  'inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-[color,background-color,box-shadow] outline-none font-[550] leading-[1.3] tracking-[-0.04em] focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] focus-visible:ring-offset-2 focus-visible:ring-offset-[--color-bg-white] disabled:pointer-events-none';
 
 const buttonBaseClasses = cva(buttonBase, {
   variants: {
     variant: {
       primary:
-        'border border-transparent rounded-[var(--button-radius)] disabled:bg-[#E2E5E9] disabled:text-[#A3AAB8]',
+        'bg-[--button-bg] text-[--button-text] rounded-[var(--button-radius)] hover:bg-[--button-bg-hover] active:bg-[--button-bg-active] disabled:bg-[--color-bg-disabled] disabled:text-[--color-text-disabled]',
       secondary:
-        'bg-white border border-current rounded-[var(--button-radius)] disabled:bg-[#FFFFFF] disabled:text-[#A3AAB8] disabled:border-[#E2E5E9]',
+        'bg-[--color-white] border border-current rounded-[var(--button-radius)] disabled:bg-[--color-white] disabled:text-[--color-text-disabled] disabled:border-[--color-bg-disabled]',
       tertiary:
-        'bg-transparent border-none underline-offset-4 hover:underline disabled:bg-[#FFFFFF] disabled:text-[#A3AAB8] disabled:underline',
+        'bg-transparent border-none underline-offset-4 hover:underline disabled:bg-[--color-white] disabled:text-[--border-hover] disabled:underline',
       neutral: 'bg-transparent border-none underline-offset-4 hover:underline',
-    },
-    tone: {
-      brand: '',
-      neutral: '',
-      destructive: '',
     },
     size: {
       sm: 'h-8 px-3 text-sm',
@@ -51,9 +41,11 @@ const buttonBaseClasses = cva(buttonBase, {
   compoundVariants: [
     {
       variant: 'primary',
-      tone: 'brand',
-      className: 'bg-[#652BDF] text-white hover:bg-[#3C168E]',
+      //tone: 'brand',
+      className:
+        'bg-[--button-bg] text-[--button-text] hover:bg-[--button-bg-hover]',
     },
+    /*
     {
       variant: 'primary',
       tone: 'neutral',
@@ -64,13 +56,15 @@ const buttonBaseClasses = cva(buttonBase, {
       tone: 'destructive',
       className: 'bg-[#FB3131] text-white hover:bg-[#C2040C]',
     },
-
+    */
     // secondary = outline
     {
       variant: 'secondary',
-      tone: 'brand',
-      className: 'text-[#652BDF] border-[#E6DCFA] hover:bg-[#652BDF]/10',
+      //tone: 'brand',
+      className:
+        'text-[--button-bg] border-[--button-bg] hover:bg-[--button-bg-hover]  hover:text-[--button-text]',
     },
+    /*
     {
       variant: 'secondary',
       tone: 'neutral',
@@ -81,18 +75,18 @@ const buttonBaseClasses = cva(buttonBase, {
       tone: 'destructive',
       className: 'text-[#FB3131] border-[#FECFCD] hover:bg-[#FB3131]/10',
     },
-
+    */
     // tertiary = ghost
     {
       variant: 'tertiary',
-      tone: 'brand',
-      className: 'text-[#652BDF] hover:text-[#3C168E]',
+      //tone: 'brand',
+      className: 'text-[--button-bg] hover:text-[--button-bg-hover]',
     },
-
+    /*
     {
       variant: 'tertiary',
       tone: 'neutral',
-      className: 'text-[#020303] hover:text-[#020303]',
+      className: 'text-[--button-text] hover:text-[--button-text-hover]',
     },
 
     {
@@ -100,11 +94,12 @@ const buttonBaseClasses = cva(buttonBase, {
       tone: 'destructive',
       className: 'text-[#FB3131] hover:text-[#C2040C]',
     },
+    */
   ],
 
   defaultVariants: {
     variant: 'primary',
-    tone: 'brand',
+    //tone: 'brand',
     size: 'md',
   },
 });
@@ -112,7 +107,6 @@ const buttonBaseClasses = cva(buttonBase, {
 function Button({
   className,
   variant,
-  tone,
   size,
   asChild = false,
   tokens,
@@ -123,36 +117,31 @@ function Button({
 }: ButtonProps) {
   const theme = useTheme();
 
-  // Resolvemos tokens y estilos según la plataforma
   const mergedTokens = resolveTokens(
-    { componentName: 'button', variant, tone, size, tokens },
+    { componentName: 'button', variant: 'primary', size: 'md' },
     theme
   );
+  
+  const styles = {
+    '--button-bg': mergedTokens?.background || '--var(--color-bg-primary)',
+    '--button-bg-hover': mergedTokens?.backgroundHover || '--var(--color-bg-primary-hover)',
 
-  const styles =
-    platform === 'web'
-      ? resolveWebStyles(mergedTokens)
-      : resolveNativeStyles(mergedTokens);
+    '--button-text': mergedTokens?.color || '--var(--color-text-primary)',
+    '--button-radius': mergedTokens?.radius || '8px',
+
+    '--button-transition-duration': mergedTokens?.transition || '150ms',
+
+    fontSize: mergedTokens?.fontSize || '14px',
+    fontWeight: mergedTokens?.fontWeight || '400',
+  } as React.CSSProperties;
 
   // Componente raíz (puede ser Slot para asChild)
   const Comp = asChild ? Slot : 'button';
 
   return (
     <Comp
-      className={cn(buttonBaseClasses({ variant, tone, size }), className)}
-      style={
-        {
-          '--button-bg': styles?.backgroundColor,
-          '--button-bg-hover': mergedTokens?.backgroundColorHover,
-          '--button-bg-disabled': mergedTokens?.backgroundColorDisabled,
-          '--button-color': styles?.color,
-          '--button-color-disabled': mergedTokens?.colorDisabled,
-          '--button-focus': mergedTokens?.focusRing,
-          '--button-border': styles?.borderColor,
-          '--button-radius': styles?.borderRadius,
-          ...style,
-        } as React.CSSProperties
-      }
+      className={cn(buttonBaseClasses({ variant, size }), className)}
+      style={styles as React.CSSProperties}
       {...props}
     >
       {children}

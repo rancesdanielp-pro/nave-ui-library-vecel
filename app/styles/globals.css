@@ -1,1 +1,7 @@
 @import "tailwindcss";
+@import 'nave-ui-library/styles.css';
+@import '../../packages/ui-library/dist/styles.css';
+
+/*:root {
+ --color-bg-ayrton: red;
+}*/

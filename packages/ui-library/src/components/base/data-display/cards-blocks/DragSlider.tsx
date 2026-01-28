@@ -2,68 +2,73 @@
 
 import * as React from 'react';
 import { cn } from '../../../../utils/cn';
+import { useTheme, resolveTokens } from '../../../../theme';
 
 export type DragSliderProps = {
   children: React.ReactNode;
   className?: string;
+  tokens?: any;
 };
 
-function DragSlider({ children, className }: DragSliderProps) {
+function DragSlider({ children, className, tokens: customTokens }: DragSliderProps) {
+  const theme = useTheme();
   const sliderRef = React.useRef<HTMLDivElement>(null);
 
+  // 1) Resolución de tokens
+  const mergedTokens = resolveTokens({ componentName: 'dragslider', tokens: customTokens }, theme) ?? {};
+
+  // Refs de control de dragging
   const isDown = React.useRef(false);
   const startX = React.useRef(0);
   const scrollLeft = React.useRef(0);
 
+  // Mapeo de estilos a variables CSS
+  const styles = {
+    '--ds-gap': mergedTokens?.gap ?? '16px',
+    '--ds-cursor': mergedTokens?.cursorGrab ?? 'grab',
+    '--ds-cursor-active': mergedTokens?.cursorGrabbing ?? 'grabbing',
+  } as React.CSSProperties;
+
   const onMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
-
     isDown.current = true;
-    sliderRef.current.classList.add('cursor-grabbing');
-
+    sliderRef.current.style.cursor = 'var(--ds-cursor-active)';
     startX.current = e.pageX - sliderRef.current.offsetLeft;
     scrollLeft.current = sliderRef.current.scrollLeft;
   };
 
-  const onMouseLeave = () => {
+  const stopDragging = () => {
     isDown.current = false;
-    sliderRef.current?.classList.remove('cursor-grabbing');
-  };
-
-  const onMouseUp = () => {
-    isDown.current = false;
-    sliderRef.current?.classList.remove('cursor-grabbing');
+    if (sliderRef.current) {
+      sliderRef.current.style.cursor = 'var(--ds-cursor)';
+    }
   };
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!isDown.current || !sliderRef.current) return;
-
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.2; // velocidad
+    const walk = (x - startX.current) * 1.5; // Ajuste leve de velocidad
     sliderRef.current.scrollLeft = scrollLeft.current - walk;
   };
 
   return (
     <div
       ref={sliderRef}
+      style={styles}
       className={cn(
-        'flex gap-4',
-        'overflow-x-auto',
-        'scroll-smooth',
+        'flex overflow-x-auto no-scrollbar select-none scroll-smooth',
         'snap-x snap-mandatory',
-        'no-scrollbar',
-        'cursor-grab',
-        'select-none',
+        'gap-[var(--ds-gap)] cursor-[var(--ds-cursor)]',
         className
       )}
       onMouseDown={onMouseDown}
-      onMouseLeave={onMouseLeave}
-      onMouseUp={onMouseUp}
+      onMouseLeave={stopDragging}
+      onMouseUp={stopDragging}
       onMouseMove={onMouseMove}
     >
       {React.Children.map(children, (child) => (
-        <div className="shrink-0 snap-start">
+        <div data-slot="drag-slider-item" className="shrink-0 snap-start">
           {child}
         </div>
       ))}

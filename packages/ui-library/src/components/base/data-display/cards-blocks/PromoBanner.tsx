@@ -1,133 +1,153 @@
 'use client';
 
 import * as React from 'react';
-import { cva } from 'class-variance-authority';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../../utils/cn';
-import {
-  resolveNativeStyles,
-  resolveTokens,
-  resolveWebStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 
-export type PromoBannerProps = React.HTMLAttributes<HTMLDivElement> & {
-  title: React.ReactNode;
+type Variant = 'primary' | 'secondary' | 'tertiary';
 
-  imageSrc: string;
-  imageAlt?: string;
-  imagePosition?: 'left' | 'right';
+/* -------------------------------------------------------------------------- */
+/* Variants
+/* -------------------------------------------------------------------------- */
 
-  tokens?: any;
-  variant?: 'primary' | 'secondary' | 'tertiary';
-  platform?: 'web' | 'native';
-};
+const promoBannerBase =
+  'flex items-center gap-4 rounded-[16px] transition-all overflow-hidden';
 
-const promoBannerBaseClasses = cva(
-  [
-    'flex',
-    'items-center',
-    'gap-4',
-    'rounded-[16px]',
-    'transition-all',
-    'overflow-hidden',
-  ].join(' '),
-  {
-    variants: {
-      variant: {
-        primary: '',
-        secondary: '',
-        tertiary: '',
-      },
+const promoBannerVariants = cva(promoBannerBase, {
+  variants: {
+    size: {
+      full: 'max-w-[1184px] px-4 py-4',
+      compact: 'max-w-[360px] px-4 py-3',
     },
-    defaultVariants: {
-      variant: 'primary',
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: 'full',
+  },
+});
+
+const imageBoxBase =
+  'shrink-0 w-[88px] h-[56px] rounded-[8px] bg-gray-200 bg-center bg-cover';
+
+/* -------------------------------------------------------------------------- */
+/* Props
+/* -------------------------------------------------------------------------- */
+
+export type PromoBannerProps = React.ComponentProps<'div'> &
+  VariantProps<typeof promoBannerVariants> & {
+    asChild?: boolean;
+    tokens?: any;
+
+    variant?: Variant;
+    title: React.ReactNode;
+
+    imageSrc: string;
+    imageAlt?: string;
+    imagePosition?: 'left' | 'right';
+
+    icon?: React.ReactNode;
+    endSlot?: React.ReactNode;
+  };
+
+/* -------------------------------------------------------------------------- */
+/* Component
+/* -------------------------------------------------------------------------- */
 
 function PromoBanner({
   className,
+  asChild = false,
+  tokens,
+  variant = 'primary',
+  size,
+
   title,
   imageSrc,
   imageAlt = '',
   imagePosition = 'right',
-  tokens,
-  variant = 'primary',
-  platform = 'web',
-  style,
+
+  icon,
+  endSlot,
+
   ...props
 }: PromoBannerProps) {
+  const Comp = asChild ? Slot : 'div';
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens(
-    { componentName: 'promoBanner', variant, size: 'default', tokens },
-    theme
-  );
+  const mergedTokens =
+    resolveTokens(
+      { componentName: 'promoBanner', variant, size, tokens },
+      theme
+    ) ?? {};
 
-  const tokenStyles =
-    platform === 'web'
-      ? resolveWebStyles(mergedTokens)
-      : resolveNativeStyles(mergedTokens);
+ const tokenVariant = mergedTokens?.[variant] ?? {};
+
+  /* ---------------------------------------------------------------------- */
+  /* CSS Variables (token-first) */
+  /* ---------------------------------------------------------------------- */
+  const styles = {
+    '--promoBanner-bg': tokenVariant?.background ?? '#F8FAFC',
+    '--promoBanner-border': tokenVariant?.border ?? '#E2E8F0',
+    '--promoBanner-text': tokenVariant?.text ?? '#1F2937',
+    '--promoBanner-icon-bg':
+      tokenVariant?.iconBg ?? 'rgba(0,0,0,0.08)',
+    '--promoBanner-icon-color':
+      tokenVariant?.iconColor ?? '#6B7280',
+    '--promoBanner-action': tokenVariant?.action ?? '#1F2937',
+  } as React.CSSProperties;
 
   const Image = (
     <div
-      className="shrink-0"
-      style={{
-        width: '88px',
-        height: '56px',
-        borderRadius: '8px',
-        backgroundImage: `url(${imageSrc})`,
-        backgroundColor: 'lightgray',
-        backgroundPosition: '50%',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-      }}
+      className={imageBoxBase}
+      style={{ backgroundImage: `url(${imageSrc})` }}
       aria-label={imageAlt}
     />
   );
 
   return (
-    <div
-      className={cn(promoBannerBaseClasses({ variant }), className)}
-      style={
-        {
-          width: '286px',
-          height: '72px',
-          padding: '12px 16px',
-          backgroundColor: '#F9F9FA',
-          ...style,
-        } as React.CSSProperties
-      }
+    <Comp
+      data-slot="promoBanner"
+      style={styles}
+      className={cn(
+        promoBannerVariants({ size }),
+        'bg-[var(--promoBanner-bg)] border-[var(--promoBanner-border)]',
+        className
+      )}
       {...props}
     >
       {/* IMAGE LEFT */}
       {imagePosition === 'left' && Image}
 
-      {/* TEXT */}
-      <div
-        className="flex-1 min-w-0"
-        style={{
-          color: tokenStyles?.color ?? '#652BDF',
-          fontFeatureSettings: `'ss03' on, 'ss06' on`,
-          fontFamily: 'Inter, system-ui, sans-serif',
-          fontSize: '14px',
-          fontWeight: 550,
-          lineHeight: '130%',
-          letterSpacing: '-0.56px',
+      {/* Optional Icon */}
+      {icon && (
+        <div
+          className="shrink-0 flex items-center justify-center w-[44px] h-[44px] rounded-[8px]"
+          style={{
+            backgroundColor: 'var(--promoBanner-icon-bg)',
+            color: 'var(--promoBanner-icon-color)',
+          }}
+        >
+          {icon}
+        </div>
+      )}
 
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-        }}
-      >
-        {title}
+      {/* TEXT */}
+      <div className="flex-1 min-w-0 flex flex-col gap-1">
+        <div
+          className="text-sm font-semibold leading-[1.3] truncate"
+          style={{ color: 'var(--promoBanner-text)' }}
+        >
+          {title}
+        </div>
       </div>
 
       {/* IMAGE RIGHT */}
       {imagePosition === 'right' && Image}
-    </div>
+
+      {/* EndSlot */}
+      {endSlot && <div className="shrink-0">{endSlot}</div>}
+    </Comp>
   );
 }
 
-export { PromoBanner, promoBannerBaseClasses };
+export { PromoBanner, promoBannerVariants };

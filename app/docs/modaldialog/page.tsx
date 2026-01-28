@@ -1,6 +1,19 @@
 'use client'
 
-import * as React from 'react'
+/*
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+  Button
+} from 'nave-ui-library/react';
+*/
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -13,6 +26,7 @@ import {
   AlertDialogCancel,
   Button
 } from '@/packages/ui-library/dist/react';
+
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'

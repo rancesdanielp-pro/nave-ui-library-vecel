@@ -1,7 +1,6 @@
 'use client'
 
-import * as React from 'react'
-import { Label, Input, Checkbox, Switch } from '@/packages/ui-library/dist/react';
+import { Label, Input, Checkbox, Switch } from '@/packages/ui-library/dist/react'
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
@@ -16,37 +15,38 @@ export default function LabelPage() {
   return (
     <DocsPage
       title="Label"
-      description="Un componente de etiqueta accesible que se utiliza habitualmente junto a controles de formulario."
+      description="El componente fundamental para la identificación de campos. Implementa una gestión inteligente de estados y tipografía mediante nuestro sistema de tokens dinámicos."
       theme={naveTheme}
     >
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
-      <ContentCards title="Imports">
+      <ContentCards title="Instalación e Importación">
+        <p className="text-sm text-slate-500 mb-4">
+          Importa el componente desde el core de la librería. Asegúrate de tener configurado nuestro motor de temas para la correcta inyección de variables.
+        </p>
         <CodeBlock 
-          code={`import 'nave-ui-library/styles.css'
-
-import { Label } from 'nave-ui-library/react'`} 
+          code={`import { Label } from 'nave-ui-library/react'`} 
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: BÁSICO ───────────── */}
-      <ContentCards title="Basic Usage">
+      <ContentCards title="Uso Esencial">
         <p className="text-sm text-slate-500 mb-6">
-          Una etiqueta simple con tipografía optimizada y soporte para tokens de color.
+          Por defecto, el Label hereda la semántica de la marca Nave, aplicando automáticamente <code>font-weight</code> y <code>letter-spacing</code> definidos en el registro de tokens.
         </p>
         <ComponentExample
           preview={
             <div className="flex justify-center">
-              <Label>Este es un Label estándar</Label>
+              <Label>Nombre de usuario</Label>
             </div>
           }
-          code={`<Label>Este es un Label estándar</Label>`}
+          code={`<Label>Nombre de usuario</Label>`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: FORM INTEGRATION ───────────── */}
-      <ContentCards title="Form Integration">
+      <ContentCards title="Vinculación de Controles">
         <p className="text-sm text-slate-500 mb-6">
-          Uso del Label junto a otros componentes para mejorar la experiencia de usuario y la accesibilidad.
+          Nuestra arquitectura permite una vinculación nativa con los inputs de la librería. Al usar <code>htmlFor</code>, el Label actúa como disparador de foco, optimizando la superficie de interacción.
         </p>
         <ComponentExample
           preview={
@@ -66,37 +66,37 @@ import { Label } from 'nave-ui-library/react'`}
               </div>
             </div>
           }
-          code={`<div className="grid gap-2">\n  <Label htmlFor="email">Email</Label>\n  <Input id="email" />\n</div>`}
+          code={`{/* Integración con Inputs */}\n<div className="grid gap-2">\n  <Label htmlFor="email">Email</Label>\n  <Input id="email" />\n</div>\n\n{/* Integración con Checkbox */}\n<div className="flex items-center gap-3">\n  <Checkbox id="terms" />\n  <Label htmlFor="terms">Términos</Label>\n</div>`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: ESTADOS ───────────── */}
-      <ContentCards title="States">
+      <ContentCards title="Reactividad de Estados">
         <p className="text-sm text-slate-500 mb-6">
-          El Label responde visualmente cuando el control asociado está deshabilitado (usando la clase <code>peer-disabled</code>).
+          El Label no es estático; reacciona al contexto. Implementa selectores inteligentes para detectar si sus componentes hermanos (<code>peer</code>) o su contenedor padre (<code>group</code>) están en estado deshabilitado.
         </p>
         <ComponentExample
           preview={
             <div className="flex flex-col gap-6 max-w-sm w-full mx-auto">
-              <div className="flex items-center gap-3 opacity-50">
+              <div className="flex items-center gap-3">
                  <Switch disabled id="airplane-mode" />
-                 <Label htmlFor="airplane-mode">Modo avión (Deshabilitado)</Label>
+                 <Label htmlFor="airplane-mode">Modo avión (Auto-disabled)</Label>
               </div>
-              <div className="grid gap-2">
-                 <Label className="peer-disabled:opacity-50">Campo bloqueado</Label>
-                 <Input disabled placeholder="No se puede editar" />
+              <div className="grid gap-2 group" data-disabled="true">
+                 <Label>Campo bloqueado por grupo</Label>
+                 <Input disabled placeholder="Solo lectura" />
               </div>
             </div>
           }
-          code={`<Label className="peer-disabled:opacity-50">Etiqueta</Label>\n<Input disabled />`}
+          code={`{/* El componente detecta automáticamente el estado del entorno */}\n<Label htmlFor="airplane-mode">Etiqueta</Label>\n<Switch disabled id="airplane-mode" />`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: REGISTRY JSON ───────────── */}
       <div className="mt-16 border-t pt-10">
-        <h2 className="text-xl font-bold mb-2 text-slate-900">Registry</h2>
+        <h2 className="text-xl font-bold mb-2 text-slate-900 font-mono">Arquitectura de Tokens</h2>
         <p className="text-sm text-slate-500 mb-6">
-          Metadatos técnicos. El componente utiliza <code>Radix UI Label Primitive</code> para asegurar que el clic en la etiqueta enfoque correctamente el control asociado.
+          A continuación se detalla la hoja de ruta técnica del componente. Los valores de <code>--lbl-color</code> y <code>--lbl-size</code> se sincronizan en tiempo real con el motor de temas de la Nave.
         </p>
         <CodeBlock 
           code={JSON.stringify(componentRegistry, null, 2)} 
