@@ -1,10 +1,9 @@
 // page.tsx
 'use client'
 
-import React from 'react'
 import { DocsPage } from '../DocsPage'
 
-import 'nave-ui-library/styles.css';
+import '@/packages/ui-liibrary/styles.css';
 import { ColorExample } from '@/packages/ui-library/dist/react';
 
 export default function ColorsPage() {
