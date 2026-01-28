@@ -83,15 +83,15 @@ import { Select } from 'nave-ui-library/react'`}
               </div>
               <div className="space-y-1.5">
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Default (40px)</span>
-                <Select size="default" items={countryItems} placeholder="Por defecto" />
+                <Select size="md" items={countryItems} placeholder="Por defecto" />
               </div>
               <div className="space-y-1.5">
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Large (48px)</span>
-                <Select size="lg" items={countryItems} placeholder="Grande" />
+                <Select size="md" items={countryItems} placeholder="Grande" />
               </div>
             </div>
           }
-          code={`<Select size="sm" items={...} />\n<Select size="default" items={...} />\n<Select size="lg" items={...} />`}
+          code={`<Select size="sm" items={...} />\n<Select size="md" items={...} />\n<Select size="lg" items={...} />`}
         />
       </ContentCards>
 
