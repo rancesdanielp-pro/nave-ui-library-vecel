@@ -3,7 +3,7 @@
 
 export async function fetchThemeFromCdn(channelId: string) {
   const res = await fetch(
-    `https://ranty-sdk-js.naranjax.com/tienda/ranty-checkout.js`,
+    `https://e3-ranty-sdk-js.naranjax.com/theme/${channelId}.json`,
     {
       cache: 'force-cache',
       next: {
