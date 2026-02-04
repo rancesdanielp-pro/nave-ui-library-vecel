@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { DocsPage } from '../DocsPage'
-import { ContentCards } from '../ContentCards'
-import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
-import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
-import registry from '@/packages/ui-library/src/registry/registry.json'
-import { tokenVariants } from '@/app/utils/tokens'
-import { ColorExample } from '@/packages/ui-library/dist/react'
+import { DocsPage } from '../DocsPage';
+import { ContentCards } from '../ContentCards';
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
+import registry from '@/packages/ui-library/src/registry/registry.json';
+import { tokenVariants } from '@/app/utils/tokens';
+import { ColorExample } from '@/packages/ui-library/dist/react';
 
 export default function ColorsPage() {
   // Obtenemos el registro específico para el componente de ejemplo de color
-  const componentRegistry = (registry as any)['colorExample']
+  const componentRegistry = (registry as any)['colorExample'];
   // Usamos el tema de Nave como base para la documentación
-  const naveTheme = tokenVariants[0].tokens
+  const naveTheme = tokenVariants[0].tokens;
 
   return (
     <DocsPage
@@ -25,8 +25,8 @@ export default function ColorsPage() {
         <p className="text-sm text-slate-500 mb-4">
           Importa el componente para documentar tus paletas:
         </p>
-        <CodeBlock 
-          code={`import { ColorExample } from 'nave-ui-library/react'`} 
+        <CodeBlock
+          code={`import { ColorExample } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -38,19 +38,12 @@ export default function ColorsPage() {
         <ComponentExample
           preview={
             <div className="flex gap-4">
-              <ColorExample 
-                colorToken={"#6200EE"}
-                accessibilityGrade="AAA 1.1.1"
-                colorName="Primary Action"
-                hexCode={"#6200EE"}
-              />
+              <ColorExample colorToken={'#6200EE'} colorName="Primary Action" />
             </div>
           }
           code={`<ColorExample 
   colorToken={theme.tokens['brand-primary']}
-  accessibilityGrade="AAA 1.1.1"
   colorName="Primary Action"
-  hexCode="#6200EE"
 />`}
         />
       </ContentCards>
@@ -63,32 +56,18 @@ export default function ColorsPage() {
         <ComponentExample
           preview={
             <div className="flex flex-wrap gap-4">
-              <ColorExample 
-                colorToken="#EF4444"
-                accessibilityGrade="AA 4.5.1"
-                colorName="Semantic Error"
-                hexCode="#EF4444"
-              />
-              <ColorExample z
-                colorToken="#10B981"
-                accessibilityGrade="AA 4.5.1"
-                colorName="Semantic Success"
-                hexCode="#10B981"
-              />
+              <ColorExample colorToken="#EF4444" colorName="Semantic Error" />
+              <ColorExample colorToken="#10B981" colorName="Semantic Success" />
             </div>
           }
           code={`<div className="flex gap-4">
   <ColorExample 
     colorToken="#EF4444"
-    accessibilityGrade="AA 4.5.1"
     colorName="Semantic Error"
-    hexCode="#EF4444"
   />
   <ColorExample 
     colorToken="#10B981"
-    accessibilityGrade="AA 4.5.1"
     colorName="Semantic Success"
-    hexCode="#10B981"
   />
 </div>`}
         />
@@ -100,10 +79,8 @@ export default function ColorsPage() {
         <p className="text-sm text-slate-500 mb-6">
           Metadatos técnicos y configuración del componente ColorExample.
         </p>
-        <CodeBlock 
-          code={JSON.stringify(componentRegistry, null, 2)} 
-        />
+        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
       </div>
     </DocsPage>
-  )
+  );
 }
