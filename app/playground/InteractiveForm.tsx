@@ -137,7 +137,7 @@ export default function InteractiveForm({
     <ThemeProvider theme={theme}>
       <div className="min-h-screen bg-gray-50">
         <h1 className="text-4xl font-extrabold text-[var(--primary-color)] leading-tight m-6">
-            Nave Design System
+          Nave Design System
         </h1>
         {/* Content */}
         <div className="max-w-7xl mx-auto px-6 py-10 space-y-16">
@@ -601,7 +601,7 @@ export default function InteractiveForm({
                     id="s1"
                     label="Label"
                     description="Description"
-                    size="regular"
+                    size="medium"
                     checked={isOn}
                     onCheckedChange={setIsOn}
                   />
@@ -609,7 +609,7 @@ export default function InteractiveForm({
                     id="s2"
                     label="Label"
                     description="Description"
-                    size="regular"
+                    size="medium"
                     checked={true}
                     disabled
                   />
@@ -617,14 +617,14 @@ export default function InteractiveForm({
                     id="s3"
                     label="Label"
                     description="Description"
-                    size="regular"
+                    size="medium"
                     checked={false}
                   />
                   <Switch
                     id="s4"
                     label="Label"
                     description="Description"
-                    size="regular"
+                    size="medium"
                     checked={false}
                     disabled
                   />
@@ -1408,7 +1408,6 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'home',
-                        onClick: () => setActiveItem('home'),
                       },
                       {
                         id: 'payments',
@@ -1449,7 +1448,6 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'payments',
-                        onClick: () => setActiveItem('payments'),
                       },
                       {
                         id: 'details',
@@ -1479,7 +1477,6 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'details',
-                        onClick: () => setActiveItem('details'),
                       },
                       {
                         id: 'settings',
@@ -1501,17 +1498,8 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'settings',
-                        onClick: () => setActiveItem('settings'),
                       },
                     ]}
-                    footer={
-                      <button
-                        onClick={() => setCollapsed((v) => !v)}
-                        className="text-xs text-gray-500 hover:text-gray-800"
-                      >
-                        {collapsed ? 'Expandir' : 'Colapsar'}
-                      </button>
-                    }
                   />
 
                   {/* Contenido de la página */}
