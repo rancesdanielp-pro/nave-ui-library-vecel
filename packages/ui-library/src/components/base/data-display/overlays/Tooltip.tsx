@@ -22,16 +22,14 @@ export function TooltipProvider({
   );
 }
 
-/* --------------------- */
-/* ROOT (Tooltip) */
-/* --------------------- */
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 export function Tooltip({
   tokens,
   platform = 'web',
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root> & {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
 }) {
   return (
@@ -41,19 +39,11 @@ export function Tooltip({
   );
 }
 
-/* --------------------- */
-/* TRIGGER */
-/* --------------------- */
-
 export function TooltipTrigger({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
 }
-
-/* --------------------- */
-/* CONTENT */
-/* --------------------- */
 
 export function TooltipContent({
   className,
@@ -63,7 +53,7 @@ export function TooltipContent({
   children,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content> & {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
 }) {
   const theme = useTheme();
@@ -71,7 +61,7 @@ export function TooltipContent({
   const mergedTokens = resolveTokens(
     { componentName: 'tooltip', tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--tooltip-text': mergedTokens?.color ?? '#000000',

@@ -2,97 +2,73 @@
 
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
+
 import { cn } from '../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../theme';
+import type { ThemeTokensBase } from '../../../theme/theme';
 
-/* -----------------------------------------------------------------------------
- * Root / Wrappers (sin theme)
- * ---------------------------------------------------------------------------*/
-type DrawerTokens = {
-  overlay?: any;
-  container?: any;
-  close?: any;
-  description?: any;
-  [key: string]: any;
+export type DrawerTokens = {
+  overlay?: Partial<ThemeTokensBase>;
+  container?: Partial<ThemeTokensBase>;
+  close?: Partial<ThemeTokensBase>;
+  title?: Partial<ThemeTokensBase>;
+  description?: Partial<ThemeTokensBase>;
 };
+
+type DrawerProps = React.ComponentProps<typeof DrawerPrimitive.Root> & {
+  tokens?: Partial<DrawerTokens>;
+};
+
+interface ThemedProps {
+  variant?: string;
+  tokens?: Partial<ThemeTokensBase>;
+  platform?: 'web' | 'native';
+}
 
 const DrawerStylesContext = React.createContext<DrawerTokens | null>(null);
 
 const shadowClassName =
   '0px 2px 4px 0px #1212170A, 0px 5px 8px 0px #1212170A, 0px 10px 18px 0px #12121708, 0px 24px 48px 0px #12121708, 0px 0px 0px 1px #1212171A';
 
-type DrawerProps = React.ComponentProps<typeof DrawerPrimitive.Root> & {
-  tokens?: Record<string, any>;
-};
-
-function Drawer(props: DrawerProps) {
-  const { tokens, params: _params, ...rest } = props as any;
-
+function Drawer({ tokens, ...props }: DrawerProps) {
   const theme = useTheme();
 
   const mergedTokens = resolveTokens(
     { componentName: 'drawer', tokens },
     theme
-  );
+  ) as DrawerTokens;
 
   return (
     <DrawerStylesContext.Provider value={mergedTokens}>
-      <DrawerPrimitive.Root data-slot="drawer" {...rest} />
+      <DrawerPrimitive.Root data-slot="drawer" {...props} />
     </DrawerStylesContext.Provider>
   );
 }
 
-function DrawerTrigger(
-  props: React.ComponentProps<typeof DrawerPrimitive.Trigger>
-) {
-  return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />;
-}
+const DrawerTrigger = DrawerPrimitive.Trigger;
+const DrawerPortal = DrawerPrimitive.Portal;
+const DrawerClose = DrawerPrimitive.Close;
 
-function DrawerPortal(
-  props: React.ComponentProps<typeof DrawerPrimitive.Portal>
-) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
-}
-
-function DrawerClose(
-  props: React.ComponentProps<typeof DrawerPrimitive.Close>
-) {
-  return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
-}
-
-/* -----------------------------------------------------------------------------
- * Overlay (themed)
- * ---------------------------------------------------------------------------*/
-
-type ThemedProps = {
-  variant?: string;
-  tokens?: any;
-  platform?: 'web' | 'native';
-};
+/* -------------------------------------------------------------------------- */
+/* Overlay */
+/* -------------------------------------------------------------------------- */
 
 function DrawerOverlay({
   className,
-  style,
-  variant = 'default',
-  tokens,
-  platform = 'web',
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Overlay> & ThemedProps) {
-  const mergedTokens = React.useContext(DrawerStylesContext);
+}: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
+  const mergedTokens = React.useContext(DrawerStylesContext) as any;
 
   const styles = {
-    '--drawer-overlay-bg':
-      (mergedTokens?.overlay as any)?.backgroundColor ?? '#000000',
-    '--drawer-overlay-opacity':
-      (mergedTokens?.overlay as any)?.opacity ?? '0.4',
-    '--drawer-overlay-blur':
-      (mergedTokens?.overlay as any)?.backdropBlur ?? '0px',
-  } as React.CSSProperties;
+    '--drawer-overlay-bg': mergedTokens?.overlay?.backgroundColor ?? '#000',
+    '--drawer-overlay-opacity': mergedTokens?.overlay?.opacity ?? '0.4',
+    '--drawer-overlay-blur': mergedTokens?.overlay?.backdropBlur ?? '0px',
+  };
 
   return (
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
-      style={styles}
+      style={styles as React.CSSProperties}
       className={cn(
         `
         fixed inset-0 z-50
@@ -110,32 +86,20 @@ function DrawerOverlay({
   );
 }
 
-/* -----------------------------------------------------------------------------
- * Content (themed)
- * ---------------------------------------------------------------------------*/
-
 function DrawerContent({
   className,
   children,
-  style,
-  variant = 'default',
-  tokens,
-  platform = 'web',
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Content> & ThemedProps) {
-  const mergedTokens = React.useContext(DrawerStylesContext);
+}: React.ComponentProps<typeof DrawerPrimitive.Content>) {
+  const mergedTokens = React.useContext(DrawerStylesContext) as any;
 
   const styles = {
-    '--drawer-bg':
-      (mergedTokens?.container as any)?.background ?? '#ffffff',
-    '--drawer-color': (mergedTokens?.container as any)?.color ?? '#0F172A',
-    '--drawer-radius': (mergedTokens?.container as any)?.radius ?? '16px',
-    '--drawer-border':
-      (mergedTokens?.container as any)?.borderColor ?? '#E5E7EB',
-    '--drawer-shadow':
-      (mergedTokens?.container as any)?.shadow ?? shadowClassName,
-    '--drawer-max-h': (mergedTokens?.container as any)?.maxHeight ?? '80vh',
-  } as React.CSSProperties;
+    '--drawer-bg': mergedTokens?.container?.background ?? '#fff',
+    '--drawer-color': mergedTokens?.container?.color ?? '#0F172A',
+    '--drawer-radius': mergedTokens?.container?.radius ?? '16px',
+    '--drawer-border': mergedTokens?.container?.borderColor ?? '#E5E7EB',
+    '--drawer-shadow': mergedTokens?.container?.shadow ?? shadowClassName,
+  };
 
   return (
     <DrawerPortal>
@@ -143,13 +107,13 @@ function DrawerContent({
 
       <DrawerPrimitive.Content
         data-slot="drawer-content"
-        style={styles}
+        style={styles as React.CSSProperties}
         className={cn(
           `
-          fixed z-50 flex flex-col h-full
+          fixed z-50 flex flex-col
           bg-[--drawer-bg]
           text-[--drawer-color]
-          border-[--drawer-border]
+          border border-[--drawer-border]
           rounded-[--drawer-radius]
           shadow-[--drawer-shadow]
           `,
@@ -172,97 +136,45 @@ function DrawerContent({
         )}
         {...props}
       >
-        {/* Handle (mobile) */}
-        <div className="mx-auto mt-2 hidden h-1.5 w-24 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
-
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>
   );
 }
 
-/* -----------------------------------------------------------------------------
- * Layout helpers
- * ---------------------------------------------------------------------------*/
+const DrawerHeader = ({ className, ...props }: React.ComponentProps<'div'>) => (
+  <div
+    className={cn('flex flex-col gap-2 px-6 pt-14 pb-4', className)}
+    {...props}
+  />
+);
 
-function DrawerHeader({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        `
-        flex flex-col gap-2
-        px-6 pt-14 pb-4
-        border-[--drawer-border]
-        `,
-        className
-      )}
-      {...props}
-    />
-  );
-}
+const DrawerBody = ({ className, ...props }: React.ComponentProps<'div'>) => (
+  <div
+    className={cn('flex-1 overflow-y-auto px-6 py-4', className)}
+    {...props}
+  />
+);
 
-function DrawerBody({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="drawer-body"
-      className={cn(
-        `
-        flex-1
-        overflow-y-auto
-        px-6 py-4
-        `,
-        className
-      )}
-      {...props}
-    />
-  );
-}
+const DrawerFooter = ({ className, ...props }: React.ComponentProps<'div'>) => (
+  <div
+    className={cn(
+      'sticky bottom-0 flex justify-end gap-2 border-t border-[--drawer-border] bg-[--drawer-bg] px-6 py-4',
+      className
+    )}
+    {...props}
+  />
+);
 
-function DrawerFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="drawer-footer"
-      className={cn(
-        `
-        sticky bottom-0
-        bg-[--drawer-bg]
-        border-t border-[--drawer-border]
-        px-6 py-4
-        flex gap-2
-        justify-end
-        `,
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-/* -----------------------------------------------------------------------------
- * Close button
- * ---------------------------------------------------------------------------*/
-
-function DrawerCloseButton({ className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
-  const mergedTokens = React.useContext(DrawerStylesContext);
-
-  const styles = {
-    '--close-color': (mergedTokens?.close as any)?.color ?? '#6E7991',
-    '--close-hover': (mergedTokens?.close as any)?.hoverBackground ?? 'rgba(0,0,0,0.05)',
-  } as React.CSSProperties;
-
+function DrawerCloseButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return (
     <DrawerPrimitive.Close
       aria-label="Cerrar"
-      style={styles}
       className={cn(
-        `
-        absolute right-4 top-4
-        flex h-9 w-9 items-center justify-center
-        rounded-none
-        text-[--color-text-primary]
-        transition-colors
-        hover:text-[--color-text-primary]
-        `,
+        'absolute right-4 top-4 flex h-9 w-9 items-center justify-center',
         className
       )}
       {...props}
@@ -272,32 +184,21 @@ function DrawerCloseButton({ className, ...props }: React.ComponentProps<typeof 
   );
 }
 
-/* -----------------------------------------------------------------------------
- * Typography (themed)
- * ---------------------------------------------------------------------------*/
-
 function DrawerTitle({
   className,
-  style,
-  variant = 'default',
-  tokens,
-  platform = 'web',
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Title> & ThemedProps) {
+}: React.ComponentProps<typeof DrawerPrimitive.Title>) {
   const mergedTokens = React.useContext(DrawerStylesContext);
 
-  const styles = {
-    '--drawer-title-color': (mergedTokens?.title as any)?.color ?? '#0F172A',
-    '--drawer-title-size': (mergedTokens?.title as any)?.fontSize ?? '24px',
-    '--drawer-title-weight': (mergedTokens?.title as any)?.fontWeight ?? '600',
-  } as React.CSSProperties;
-
-  console.log('DrawerTitle styles:', styles);
+  const style = {
+    '--drawer-title-color': mergedTokens?.title?.color ?? '#0F172A',
+    '--drawer-title-size': mergedTokens?.title?.fontSize ?? '24px',
+    '--drawer-title-weight': mergedTokens?.title?.fontWeight ?? '600',
+  };
 
   return (
     <DrawerPrimitive.Title
-      data-slot="drawer-title"
-      style={styles}
+      style={style as React.CSSProperties}
       className={cn(
         'text-[--drawer-title-size] font-[--drawer-title-weight] text-[--drawer-title-color]',
         className
@@ -309,36 +210,26 @@ function DrawerTitle({
 
 function DrawerDescription({
   className,
-  variant = 'default',
-  tokens,
-  platform = 'web',
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Description> & ThemedProps) {
+}: React.ComponentProps<typeof DrawerPrimitive.Description>) {
   const mergedTokens = React.useContext(DrawerStylesContext);
 
   const styles = {
-    '--drawer-desc-color':
-      (mergedTokens?.description as any)?.color ?? '#6E7991',
-    '--drawer-desc-size':
-      (mergedTokens?.description as any)?.fontSize ?? '14px',
-  } as React.CSSProperties;
+    '--drawer-desc-color': mergedTokens?.description?.color ?? '#6E7991',
+    '--drawer-desc-size': mergedTokens?.description?.fontSize ?? '14px',
+  };
 
   return (
     <DrawerPrimitive.Description
-      data-slot="drawer-description"
-      style={styles}
+      style={styles as React.CSSProperties}
       className={cn(
-        'text-[--drawer-desc-size] text-[--drawer-desc-color] space-y-2',
+        'text-[--drawer-desc-size] text-[--drawer-desc-color]',
         className
       )}
       {...props}
     />
   );
 }
-
-/* -----------------------------------------------------------------------------
- * Exports
- * ---------------------------------------------------------------------------*/
 
 export {
   Drawer,

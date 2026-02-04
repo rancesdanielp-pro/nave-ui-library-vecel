@@ -5,37 +5,36 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 
 import { cn } from '../../../utils/cn';
 import { Button } from '../buttons/Button';
-import { resolveTokens } from '../../../theme/theme-resolver';
+import { resolveTokens } from '../../../theme/client/theme-resolver';
 import { useTheme } from '../../../theme';
+import type { ThemeTokensBase } from '../../../theme/theme';
 
-/* -----------------------------------------------------------------------------
- * Root / Wrappers
- * ---------------------------------------------------------------------------*/
 const AlertDialogStylesContext =
   React.createContext<React.CSSProperties | null>(null);
 
-function AlertDialog({
-  tokens,
-  ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Root> & {
-  tokens?: Record<string, any>;
-}) {
+interface AlertDialogProps
+  extends React.ComponentProps<typeof AlertDialogPrimitive.Root> {
+  tokens?: Partial<ThemeTokensBase>;
+}
+
+function AlertDialog({ tokens, ...props }: AlertDialogProps) {
   const theme = useTheme();
 
   const mergedTokens = resolveTokens(
     { componentName: 'alertDialog', tokens },
     theme
-  );
-
+  ) as any ?? {};
 
   const styles = {
     '--alert-bg': mergedTokens?.content?.background ?? '#ffffff',
     '--alert-bg-overlay':
       mergedTokens?.overlay?.background ?? 'rgba(0,0,0,.5)',
-    '--alert-border-width': mergedTokens?.content?.border ?? '1px',
+    '--alert-border-color':
+      mergedTokens?.content?.borderColor ?? '#E5E7EB',
     '--alert-radius': mergedTokens?.content?.radius ?? '12px',
     '--alert-title-color': mergedTokens?.title?.color ?? '#020303',
-    '--alert-description-color': mergedTokens?.description?.color ?? '#6B7280',
+    '--alert-description-color':
+      mergedTokens?.description?.color ?? '#6B7280',
   } as React.CSSProperties;
 
   return (
@@ -45,25 +44,8 @@ function AlertDialog({
   );
 }
 
-function AlertDialogTrigger(
-  props: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>
-) {
-  return (
-    <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
-  );
-}
-
-function AlertDialogPortal(
-  props: React.ComponentProps<typeof AlertDialogPrimitive.Portal>
-) {
-  return (
-    <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
-  );
-}
-
-/* -----------------------------------------------------------------------------
- * Overlay (ESTILO FIJO)
- * ---------------------------------------------------------------------------*/
+const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
+const AlertDialogPortal = AlertDialogPrimitive.Portal;
 
 function AlertDialogOverlay(
   props: React.ComponentProps<typeof AlertDialogPrimitive.Overlay>
@@ -81,20 +63,15 @@ function AlertDialogOverlay(
   );
 }
 
-/* -----------------------------------------------------------------------------
- * Content (ESTILO FIJO)
- * ---------------------------------------------------------------------------*/
-
 function AlertDialogContent({
   className,
   ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Content> & {
-  tokens?: Record<string, any>;
-}) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {
   const styles = React.useContext(AlertDialogStylesContext);
+
   return (
     <AlertDialogPortal>
-      <div style={!styles ? undefined : styles}>
+      <div style={styles ?? undefined}>
         <AlertDialogOverlay />
 
         <AlertDialogPrimitive.Content
@@ -104,10 +81,10 @@ function AlertDialogContent({
             'w-full max-w-[420px] translate-x-[-50%] translate-y-[-50%]',
             'rounded-[--alert-radius] bg-[--alert-bg] p-6 shadow-lg',
             'grid gap-4',
+            'border border-[--alert-border-color]',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
             'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
             'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-            'border border-[--alert-border-color]',
             className
           )}
           {...props}
@@ -116,10 +93,6 @@ function AlertDialogContent({
     </AlertDialogPortal>
   );
 }
-
-/* -----------------------------------------------------------------------------
- * Layout helpers
- * ---------------------------------------------------------------------------*/
 
 function AlertDialogHeader({
   className,
@@ -150,10 +123,6 @@ function AlertDialogFooter({
   );
 }
 
-/* -----------------------------------------------------------------------------
- * Typography
- * ---------------------------------------------------------------------------*/
-
 function AlertDialogTitle(
   props: React.ComponentProps<typeof AlertDialogPrimitive.Title>
 ) {
@@ -178,10 +147,6 @@ function AlertDialogDescription(
   );
 }
 
-/* -----------------------------------------------------------------------------
- * Actions (USANDO Button)
- * ---------------------------------------------------------------------------*/
-
 function AlertDialogAction({
   children,
   ...props
@@ -203,10 +168,6 @@ function AlertDialogCancel({
     </AlertDialogPrimitive.Cancel>
   );
 }
-
-/* -----------------------------------------------------------------------------
- * Exports
- * ---------------------------------------------------------------------------*/
 
 export {
   AlertDialog,

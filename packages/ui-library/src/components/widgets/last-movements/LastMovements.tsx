@@ -9,6 +9,7 @@ import {
   Card,
   Button,
 } from '../../base';
+import type { ThemeTokensBase } from '../../../theme/theme';
 import { cn } from '../../../utils/cn';
 import { ChevronDownIcon, ChevronsUpDown } from 'lucide-react';
 
@@ -30,7 +31,7 @@ export type Movement = {
 
 export type LastMovementsState = 'loading' | 'empty' | 'error' | 'default';
 
-export type LastMovementsProps = {
+export interface LastMovementsProps {
   title: string;
   period?: string;
 
@@ -41,7 +42,7 @@ export type LastMovementsProps = {
   onDateChange?: (date?: Date) => void;
 
   /** Estados */
-  state?: 'loading' | 'empty' | 'error' | 'default';
+  state?: LastMovementsState;
 
   /** Slots */
   headerExtra?: React.ReactNode;
@@ -49,7 +50,9 @@ export type LastMovementsProps = {
   emptyContent?: React.ReactNode;
   errorContent?: React.ReactNode;
   children?: React.ReactNode;
-};
+
+  tokens?: Partial<ThemeTokensBase>;
+}
 
 export function LastMovements({
   title,
@@ -59,7 +62,6 @@ export function LastMovements({
   date,
   onDateChange,
   state = 'default',
-
   headerExtra,
   loadingContent,
   emptyContent,
@@ -76,7 +78,7 @@ export function LastMovements({
           <div className="flex items-center gap-1">
             {onDateChange && (
               <PopoverTrigger asChild>
-                <Button>
+                <Button variant="primary" size="sm">
                   {date ? date.toLocaleDateString() : period}
                   <ChevronsUpDown className="ml-2 h-4 w-4" />
                 </Button>

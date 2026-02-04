@@ -1,6 +1,7 @@
 'use client';
 
 //import { Button, Icon } from 'nave-ui-library/react';
+import { ThemeProvider } from '@/packages/ui-library/dist/react';
 import { Button, Icon } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage';
 import { ContentCards } from '../ContentCards';
@@ -35,9 +36,9 @@ export default function ButtonsPage() {
         <ComponentExample
           preview={
             <div className="flex flex-wrap items-center gap-4">
-              <Button variant="primary">Primary</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="tertiary">Tertiary</Button>
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="tertiary">Tertiary</Button>
             </div>
           }
           code={`<Button variant="primary">Primary</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="tertiary">Tertiary</Button>`}

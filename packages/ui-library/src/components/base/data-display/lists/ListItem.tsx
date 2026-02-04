@@ -73,17 +73,3 @@ export function ListItem({
     </div>
   );
 }
-
-/*
-USO:
-
-<ListItem
-  id="1"
-  overline="12/09/2025"
-  title="Pago con tarjeta"
-  subtitle="Visa Débito"
-  amount="$ 10.000"
-  status={{ label: "Aprobado", variant: "secondary" }}
-  onItemClick={(id) => console.log(id)}
-/>
-*/

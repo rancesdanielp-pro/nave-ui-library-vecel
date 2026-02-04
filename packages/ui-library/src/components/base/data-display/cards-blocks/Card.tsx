@@ -4,11 +4,12 @@ import * as React from 'react';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../../theme';
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   title?: React.ReactNode;
   action?: React.ReactNode;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   variant?: 'primary' | 'secondary' | 'tertiary';
   width?: number | string;
 };
@@ -46,7 +47,7 @@ function Card({
   const mergedTokens = resolveTokens(
     { componentName: 'card', variant, tokens },
     theme
-  ) ?? {};
+  ) as any ?? {};
 
   // 2) Mapeo a variables CSS inyectadas
   const styles = {
@@ -87,7 +88,7 @@ function Card({
               style={{
                 color: 'var(--card-text)',
                 fontSize: 'var(--card-title-size)',
-                fontWeight: 'var(--card-title-weight)' as any,
+                fontWeight: 'var(--card-title-weight)',
                 letterSpacing: 'var(--card-title-ls)',
                 lineHeight: 'var(--card-title-lh)',
                 fontFeatureSettings: `'ss03' on, 'ss06' on`,

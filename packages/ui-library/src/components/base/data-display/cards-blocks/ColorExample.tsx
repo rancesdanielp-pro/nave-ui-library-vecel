@@ -49,7 +49,13 @@ function getSmartContrast(hex: string): ContrastResult {
   };
 }
 
-export function ColorExample({ className, colorToken, colorName }: any) {
+interface ColorExampleProps {
+  className?: string;
+  colorToken: string;
+  colorName: string;
+}
+
+export function ColorExample({ className, colorToken, colorName }: ColorExampleProps) {
   const [computedHex, setComputedHex] = React.useState('#N/A');
   // Estado inicial con todas las propiedades requeridas
   const [contrastData, setContrastData] = React.useState<ContrastResult>({ 

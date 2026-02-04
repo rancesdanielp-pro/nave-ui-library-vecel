@@ -5,17 +5,17 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { CheckIcon, Minus } from 'lucide-react';
 import { cn } from '../../../../utils/cn';
 import {
-  resolveNativeStyles,
   resolveTokens,
-  resolveWebStyles,
   useTheme,
 } from '../../../../theme';
 import { cva } from 'class-variance-authority';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface CheckboxProps extends React.ComponentProps<
   typeof CheckboxPrimitive.Root
 > {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'mobile';
   size?: 'regular' | 'small';
   tone?: 'brand' | 'neutral' | 'destructive';
@@ -105,7 +105,7 @@ export function Checkbox({
   const mergedTokens = resolveTokens(
     { componentName: 'checkbox', tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--checkbox-width': mergedTokens?.track?.width ?? 36,

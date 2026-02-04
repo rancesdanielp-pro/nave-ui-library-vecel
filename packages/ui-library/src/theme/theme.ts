@@ -1,11 +1,15 @@
-export type ThemeTokens = Record<string, any>;
 
-let currentTheme: ThemeTokens = {};
+// Base para los tokens, puede ser extendido
+export interface ThemeTokensBase {
+  [key: string]: unknown;
+}
 
-export function setTheme(theme: ThemeTokens) {
+let currentTheme: ThemeTokensBase = {};
+
+export function setTheme<T extends ThemeTokensBase>(theme: T) {
   currentTheme = theme;
 }
 
-export function getTheme(): ThemeTokens {
-  return currentTheme;
+export function getTheme<T extends ThemeTokensBase = ThemeTokensBase>(): T {
+  return currentTheme as T;
 }

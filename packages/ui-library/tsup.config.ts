@@ -8,9 +8,8 @@ export default defineConfig([
     outDir: 'dist/react',
     format: ['esm'],
     dts: {
-      resolve: true
+      resolve: false
     },
-    // ✅ AGREGA 'next' y 'next/link' AQUÍ
     external: [
       'react', 
       'react-dom', 
@@ -21,7 +20,6 @@ export default defineConfig([
     ],
     splitting: false,
     clean: true,
-    // Asegúrate de que tsup sepa que el entorno es para navegador
     platform: 'browser',
   },
   {

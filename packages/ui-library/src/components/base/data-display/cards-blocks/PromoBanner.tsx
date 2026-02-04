@@ -30,29 +30,23 @@ const promoBannerVariants = cva(promoBannerBase, {
 const imageBoxBase =
   'shrink-0 w-[88px] h-[56px] rounded-[8px] bg-gray-200 bg-center bg-cover';
 
-/* -------------------------------------------------------------------------- */
-/* Props
-/* -------------------------------------------------------------------------- */
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 export type PromoBannerProps = React.ComponentProps<'div'> &
   VariantProps<typeof promoBannerVariants> & {
     asChild?: boolean;
-    tokens?: any;
+    tokens?: Partial<ThemeTokensBase>;
 
     variant?: Variant;
     title: React.ReactNode;
 
-    imageSrc: string;
+    imageSrc?: string; // ⬅️ ahora es opcional
     imageAlt?: string;
     imagePosition?: 'left' | 'right';
 
     icon?: React.ReactNode;
     endSlot?: React.ReactNode;
   };
-
-/* -------------------------------------------------------------------------- */
-/* Component
-/* -------------------------------------------------------------------------- */
 
 function PromoBanner({
   className,
@@ -76,15 +70,12 @@ function PromoBanner({
 
   const mergedTokens =
     resolveTokens(
-      { componentName: 'promoBanner', variant, size, tokens },
+      { componentName: 'promoBanner', variant, size: size ?? undefined, tokens },
       theme
-    ) ?? {};
+    ) as any ?? {};
 
- const tokenVariant = mergedTokens?.[variant] ?? {};
+  const tokenVariant = mergedTokens?.[variant] ?? {};
 
-  /* ---------------------------------------------------------------------- */
-  /* CSS Variables (token-first) */
-  /* ---------------------------------------------------------------------- */
   const styles = {
     '--promoBanner-bg': tokenVariant?.background ?? '#F8FAFC',
     '--promoBanner-border': tokenVariant?.border ?? '#E2E8F0',
@@ -96,13 +87,15 @@ function PromoBanner({
     '--promoBanner-action': tokenVariant?.action ?? '#1F2937',
   } as React.CSSProperties;
 
-  const Image = (
+  const hasImage = Boolean(imageSrc);
+
+  const Image = hasImage ? (
     <div
       className={imageBoxBase}
       style={{ backgroundImage: `url(${imageSrc})` }}
       aria-label={imageAlt}
     />
-  );
+  ) : null;
 
   return (
     <Comp
@@ -116,7 +109,7 @@ function PromoBanner({
       {...props}
     >
       {/* IMAGE LEFT */}
-      {imagePosition === 'left' && Image}
+      {hasImage && imagePosition === 'left' && Image}
 
       {/* Optional Icon */}
       {icon && (
@@ -142,7 +135,7 @@ function PromoBanner({
       </div>
 
       {/* IMAGE RIGHT */}
-      {imagePosition === 'right' && Image}
+      {hasImage && imagePosition === 'right' && Image}
 
       {/* EndSlot */}
       {endSlot && <div className="shrink-0">{endSlot}</div>}

@@ -12,6 +12,8 @@ interface ComboboxItem {
   value: string;
 }
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface ComboboxProps {
   value?: string;
   onValueChange?: (value: string) => void;
@@ -19,7 +21,7 @@ interface ComboboxProps {
   items: ComboboxItem[];
   size?: 'sm' | 'md';
   disabled?: boolean;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   className?: string;
   error?: boolean;
 }
@@ -90,7 +92,7 @@ export function Combobox({
   const mergedTokens = resolveTokens(
     { componentName: 'select', tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--combobox-text': mergedTokens?.color ?? '#000000',

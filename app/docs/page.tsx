@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { CodeBlock } from '../components/[slug]/CodeBlock';
-import { tokenVariants } from '../utils/tokens';
+// Eliminamos la importación directa de tokenVariants aquí para evitar confusiones
 import { ContentCards } from './ContentCards';
-import { DocsPage } from './DocsPage';
 import { useBrand } from './BrandContext';
 import {
   Button,
@@ -14,6 +13,7 @@ import {
   Icon,
 } from '@/packages/ui-library/dist/react';
 
+import { DocsPage } from './DocsPage';
 // Icono de ejemplo para la preview
 const StarIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -22,7 +22,8 @@ const StarIcon = () => (
 );
 
 export default function DocsHome() {
-  const { setBrand, activeBrand } = useBrand();
+  // Extraemos staticVariants del contexto. Este array NO cambia de orden.
+  const { setBrand, activeBrand, staticVariants } = useBrand();
 
   return (
     <DocsPage 
@@ -30,27 +31,32 @@ export default function DocsHome() {
       description="Bienvenido a la documentación oficial de Nave. Una arquitectura multi-marca de alto rendimiento basada en Design Tokens."
     >
       
-      {/* ───────────── SECCIÓN 1: BRAND SWITCHER (EL ADN) ───────────── */}
+      {/* ───────────── SECCIÓN 1: BRAND SWITCHER (ESTÁTICO REAL) ───────────── */}
       <ContentCards title="Brand Experience Switcher">
         <p className="text-sm text-slate-500 mb-6">
-          Selecciona una marca para reconfigurar el array de tokens global. 
-          Al elegir una, esta pasará a la <strong>posición [0]</strong>, actualizando todos los componentes de la librería en tiempo real.
+          Selecciona una marca para reconfigurar el ADN visual del sistema. 
+          Los botones mantienen su posición fija gracias al uso de <code>staticVariants</code>.
         </p>
         
         <div className="flex flex-wrap gap-4 mb-8">
-          {tokenVariants.map((variant) => (
-            <button
-              key={variant.name}
-              onClick={() => setBrand(variant.name)}
-              className={`px-8 py-3 rounded-xl text-sm font-bold transition-all border-2 shadow-sm ${
-                activeBrand.name === variant.name
-                  ? 'border-purple-600 bg-purple-50 text-purple-700 ring-2 ring-purple-200'
-                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
-              }`}
-            >
-              {variant.name}
-            </button>
-          ))}
+          {/* IMPORTANTE: Usamos staticVariants para mapear los botones */}
+          {staticVariants.map((variant) => {
+            const isActive = activeBrand.name === variant.name;
+            
+            return (
+              <button
+                key={variant.name}
+                onClick={() => setBrand(variant.name)}
+                className={`px-8 py-3 rounded-xl text-sm font-bold transition-all border-2 shadow-sm ${
+                  isActive
+                    ? 'border-purple-600 bg-purple-50 text-purple-700 ring-2 ring-purple-200 scale-105'
+                    : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                }`}
+              >
+                {variant.name}
+              </button>
+            );
+          })}
         </div>
 
         {/* LIVE PREVIEW AREA */}
@@ -81,7 +87,8 @@ export default function DocsHome() {
               <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Superficies</h4>
               <Card title="DNA Preview" className="w-full">
                 <p className="text-sm text-slate-500">
-                  Esta Card y sus hijos consumen <code>tokenVariants[0]</code>, que actualmente es <strong>{activeBrand.name}</strong>.
+                  Los componentes consumen <code>tokenVariants[0]</code> internamente, 
+                  que actualmente es <strong>{activeBrand.name}</strong>.
                 </p>
               </Card>
             </div>
@@ -90,49 +97,31 @@ export default function DocsHome() {
       </ContentCards>
 
       {/* ───────────── SECCIÓN 2: ESTRATEGIA TÉCNICA ───────────── */}
-      <ContentCards title="¿Cómo funciona la mutación de ADN?">
+      <ContentCards title="¿Cómo funciona la inyección de ADN?">
         <div className="prose prose-slate prose-sm max-w-none">
           <p>
-            A diferencia de sistemas estáticos, Nave utiliza una técnica de <strong>Swap de Tokens</strong>. 
-            Cuando seleccionas una marca, el sistema reordena el array original:
+            El sistema utiliza un <strong>Swap de Tokens</strong> en el índice cero del array original:
           </p>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none p-0 mt-6">
             <li className="bg-white p-4 rounded-lg border shadow-sm">
-              <span className="block font-bold text-purple-600 mb-1">Capa de Negocio</span>
-              El componente raíz siempre apunta a <code>tokenVariants[0]</code>. Esto evita lógica compleja en cada átomo.
+              <span className="block font-bold text-purple-600 mb-1">Capa Visual</span>
+              Los botones usan un mapeo estático para no moverse de su lugar.
             </li>
             <li className="bg-white p-4 rounded-lg border shadow-sm">
-              <span className="block font-bold text-purple-600 mb-1">Persistencia</span>
-              Usamos LocalStorage para mantener el orden del array incluso si el usuario refresca la página.
+              <span className="block font-bold text-purple-600 mb-1">Capa de Estilos</span>
+              La librería de componentes siempre lee la posición [0], que muta dinámicamente.
             </li>
           </ul>
         </div>
       </ContentCards>
 
       {/* ───────────── SECCIÓN 3: JSON EXPLORER ───────────── */}
-      <ContentCards title={`Explorador de Tokens (Posición [0]): ${activeBrand.name}`}>
+      <ContentCards title={`Explorador de Tokens: ${activeBrand.name}`}>
         <p className="text-sm text-slate-500 mb-4">
-          Este es el objeto que los componentes están leyendo actualmente desde el índice cero del array:
+          Este es el esquema de tokens activo (Posición [0]):
         </p>
         <div className="max-h-[400px] overflow-auto rounded-xl border bg-slate-900 shadow-2xl">
           <CodeBlock code={JSON.stringify(activeBrand.tokens, null, 2)} />
-        </div>
-      </ContentCards>
-
-      {/* ───────────── SECCIÓN 4: INSTALACIÓN ───────────── */}
-      <ContentCards title="Quick Start">
-        <div className="prose prose-slate prose-sm max-w-none space-y-6">
-          <p>Para integrar la librería con el soporte multi-marca, sigue estos pasos:</p>
-          
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-slate-400 uppercase">1. Instalar Dependencia</span>
-            <CodeBlock code={`npm i nave-ui-library`} />
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-slate-400 uppercase">2. Configurar Provider</span>
-            <CodeBlock code={`import { ThemeProvider } from 'nave-ui-library/react';\nimport { tokenVariants } from './tokens';\n\n// El sistema leerá automáticamente el índice [0]\n<ThemeProvider theme={tokenVariants[0].tokens}>\n  <App />\n</ThemeProvider>`} />
-          </div>
         </div>
       </ContentCards>
 

@@ -14,30 +14,9 @@ import {
 
 import { cn } from '../../../../utils/cn';
 import { Button, buttonBaseClasses } from '../../buttons';
-import {
-  resolveTokens,
-  resolveWebStyles,
-  resolveNativeStyles,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 
-/* -------------------------------------------------------------------------- */
-/* Tokens
-/* -------------------------------------------------------------------------- */
-/*
-const calendarTokens = {
-  backgroundColor: "colors.surface",
-  textColor: "colors.text",
-  mutedTextColor: "colors.textMuted",
-  accentColor: "colors.primary",
-  accentForeground: "colors.onPrimary",
-  hoverBackground: "colors.surfaceHover",
-  borderRadius: "radii.md",
-}
-*/
-/* -------------------------------------------------------------------------- */
-/* Calendar
-/* -------------------------------------------------------------------------- */
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 function Calendar({
   className,
@@ -51,7 +30,7 @@ function Calendar({
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant'];
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
 }) {
   const theme = useTheme();
   const defaultClassNames = getDefaultClassNames();
@@ -59,7 +38,7 @@ function Calendar({
   const mergedTokens = resolveTokens(
     { componentName: 'calendar', tokens },
     theme
-  );
+  ) as any;
 
   const styles = {
     '--calendar-bg': mergedTokens?.background ?? '#FFFFFF',
@@ -67,9 +46,10 @@ function Calendar({
     '--calendar-muted': mergedTokens?.mutedText ?? '#666666',
     '--calendar-accent': mergedTokens?.accent ?? '#a3aab8',
     '--calendar-radius': mergedTokens?.radius ?? '8px',
-  };
+  } as React.CSSProperties;
+
   return (
-    <div data-slot="calendar" style={styles as React.CSSProperties}>
+    <div data-slot="calendar" style={styles}>
       <DayPicker
         showOutsideDays={showOutsideDays}
         captionLayout={captionLayout}
@@ -144,10 +124,6 @@ function Calendar({
     </div>
   );
 }
-
-/* -------------------------------------------------------------------------- */
-/* Day Button
-/* -------------------------------------------------------------------------- */
 
 function CalendarDayButton({
   className,

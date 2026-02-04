@@ -1,6 +1,7 @@
 // page.tsx
 'use client'
 
+import React from 'react'
 import { DocsPage } from '../DocsPage'
 
 import { ColorExample } from '@/packages/ui-library/dist/react';
@@ -37,9 +38,9 @@ export default function ColorsPage() {
             {section.tokens.map((tokenName) => (
             <ColorExample
                 key={tokenName}
-                colorToken={`var(--color-${tokenName})`} 
-                colorName={tokenName}
-                // Borramos la prop accessibilityGrade porque ahora es automática
+                colorToken={`var(--color-${tokenName})`}
+                colorName={tokenName} 
+                className={undefined}
             />
             ))}
             </div>

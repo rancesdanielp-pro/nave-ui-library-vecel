@@ -4,10 +4,12 @@ import * as React from 'react';
 import { cn } from '../../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../../theme';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 export type DragSliderProps = {
   children: React.ReactNode;
   className?: string;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
 };
 
 function DragSlider({ children, className, tokens: customTokens }: DragSliderProps) {
@@ -15,7 +17,7 @@ function DragSlider({ children, className, tokens: customTokens }: DragSliderPro
   const sliderRef = React.useRef<HTMLDivElement>(null);
 
   // 1) Resolución de tokens
-  const mergedTokens = resolveTokens({ componentName: 'dragslider', tokens: customTokens }, theme) ?? {};
+  const mergedTokens = resolveTokens({ componentName: 'dragslider', tokens: customTokens }, theme) as any ?? {};
 
   // Refs de control de dragging
   const isDown = React.useRef(false);

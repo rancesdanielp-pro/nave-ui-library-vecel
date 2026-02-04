@@ -60,11 +60,13 @@ const inputVariants = cva(inputBase, {
     error: false,
   },
 });
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface SearchBarProps extends Omit<
   React.ComponentProps<'input'>,
   'size' | 'type'
 > {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'mobile';
   size?: 'sm' | 'md';
 }
@@ -82,7 +84,7 @@ export function SearchBar({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const clearRef = React.useRef<HTMLButtonElement>(null);
 
-  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
+  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme) as any ?? {};
 
   const styles = {
     '--input-search-text': mergedTokens?.color ?? '#000000',

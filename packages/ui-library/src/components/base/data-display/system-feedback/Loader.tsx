@@ -8,10 +8,12 @@ import { resolveTokens, useTheme } from '../../../../theme';
 export type LoaderSize = 'sm' | 'md' | 'lg';
 export type LoaderVariant = 'default' | 'primary' | 'secondary';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 export type LoaderProps = React.ComponentProps<'svg'> & {
   size?: LoaderSize;
   variant?: LoaderVariant;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
 };
 
@@ -34,7 +36,7 @@ function Loader({
         tokens,
       },
       theme
-    ) ?? {};
+    ) as any ?? {};
 
   const finalSize = mergedTokens?.sizes?.[size] ?? 24;
   const finalColor = mergedTokens?.color ?? 'currentColor';

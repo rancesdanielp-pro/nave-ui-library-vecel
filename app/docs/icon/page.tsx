@@ -1,6 +1,4 @@
 'use client'
-
-import * as React from 'react'
 // Ajusta las rutas según tu estructura de paquetes
 import { Icon, IconLabel } from '@/packages/ui-library/dist/react' 
 import { DocsPage } from '../DocsPage'

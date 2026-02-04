@@ -601,7 +601,7 @@ export default function InteractiveForm({
                     id="s1"
                     label="Label"
                     description="Description"
-                    size="medium"
+                    size="regular"
                     checked={isOn}
                     onCheckedChange={setIsOn}
                   />
@@ -609,7 +609,7 @@ export default function InteractiveForm({
                     id="s2"
                     label="Label"
                     description="Description"
-                    size="medium"
+                    size="regular"
                     checked={true}
                     disabled
                   />
@@ -617,14 +617,14 @@ export default function InteractiveForm({
                     id="s3"
                     label="Label"
                     description="Description"
-                    size="medium"
+                    size="regular"
                     checked={false}
                   />
                   <Switch
                     id="s4"
                     label="Label"
                     description="Description"
-                    size="medium"
+                    size="regular"
                     checked={false}
                     disabled
                   />
@@ -1408,6 +1408,7 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'home',
+                        onClick: () => setActiveItem('home'),
                       },
                       {
                         id: 'payments',
@@ -1448,6 +1449,7 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'payments',
+                        onClick: () => setActiveItem('payments'),
                       },
                       {
                         id: 'details',
@@ -1477,6 +1479,7 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'details',
+                        onClick: () => setActiveItem('details'),
                       },
                       {
                         id: 'settings',
@@ -1498,8 +1501,17 @@ export default function InteractiveForm({
                           </Icon>
                         ),
                         active: activeItem === 'settings',
+                        onClick: () => setActiveItem('settings'),
                       },
                     ]}
+                    footer={
+                      <button
+                        onClick={() => setCollapsed((v) => !v)}
+                        className="text-xs text-gray-500 hover:text-gray-800"
+                      >
+                        {collapsed ? 'Expandir' : 'Colapsar'}
+                      </button>
+                    }
                   />
 
                   {/* Contenido de la página */}

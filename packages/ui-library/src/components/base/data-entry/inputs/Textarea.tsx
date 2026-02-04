@@ -56,8 +56,10 @@ const inputVariants = cva(textareaBase, {
   },
 });
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface TextareaProps extends Omit<React.ComponentProps<'textarea'>, 'size'> {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
   label?: string;
   helperText?: string;
@@ -77,7 +79,7 @@ export function Textarea({
 }: TextareaProps) {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
+  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme) as any ?? {};
   const styles = {
     '--textarea-input-text': mergedTokens?.color ?? '#000000',
     '--textarea-input-radius': mergedTokens?.radius ?? '8px',

@@ -1,5 +1,5 @@
-import registry from '@/packages/ui-library/src/registry/registry.json';
 
+import registry from '@/packages/ui-library/src/registry/registry.json';
 export default async function Page({
   params,
 }: {

@@ -5,22 +5,19 @@ import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
 import { cn } from '../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../theme';
-
-/* -----------------------------------------------------------------------------
- * Breadcrumb (Root)
- * - Centraliza tokens e inyecta variables CSS
- * ---------------------------------------------------------------------------*/
+import type { ThemeTokensBase } from '../../../theme/theme';
 
 function Breadcrumb({
   className,
   tokens,
   style,
   ...props
-}: React.ComponentProps<'nav'> & { tokens?: any }) {
+}: React.ComponentProps<'nav'> & { tokens?: Partial<ThemeTokensBase> }) {
   const theme = useTheme();
 
   // Resolvemos los tokens del componente 'breadcrumb'
-  const mergedTokens = resolveTokens({ componentName: 'breadcrumb', tokens }, theme) ?? {};
+  const mergedTokens =
+    resolveTokens({ componentName: 'breadcrumb', tokens }, theme) as any ?? {};
 
   const styles = {
     '--bc-link-color': mergedTokens?.link?.color ?? 'inherit',
@@ -32,7 +29,6 @@ function Breadcrumb({
     ...style,
   } as React.CSSProperties;
 
-
   return (
     <nav
       aria-label="breadcrumb"
@@ -43,10 +39,6 @@ function Breadcrumb({
     />
   );
 }
-
-/* -----------------------------------------------------------------------------
- * BreadcrumbList
- * ---------------------------------------------------------------------------*/
 
 const breadcrumbSizes = {
   md: 'text-sm gap-2.5',
@@ -72,10 +64,6 @@ function BreadcrumbList({
   );
 }
 
-/* -----------------------------------------------------------------------------
- * BreadcrumbItem
- * ---------------------------------------------------------------------------*/
-
 function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
   return (
     <li
@@ -86,19 +74,11 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
   );
 }
 
-/* -----------------------------------------------------------------------------
- * BreadcrumbLink
- * ---------------------------------------------------------------------------*/
-
 type BreadcrumbLinkProps = React.ComponentProps<'a'> & {
   asChild?: boolean;
 };
 
-function BreadcrumbLink({
-  asChild,
-  className,
-  ...props
-}: BreadcrumbLinkProps) {
+function BreadcrumbLink({ asChild, className, ...props }: BreadcrumbLinkProps) {
   const Comp = asChild ? Slot : 'a';
 
   return (
@@ -115,14 +95,7 @@ function BreadcrumbLink({
   );
 }
 
-/* -----------------------------------------------------------------------------
- * BreadcrumbPage (Current)
- * ---------------------------------------------------------------------------*/
-
-function BreadcrumbPage({
-  className,
-  ...props
-}: React.ComponentProps<'span'>) {
+function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
   return (
     <span
       data-slot="breadcrumb-page"
@@ -138,10 +111,6 @@ function BreadcrumbPage({
     />
   );
 }
-
-/* -----------------------------------------------------------------------------
- * BreadcrumbSeparator
- * ---------------------------------------------------------------------------*/
 
 function BreadcrumbSeparator({
   children,
@@ -163,10 +132,6 @@ function BreadcrumbSeparator({
     </li>
   );
 }
-
-/* -----------------------------------------------------------------------------
- * BreadcrumbEllipsis
- * ---------------------------------------------------------------------------*/
 
 function BreadcrumbEllipsis({
   className,

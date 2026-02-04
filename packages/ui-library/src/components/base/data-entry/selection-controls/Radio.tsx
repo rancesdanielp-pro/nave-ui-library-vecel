@@ -1,9 +1,12 @@
 'use client';
 
+import * as React from 'react';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import { cva } from 'class-variance-authority';
+
 import { cn } from '../../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../../theme';
-import { cva } from 'class-variance-authority';
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 interface RadioGroupProps extends React.ComponentProps<
   typeof RadioGroupPrimitive.Root
@@ -12,13 +15,18 @@ interface RadioGroupProps extends React.ComponentProps<
 interface RadioItemProps extends React.ComponentProps<
   typeof RadioGroupPrimitive.Item
 > {
-  size?: 'medium' | 'small';
+  size?: 'regular' | 'small';
   label?: string;
   description?: string;
+  disabled?: boolean;
+  tokens?: Partial<ThemeTokensBase>;
+  platform?: 'web' | 'native';
 }
 
 const radioBase =
-  'shrink-0 rounded-full border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] focus-visible:ring-offset-2 disabled:cursor-not-allowed';
+  'shrink-0 rounded-full border transition-colors outline-none ' +
+  'focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] ' +
+  'focus-visible:ring-offset-2 disabled:cursor-not-allowed';
 
 const radioVariants = cva(radioBase, {
   variants: {
@@ -27,51 +35,39 @@ const radioVariants = cva(radioBase, {
       small: 'h-4 w-4',
     },
   },
+  defaultVariants: {
+    size: 'regular',
+  },
   compoundVariants: [
-    // UNCHECKED DEFAULT
     {
       className:
         'data-[state=unchecked]:bg-[--radio-background-color] border-[--border-default]',
     },
-    // UNCHECKED HOVER
     {
       className: 'data-[state=unchecked]:hover:bg-[--border-hover]',
     },
-    // UNCHECKED HOVER DISABLED
     {
       className:
         'data-[state=unchecked]:data-[disabled]:bg-[--color-bg-disabled]',
     },
-    // CHECKED DEFAULT
     {
       className:
         'data-[state=checked]:border-[--radio-active-background-color]',
     },
-    // CHECKED HOVER
     {
       className:
         'data-[state=checked]:hover:border-[--radio-active-background-hover]',
     },
-    // CHECKED DISABLED
     {
-      className:
-        'data-[state=checked]:data-[disabled]:border-[--border-hover] ' +
-        'data-[state=checked]:data-[disabled]:hover:border-[--border-hover]',
-    },
-    // UNCHECKED DISABLED
-    {
-      className:
-        'data-[state=unchecked]:data-[disabled]:hover:bg-[--color-bg-disabled]',
+      className: 'data-[state=checked]:data-[disabled]:border-[--border-hover]',
     },
   ],
-
-  defaultVariants: {
-    size: 'regular',
-  },
 });
 
 const radioDotVariants = cva(
-  'rounded-full transition-colors bg-[--radio-active-background-color] group-hover:bg-[--radio-active-background-hover] group-data-[disabled]:bg-[--color-text-disabled]',
+  'rounded-full transition-colors bg-[--radio-active-background-color] ' +
+    'group-hover:bg-[--radio-active-background-hover] ' +
+    'group-data-[disabled]:bg-[--color-text-disabled]',
   {
     variants: {
       size: {
@@ -84,6 +80,7 @@ const radioDotVariants = cva(
     },
   }
 );
+
 export function RadioGroup({ className, ...props }: RadioGroupProps) {
   return (
     <RadioGroupPrimitive.Root
@@ -100,39 +97,21 @@ export function RadioItem({
   description,
   disabled,
   tokens,
-  style,
   platform = 'web',
   value,
   ...props
-}: any) {
+}: RadioItemProps) {
   const theme = useTheme();
-
-  const mergedTokens = resolveTokens({ componentName: 'radio', tokens }, theme);
+  const mergedTokens = resolveTokens({ componentName: 'radio', tokens }, theme) as any ?? {};
 
   const styles = {
-    '--radio-width': mergedTokens?.trackWidth ?? 36,
-    '--radio-height': mergedTokens?.trackHeight ?? 20,
-
-    // TRACK Backgrounds
     '--radio-background-color':
       mergedTokens?.outer?.background ?? 'var(--color-bg-200)',
     '--radio-active-background-color':
       mergedTokens?.checked?.background ?? 'var(--color-accent-default)',
     '--radio-active-background-hover':
       mergedTokens?.checked?.backgroundHover ?? 'var(--color-accent-dark)',
-    '--radio-background-disabled': mergedTokens?.disabled?.background ?? 'var(--color-bg-200)',
-
-    // THUMB
-    '--radio-thumb-size': size === 'medium' ? '12px' : '16px',
-    '--radio-thumb-color': mergedTokens?.dot?.color ?? 'var(--color-bg-white)',
-    '--radio-thumb-disabled':
-      mergedTokens?.disabled?.dot ?? 'var(--color-bg-disabled)',
-
-    // MISC
-    '--radio-transition-duration': mergedTokens?.motion?.duration ?? '150ms',
-    '--radio-thumb-translate': size === 'medium' ? '8px' : '6px',
-  } as React.CSSProperties;
-
+  };
 
   return (
     <label
@@ -142,15 +121,13 @@ export function RadioItem({
       )}
     >
       <RadioGroupPrimitive.Item
-        style={styles}
+        value={value}
         disabled={disabled}
+        style={styles as React.CSSProperties}
         className={cn('group', radioVariants({ size }), className)}
         {...props}
       >
-        <RadioGroupPrimitive.Indicator
-          className="flex items-center justify-center"
-          style={styles}
-        >
+        <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
           <span className={radioDotVariants({ size })} />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
@@ -158,16 +135,12 @@ export function RadioItem({
       {(label || description) && (
         <div className="flex flex-col gap-0.5">
           {label && (
-            <span
-              className={`${size === 'regular' ? 'text-base' : 'text-sm'} text-[var(--color-text-primary)]  font-[550] leading-[1.3] tracking-[-0.04em]`}
-            >
+            <span className="text-base font-medium text-[var(--color-text-primary)]">
               {label}
             </span>
           )}
           {description && (
-            <span
-              className={`${size === 'regular' ? 'text-base' : 'text-sm'} text-[var(--color-text-tertiary)] leading-[1.3]`}
-            >
+            <span className="text-sm text-[var(--color-text-tertiary)]">
               {description}
             </span>
           )}

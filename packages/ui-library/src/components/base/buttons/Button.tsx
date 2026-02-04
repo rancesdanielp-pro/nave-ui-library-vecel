@@ -5,9 +5,10 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../theme';
+import type { ThemeTokensBase } from '../../../theme/theme';
 
 export type ButtonProps = React.ComponentProps<'button'> & {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   variant?: 'primary' | 'secondary' | 'tertiary' | 'neutral';
   size?: 'sm' | 'md' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg';
   platform?: 'web' | 'native';
@@ -120,20 +121,19 @@ function Button({
   const mergedTokens = resolveTokens(
     { componentName: 'button', variant: 'primary', size: 'md' },
     theme
-  );
-  
+  ) as any;
+
   const styles = {
-    '--button-bg': mergedTokens?.background || '--var(--color-bg-primary)',
-    '--button-bg-hover': mergedTokens?.backgroundHover || '--var(--color-bg-primary-hover)',
+    '--button-bg': mergedTokens?.background ?? '#652bdf',
+    '--button-bg-hover': mergedTokens?.backgroundHover ?? '#9c8bf3',
 
-    '--button-text': mergedTokens?.color || '--var(--color-text-primary)',
-    '--button-radius': mergedTokens?.radius || '8px',
+    '--button-text': mergedTokens?.color ?? '#ffffff',
+    '--button-radius': mergedTokens?.radius ?? '8px',
+    '--button-transition-duration': mergedTokens?.transition ?? '150ms',
 
-    '--button-transition-duration': mergedTokens?.transition || '150ms',
-
-    fontSize: mergedTokens?.fontSize || '14px',
-    fontWeight: mergedTokens?.fontWeight || '400',
-  } as React.CSSProperties;
+    fontSize: mergedTokens?.fontSize ?? '14px',
+    fontWeight: mergedTokens?.fontWeight ?? '400',
+  };
 
   // Componente raíz (puede ser Slot para asChild)
   const Comp = asChild ? Slot : 'button';

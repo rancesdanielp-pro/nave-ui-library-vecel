@@ -12,24 +12,24 @@ type TableTokens = {
   borderColor?: string;
   borderRadius?: string;
   shadow?: string;
-  header?: any;
-  row?: any;
-  cell?: any;
-  footer?: any;
+  header?: React.CSSProperties | undefined;
+  row?: React.CSSProperties | undefined;
+  cell?: React.CSSProperties | undefined;
+  footer?: React.CSSProperties | undefined;
 };
 
 const TableStylesContext = React.createContext<TableTokens | null>(null);
 
-/* ---------------------------------- Table --------------------------------- */
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 function Table({
   className,
   tokens,
   ...props
-}: React.ComponentProps<'table'> & { tokens?: any }) {
+}: React.ComponentProps<'table'> & { tokens?: Partial<ThemeTokensBase> }) {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens({ componentName: 'table', tokens }, theme);
+  const mergedTokens = resolveTokens({ componentName: 'table', tokens }, theme) as any;
 
   const styles = {
     '--table-bg': mergedTokens?.background ?? '#FFFFFF',
@@ -62,14 +62,12 @@ function Table({
   );
 }
 
-/* -------------------------------- Subparts -------------------------------- */
-
 function TableHeader(props: React.ComponentProps<'thead'>) {
   const tokens = React.useContext(TableStylesContext);
 
   const styles = {
     '--th-bg': tokens?.header?.backgroundColor ?? '#F9F9FA',
-    '--th-text': tokens?.header?.textColor ?? '#652BDF',
+    '--th-text': tokens?.header?.color ?? '#652BDF',
     '--th-border': tokens?.header?.borderColor ?? '#E2E5E9',
   } as React.CSSProperties;
 
@@ -122,10 +120,10 @@ function TableFooter({
 }
 
 function TableRow(props: React.ComponentProps<'tr'>) {
-  const tokens = React.useContext(TableStylesContext);
+  const tokens = React.useContext(TableStylesContext) as any ?? {};
 
   const styles = {
-    '--row-text': tokens?.row?.textColor ?? '#3A3F4B',
+    '--row-text': tokens?.row?.color ?? '#3A3F4B',
     '--row-hover': tokens?.row?.hoverBackground ?? 'rgba(0,0,0,.03)',
     '--row-border': tokens?.row?.borderColor ?? '#E2E5E9',
   } as React.CSSProperties;
@@ -167,7 +165,7 @@ function TableCell(props: React.ComponentProps<'td'>) {
   const tokens = React.useContext(TableStylesContext);
 
   const styles = {
-    '--cell-text': tokens?.cell?.textColor ?? '#3A3F4B',
+    '--cell-text': tokens?.cell?.color ?? '#3A3F4B',
     '--cell-size': tokens?.cell?.fontSize ?? '14px',
   } as React.CSSProperties;
 

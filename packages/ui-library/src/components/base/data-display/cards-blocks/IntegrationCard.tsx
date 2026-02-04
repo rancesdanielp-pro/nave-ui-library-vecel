@@ -28,10 +28,12 @@ const integrationCardVariants = cva(
   }
 );
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 export type IntegrationCardProps = React.ComponentProps<'div'> &
   VariantProps<typeof integrationCardVariants> & {
     asChild?: boolean;
-    tokens?: any;
+    tokens?: Partial<ThemeTokensBase>;
     badgeText?: React.ReactNode;
     logoSlot?: React.ReactNode;
     logoSrc?: string;
@@ -76,7 +78,7 @@ export function IntegrationCard({
   const theme = useTheme();
   const Comp = asChild ? Slot : 'div';
 
-  const mergedTokens = resolveTokens({ componentName: 'integrationCard', variant, tokens }, theme) ?? {};
+  const mergedTokens = resolveTokens({ componentName: 'integrationCard', tokens }, theme) as any ?? {};
 
   const styles = {
     '--ic-bg': mergedTokens?.backgroundColor ?? '#F9F9FA',
@@ -130,7 +132,7 @@ export function IntegrationCard({
             {description && <div className="text-[14px] font-normal leading-[1.3] tracking-[-0.04em] text-[var(--ic-desc-color)]">{description}</div>}
           </div>
 
-          {hasLink ? React.createElement(LinkComp as any, commonLinkProps, linkLabel) : <div />}
+          {hasLink ? React.createElement(LinkComp, commonLinkProps, linkLabel) : <div />}
         </>
       ) : (
         <>
@@ -148,7 +150,7 @@ export function IntegrationCard({
           <div className={cn('flex flex-col gap-2 text-left', contentClassName)}>
             <div className="text-[16px] font-[550] leading-[1.3] tracking-[-0.04em] text-[var(--ic-title-color)]">{title}</div>
             {description && <div className="text-[14px] font-normal leading-[1.3] tracking-[-0.04em] text-[var(--ic-desc-color)]">{description}</div>}
-            {hasLink && React.createElement(LinkComp as any, commonLinkProps, linkLabel)}
+            {hasLink && React.createElement(LinkComp, commonLinkProps, linkLabel)}
           </div>
         </>
       )}

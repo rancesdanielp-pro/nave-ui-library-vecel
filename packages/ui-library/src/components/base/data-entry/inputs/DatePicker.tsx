@@ -54,11 +54,13 @@ const inputVariants = cva(inputBase, {
   },
 });
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface DatePickerInputProps extends Omit<
   React.ComponentProps<'input'>,
   'size' | 'type'
 > {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'mobile';
   size?: 'sm' | 'md';
   label?: string;
@@ -81,7 +83,7 @@ export function DatePickerInput({
   const theme = useTheme();
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
+  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme) as any ?? {};
 
   const styles = {
     '--input-datepicker-text': mergedTokens?.color ?? '#000000',

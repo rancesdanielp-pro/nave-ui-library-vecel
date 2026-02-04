@@ -57,20 +57,22 @@ export const accordionContentVariants = cva(
   }
 );
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 function Accordion({
   size = 'md',
   tokens,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root> & {
   size?: 'sm' | 'md';
-  tokens?: Record<string, any>;
+  tokens?: Partial<ThemeTokensBase>;
 }) {
   const theme = useTheme();
   
   const mergedTokens = resolveTokens(
     { componentName: 'accordion', size, tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--accordion-bg': mergedTokens?.background ?? 'transparent',

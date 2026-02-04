@@ -6,10 +6,12 @@ import { cn } from '../../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../../theme';
 import { cva } from 'class-variance-authority';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface SwitchProps extends React.ComponentProps<
   typeof SwitchPrimitive.Root
 > {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
   size?: 'medium' | 'small';
   label?: string;
@@ -87,7 +89,7 @@ const Switch = ({
   const mergedTokens = resolveTokens(
     { componentName: 'switch', tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--switch-width': mergedTokens?.track?.width ?? 36,

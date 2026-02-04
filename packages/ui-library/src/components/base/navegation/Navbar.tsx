@@ -17,10 +17,6 @@ import {
 import { cn } from '../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../theme';
 
-/* ---------------------------------------------
- * TYPES
- * --------------------------------------------*/
-
 export type Merchant = {
   id: string;
   name: string;
@@ -49,10 +45,6 @@ type HeaderMerchantSelectProps = {
   currentMerchantId?: string;
   onSelect?: (id: string) => void;
 };
-
-/* ---------------------------------------------
- * SUBCOMPONENTS
- * --------------------------------------------*/
 
 function HeaderMerchantSelect({
   merchants = [],
@@ -137,9 +129,7 @@ function HeaderUserMenu({ user }: { user: NavbarUser }) {
             {user.name}
           </p>
           {user.role && (
-            <p className="text-xs text-[var(--nb-user-role)]">
-              {user.role}
-            </p>
+            <p className="text-xs text-[var(--nb-user-role)]">{user.role}</p>
           )}
         </div>
 
@@ -167,10 +157,6 @@ function Logo() {
   );
 }
 
-/* ---------------------------------------------
- * NAVBAR
- * --------------------------------------------*/
-
 export function Navbar({
   merchants,
   currentMerchantId,
@@ -186,8 +172,7 @@ export function Navbar({
 }) {
   const theme = useTheme();
 
-  const mergedTokens =
-    resolveTokens({ componentName: 'navbar' }, theme) ?? {};
+  const mergedTokens = resolveTokens({ componentName: 'navbar' }, theme) as any ?? {};
 
   /* ---------------------------------------------
    * CSS VARIABLES + FALLBACKS

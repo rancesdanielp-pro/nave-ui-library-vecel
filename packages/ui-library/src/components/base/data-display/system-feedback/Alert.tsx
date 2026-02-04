@@ -5,9 +5,6 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../../theme';
 
-/* -------------------------------------------------------------------------- */
-/* CVA */
-/* -------------------------------------------------------------------------- */
 const alertVariants = cva(
   'w-full rounded-lg border text-sm flex items-start gap-3',
   {
@@ -31,16 +28,17 @@ type Tone =
   | 'neutral'
   | 'destructive';
 
-type ThemedProps = {
-  tokens?: any;
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
+interface AlertProps
+  extends React.ComponentProps<'div'>, VariantProps<typeof alertVariants> {
+  children?: React.ReactNode;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
   tone?: Tone;
   icon?: React.ReactNode;
-};
+}
 
-/* -------------------------------------------------------------------------- */
-/* Alert Component */
-/* -------------------------------------------------------------------------- */
 function Alert({
   children,
   className,
@@ -51,15 +49,13 @@ function Alert({
   tone = 'neutral',
   icon,
   ...props
-}: React.ComponentProps<'div'> &
-  VariantProps<typeof alertVariants> &
-  ThemedProps & { children?: React.ReactNode }) {
+}: AlertProps) {
   const theme = useTheme();
 
   const mergedTokens = resolveTokens(
-    { componentName: 'alert', variant, tone, tokens },
+    { componentName: 'alert', variant: variant ?? undefined, tokens },
     theme
-  );
+  ) as any ?? {};
 
   const tokenTone = mergedTokens?.tones?.[tone] ?? {};
 
@@ -95,15 +91,11 @@ function Alert({
         </div>
       )}
 
-      {/* Contenedor layout interno más prolijo */}
       <div className="flex flex-col gap-1 min-w-0">{children}</div>
     </div>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/* AlertTitle */
-/* -------------------------------------------------------------------------- */
 function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
@@ -117,9 +109,6 @@ function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/* AlertDescription */
-/* -------------------------------------------------------------------------- */
 function AlertDescription({
   className,
   ...props

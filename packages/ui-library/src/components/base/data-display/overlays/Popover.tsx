@@ -27,6 +27,8 @@ function PopoverTrigger({
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 function PopoverContent({
   className,
   align = 'center',
@@ -34,13 +36,13 @@ function PopoverContent({
   tokens,
   style,
   ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Content> & { tokens?: any }) {
+}: React.ComponentProps<typeof PopoverPrimitive.Content> & { tokens?: Partial<ThemeTokensBase> }) {
   const theme = useTheme();
 
   const mergedTokens = resolveTokens(
     { componentName: 'popover', tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--popover-text': mergedTokens?.color ?? '#000000',

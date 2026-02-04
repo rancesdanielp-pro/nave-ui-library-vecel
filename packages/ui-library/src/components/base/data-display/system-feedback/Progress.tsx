@@ -5,10 +5,12 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 import { cn } from '../../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../../theme';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 type ProgressProps = React.ComponentProps<typeof ProgressPrimitive.Root> & {
   value: number;
   variant?: string;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
 };
 
@@ -27,7 +29,7 @@ function Progress({
     resolveTokens(
       { componentName: 'progress', variant, tokens },
       theme
-    ) ?? {};
+    ) as any ?? {};
 
   /* ---------------- Track styles ---------------- */
 const trackStyles = {

@@ -1,3 +1,2 @@
-export * from './theme-context';
-export * from './theme-resolver';
-export * from './theme';
+export { useTheme } from './client/theme-context';
+export { resolveTokens } from './client/theme-resolver';

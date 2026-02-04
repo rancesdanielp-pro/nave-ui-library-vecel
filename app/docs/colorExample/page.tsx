@@ -69,7 +69,7 @@ export default function ColorsPage() {
                 colorName="Semantic Error"
                 hexCode="#EF4444"
               />
-              <ColorExample 
+              <ColorExample z
                 colorToken="#10B981"
                 accessibilityGrade="AA 4.5.1"
                 colorName="Semantic Success"

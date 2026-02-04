@@ -12,6 +12,8 @@ interface SelectItem {
   value: string;
 }
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface SelectProps {
   value?: string;
   onValueChange?: (value: string) => void;
@@ -19,7 +21,7 @@ interface SelectProps {
   items: SelectItem[];
   size?: 'sm' | 'md';
   disabled?: boolean;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   className?: string;
   error?: boolean;
 }
@@ -90,7 +92,7 @@ export function Select({
   const mergedTokens = resolveTokens(
     { componentName: 'select', tokens },
     theme
-  );
+  ) as any ?? {};
 
   const styles = {
     '--select-text': mergedTokens?.color ?? '#000000',

@@ -7,19 +7,22 @@ import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
 import { cn } from '../../../../utils/cn';
 import { resolveTokens, useTheme } from '../../../../theme';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 type ThemedProps = {
   variant?: string;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
 };
 
-const DropdownStylesContext = React.createContext<any | null>(null);
+type DropdownTokens = ReturnType<typeof resolveTokens>;
+const DropdownStylesContext = React.createContext<DropdownTokens | null>(null);
 
 /* ---------------------------------- Root ---------------------------------- */
 
 function DropdownMenu(
   props: React.ComponentProps<typeof DropdownMenuPrimitive.Root> & {
-    tokens?: Record<string, any>;
+    tokens?: Partial<ThemeTokensBase>;
   }
 ) {
   const { tokens, ...rest } = props;
@@ -56,14 +59,12 @@ function DropdownMenuTrigger(
   );
 }
 
-/* --------------------------------- Content -------------------------------- */
-
 function DropdownMenuContent({
   className,
   sideOffset = 4,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Content> & ThemedProps) {
-  const tokens = React.useContext(DropdownStylesContext);
+  const tokens = React.useContext(DropdownStylesContext) as any;
 
   const styles = {
     '--dropdown-bg': tokens?.background ?? '#fff',
@@ -98,8 +99,6 @@ function DropdownMenuContent({
   );
 }
 
-/* -------------------------------- Subparts -------------------------------- */
-
 function DropdownMenuGroup(
   props: React.ComponentProps<typeof DropdownMenuPrimitive.Group>
 ) {
@@ -112,7 +111,7 @@ function DropdownMenuItem({
   className,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Item>) {
-  const tokens = React.useContext(DropdownStylesContext);
+  const tokens = React.useContext(DropdownStylesContext) as any;
 
   const styles = {
     '--item-text': tokens?.item?.textColor ?? 'inherit',
@@ -286,7 +285,7 @@ function DropdownMenuSubContent({
   className,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {
-  const tokens = React.useContext(DropdownStylesContext);
+  const tokens = React.useContext(DropdownStylesContext) as any;
 
   const styles = {
     '--item-text': tokens?.item?.textColor ?? 'inherit',

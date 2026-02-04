@@ -33,11 +33,13 @@ const iconBoxBase =
 /* Props
 /* -------------------------------------------------------------------------- */
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 export type BannerProps = React.ComponentProps<'div'> &
   VariantProps<typeof bannerVariants> & {
     asChild?: boolean;
-    tokens?: any;
-
+    tokens?: Partial<ThemeTokensBase>;
+    size?: 'full' | 'compact';
     tone?: Tone;
 
     title: React.ReactNode;
@@ -61,7 +63,7 @@ function Banner({
   asChild = false,
   tokens,
   tone = 'neutral',
-  size,
+  size = 'full',
 
   title,
   subtitle,
@@ -79,7 +81,7 @@ function Banner({
   const theme = useTheme();
 
   const mergedTokens =
-    resolveTokens({ componentName: 'banner', tone, size, tokens }, theme) ?? {};
+    resolveTokens({ componentName: 'banner', tone, size, tokens }, theme) as any ?? {};
 
   /* ---------------------------------------------------------------------- */
   /* CSS Variables (token-first)

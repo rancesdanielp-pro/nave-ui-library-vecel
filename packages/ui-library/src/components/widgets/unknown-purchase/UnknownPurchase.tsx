@@ -9,19 +9,32 @@ import {
   Card,
   Button,
 } from '../../base';
+import type { ThemeTokensBase } from '../../../theme/theme';
 import { ChevronsUpDown } from 'lucide-react';
 
 /* ---------------------------------------------
  * TYPES
  * --------------------------------------------*/
 
-export type UnknownPurchaseProps = {
+export type UnknownPurchaseState = 'loading' | 'empty' | 'error' | 'default';
+
+interface UnknownPurchaseProps {
   title: string;
   totalAmount: string;
   totalCount: number;
   date?: Date;
   onDateChange?: (date?: Date) => void;
-};
+  
+  /** Estados */
+  state?: UnknownPurchaseState;
+
+  /** Contenido para estados (Slots) */
+  loadingContent?: React.ReactNode;
+  emptyContent?: React.ReactNode;
+  errorContent?: React.ReactNode;
+
+  tokens?: Partial<ThemeTokensBase>;
+}
 
 /* ---------------------------------------------
  * COMPONENT
@@ -33,6 +46,10 @@ export function UnknownPurchase({
   totalCount,
   date,
   onDateChange,
+  state = 'default',
+  loadingContent,
+  emptyContent,
+  errorContent,
 }: UnknownPurchaseProps) {
   return (
     <Card
@@ -70,24 +87,35 @@ export function UnknownPurchase({
         </Popover>
       </div>
 
-      {/* TOTAL AMOUNT */}
-      <div className="mb-4">
-        <p className="text-sm text-gray-500">
-          Monto total desconocido
-        </p>
-        <p className="text-xl font-semibold text-gray-900">
-          {totalAmount}
-        </p>
-      </div>
+      {/* RENDERIZADO CONDICIONAL POR ESTADO */}
+      <div className="min-h-[100px] flex flex-col justify-center">
+        {state === 'loading' && loadingContent}
+        {state === 'empty' && emptyContent}
+        {state === 'error' && errorContent}
 
-      {/* TOTAL COUNT */}
-      <div>
-        <p className="text-sm text-gray-500">
-          Total de compras desconocidas
-        </p>
-        <p className="text-xl font-semibold text-gray-900">
-          {totalCount}
-        </p>
+        {state === 'default' && (
+          <>
+            {/* TOTAL AMOUNT */}
+            <div className="mb-4">
+              <p className="text-sm text-gray-500">
+                Monto total desconocido
+              </p>
+              <p className="text-xl font-semibold text-gray-900">
+                {totalAmount}
+              </p>
+            </div>
+
+            {/* TOTAL COUNT */}
+            <div>
+              <p className="text-sm text-gray-500">
+                Total de compras desconocidas
+              </p>
+              <p className="text-xl font-semibold text-gray-900">
+                {totalCount}
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </Card>
   );

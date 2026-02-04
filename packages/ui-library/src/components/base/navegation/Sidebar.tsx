@@ -1,13 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import Link from 'next/link';
 import { cn } from '../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../theme';
-
-/* ---------------------------------------------
- * TYPES
- * --------------------------------------------*/
+import type { ThemeTokensBase } from '../../../theme/theme';
 
 export type SidebarItem = {
   id: string;
@@ -29,15 +25,10 @@ export type SidebarProps = {
   items?: SidebarItem[];
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  onItemClick?: (href: string) => void;
   className?: string;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
 };
-
-
-
-/* ---------------------------------------------
- * ICONS (Consumiendo variable de color del toggle)
- * --------------------------------------------*/
 
 const CollapseIconExpanded = () => (
   <svg
@@ -79,24 +70,20 @@ const CollapseIconCollapsed = () => (
   </svg>
 );
 
-
-/* ---------------------------------------------
- * COMPONENT
- * --------------------------------------------*/
-
 export function Sidebar({
   title = 'Tu Nave',
   sections,
   items,
   collapsed = false,
   onToggleCollapse,
+  onItemClick,
   className,
   tokens,
 }: SidebarProps) {
   const theme = useTheme();
 
   const mergedTokens =
-    resolveTokens({ componentName: 'sidebar', tokens }, theme) ?? {};
+    resolveTokens({ componentName: 'sidebar', tokens }, theme) as any ?? {};
 
   const styles = {
     '--sb-bg': mergedTokens?.container?.background ?? '#ffffff',
@@ -128,9 +115,7 @@ export function Sidebar({
         'flex h-full flex-col border-r',
         'bg-[var(--sb-bg)] border-[var(--sb-border)]',
         'transition-[width] duration-[var(--sb-motion)]',
-        collapsed
-          ? 'w-[var(--sb-width-collapsed)]'
-          : 'w-[var(--sb-width)]',
+        collapsed ? 'w-[var(--sb-width-collapsed)]' : 'w-[var(--sb-width)]',
         className
       )}
     >
@@ -172,31 +157,29 @@ export function Sidebar({
               const isActive = item.active;
 
               const linkClasses = cn(
-                'flex items-center gap-3 h-[36px] w-full rounded-md px-2 text-sm font-medium transition-colors',
+                'flex items-center gap-3 h-9 w-full rounded-md px-2 text-sm font-medium transition-colors',
                 collapsed && 'justify-center px-0',
-
-                !isActive &&
-                  'text-[var(--sb-item-color)] hover:bg-[var(--sb-item-hover-bg)] hover:text-[var(--sb-item-hover-color)]',
-
-                isActive &&
-                  'bg-[var(--sb-item-active-bg)] text-[var(--sb-item-active-color)]'
+                isActive
+                  ? 'bg-[var(--sb-item-active-bg)] text-[var(--sb-item-active-color)]'
+                  : 'text-[var(--sb-item-color)] hover:bg-[var(--sb-item-hover-bg)] hover:text-[var(--sb-item-hover-color)]'
               );
 
               const content = (
                 <>
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                  <span className="flex h-5 w-5 items-center justify-center">
                     {item.icon}
                   </span>
                   {!collapsed && <span className="truncate">{item.label}</span>}
                 </>
               );
 
-              return item.href ? (
-                <Link key={item.id} href={item.href} className={linkClasses}>
-                  {content}
-                </Link>
-              ) : (
-                <div key={item.id} className={linkClasses}>
+              return (
+                <div
+                  key={item.id}
+                  className={linkClasses}
+                  onClick={() => item.href && onItemClick?.(item.href)}
+                  style={{ cursor: item.href ? 'pointer' : 'default' }}
+                >
                   {content}
                 </div>
               );

@@ -5,8 +5,10 @@ import * as LabelPrimitive from '@radix-ui/react-label';
 import { cn } from '../../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../../theme';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface LabelProps extends React.ComponentProps<typeof LabelPrimitive.Root> {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
 }
 
 export function Label({
@@ -18,7 +20,7 @@ export function Label({
   const theme = useTheme();
 
   // 1) Resolvemos tokens del tema
-  const mergedTokens = resolveTokens({ componentName: 'label', tokens }, theme) ?? {};
+  const mergedTokens = resolveTokens({ componentName: 'label', tokens }, theme) as any ?? {};
 
   // 2) Mapeamos a variables CSS
   const styles = {

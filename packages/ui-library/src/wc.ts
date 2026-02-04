@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 
 import { Button } from "./components/base/buttons/Button";
 
-function define(name: string, Component: any) {
+function define(name: string, Component: React.ComponentType<any>) {
   if (!customElements.get(name)) {
     customElements.define(
       name,

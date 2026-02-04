@@ -9,9 +9,11 @@ import { resolveTokens, useTheme } from '../../../../theme';
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 type AvatarProps = React.ComponentProps<typeof AvatarPrimitive.Root> & {
   size?: AvatarSize;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   asChild?: boolean;
 };
 
@@ -27,7 +29,7 @@ function Avatar({
   const Comp = asChild ? Slot : AvatarPrimitive.Root;
 
   const mergedTokens =
-    resolveTokens({ componentName: 'avatar', tokens }, theme) ?? {};
+    resolveTokens({ componentName: 'avatar', tokens }, theme) as any ?? {};
 
   const sizeTokens = mergedTokens?.sizes?.[size] ?? {};
 

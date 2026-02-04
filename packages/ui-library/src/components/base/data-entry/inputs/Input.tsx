@@ -57,8 +57,10 @@ const inputVariants = cva(inputBase, {
   },
 });
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 interface InputProps extends Omit<React.ComponentProps<'input'>, 'size'> {
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'mobile';
   size?: 'sm' | 'md';
   tone?: 'brand' | 'neutral' | 'destructive';
@@ -83,7 +85,7 @@ export function Input({
 }: InputProps) {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme);
+  const mergedTokens = resolveTokens({ componentName: 'input', tokens }, theme) as any ?? {};
 
   const styles = {
     '--input-text': mergedTokens?.color ?? '#000000',

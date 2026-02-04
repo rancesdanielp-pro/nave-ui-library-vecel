@@ -14,6 +14,8 @@ export type BadgeTone =
 export type BadgeSize = 'small' | 'medium' | 'large';
 export type BadgeShape = 'rounded' | 'square';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 function Badge({
   className,
   tone = 'neutral',
@@ -28,13 +30,13 @@ function Badge({
   size?: BadgeSize;
   shape?: BadgeShape;
   asChild?: boolean;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
 }) {
   const Comp = asChild ? Slot : 'span';
   const theme = useTheme();
 
   const mergedTokens =
-    resolveTokens({ componentName: 'badge', tokens }, theme) ?? {};
+    resolveTokens({ componentName: 'badge', tokens }, theme) as any ?? {};
 
   const sizeTokens = mergedTokens?.sizes?.[size] ?? {};
   const toneTokens = mergedTokens?.tones?.[tone] ?? {};

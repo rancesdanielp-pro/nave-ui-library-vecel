@@ -1,4 +1,12 @@
-export function parseType(type: string) {
+export type ParsedType =
+  | { kind: "boolean"; default: boolean }
+  | { kind: "number"; default: number }
+  | { kind: "string"; default: string }
+  | { kind: "slot"; default: string }
+  | { kind: "enum"; options: string[]; default: string }
+  | { kind: "unknown"; default: undefined };
+
+export function parseType(type: string): ParsedType {
   // boolean
   if (type === "boolean") {
     return { kind: "boolean", default: false };

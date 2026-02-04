@@ -13,11 +13,13 @@ export type IconVariant =
   | 'danger'
   | 'success';
 
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 export type IconProps = React.HTMLAttributes<HTMLSpanElement> & {
   children?: React.ReactNode;
   size?: IconSize;
   color?: IconVariant;
-  tokens?: any;
+  tokens?: Partial<ThemeTokensBase>;
   asChild?: boolean;
 };
 
@@ -41,8 +43,8 @@ function Icon({
         tokens: customTokens,
       },
       theme
-    ) ?? {};
-    
+    ) as any ?? {};
+
   const finalSize = mergedTokens?.sizes?.[size] ?? 20;
   const finalColor = mergedTokens?.color ?? 'currentColor';
 
@@ -51,8 +53,6 @@ function Icon({
     '--icon-color': finalColor,
     ...style,
   } as React.CSSProperties;
-
-  console.log('Icon styles:', styles);
 
   const Comp = asChild ? Slot : 'span';
 
@@ -69,10 +69,11 @@ function Icon({
     >
       {React.isValidElement(children)
         ? React.cloneElement(children as React.ReactElement<any>, {
-            width: finalSize,
-            height: finalSize,
+            width: (children.props as any)?.width ?? finalSize,
+            height: (children.props as any)?.height ?? finalSize,
             stroke: 'currentColor',
             color: 'currentColor',
+            className: cn('shrink-0', (children.props as any)?.className),
           })
         : children}
     </Comp>
