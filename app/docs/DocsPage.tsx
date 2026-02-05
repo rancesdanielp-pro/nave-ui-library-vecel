@@ -14,14 +14,9 @@ export function DocsPage({
   useBrand();
   const theme = tokenVariants[0].tokens;
   const { activeBrand } = useBrand();
-
-  const channelId =
-    CHANNEL_BY_BRAND[activeBrand.name] ?? CHANNEL_BY_BRAND.nave;
-
-    console.log('Rendering DocsPage with channelId:', channelId);
-
+  
   return (
-    <ThemeProvider channelId={channelId}>
+    <ThemeProvider channelId={activeBrand.name}>
       <section className="w-full min-h-screen flex justify-center bg-slate-100">
         <div className="w-full max-w-[960px] px-6 py-12">
           <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 px-8 py-8">
