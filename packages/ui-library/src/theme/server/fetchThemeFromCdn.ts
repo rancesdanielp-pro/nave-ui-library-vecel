@@ -1,6 +1,5 @@
 // theme/server/fetchThemeFromCdn.ts
 
-
 export async function fetchThemeFromCdn(channelId: string) {
   const res = await fetch(
     `https://e3-ranty-sdk-js.naranjax.com/theme/${channelId}.json`,
@@ -13,7 +12,9 @@ export async function fetchThemeFromCdn(channelId: string) {
   );
 
   if (!res.ok) return null;
-  return res;
+
+  const data = await res.json();
+  return data;
 }
 
 /*
