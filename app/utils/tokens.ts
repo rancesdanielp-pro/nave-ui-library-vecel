@@ -1,6 +1,6 @@
 export const tokenVariants = [
   {
-    name: 'nave',
+    name: 'nave-v1',
     tokens: {
       meta: {
         version: '2.0.0',
