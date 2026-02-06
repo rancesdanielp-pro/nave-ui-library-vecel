@@ -1,6 +1,6 @@
 export const tokenVariants = [
   {
-    name: 'nave-v1',
+    name: 'nave',
     tokens: {
       meta: {
         version: '2.0.0',
@@ -1667,12 +1667,857 @@ export const tokenVariants = [
         },
       },
     },
-  }
+  },
+  {
+    name: 'musimundo',
+    tokens: {
+      /* =========================================================
+       * META
+       * ======================================================= */
+      meta: {
+        version: '2.0.0',
+        theme: 'light',
+        radiusScale: 'md',
+      },
+
+      /* =========================================================
+       * FOUNDATIONS (valores puros)
+       * ======================================================= */
+      foundations: {
+        colors: {
+          brand: {
+            primary: '#E30613' /* Rojo Musimundo */,
+            hover: '#C20510' /* Rojo Oscurecido */,
+            secondary: '#002B5C' /* Azul Marino Musimundo */,
+            accent: '#0056B3' /* Azul de enlaces/interacción */,
+          },
+          semantic: {
+            success: '#28A745',
+            warning: '#FFC107',
+            danger: '#DC3545',
+            info: '#17A2B8',
+          },
+          neutral: {
+            0: '#FFFFFF',
+            100: '#F8F9FA',
+            200: '#E9ECEF',
+            300: '#DEE2E6',
+            400: '#CED4DA',
+            500: '#ADB5BD',
+            700: '#495057',
+            900: '#212529',
+          },
+        },
+
+        typography: {
+          fontFamily: 'inherit',
+          sizes: {
+            xs: '12px',
+            sm: '14px',
+            md: '16px',
+            lg: '18px',
+          },
+          weights: {
+            regular: 400,
+            medium: 500,
+            semibold: 700,
+            bold: 700,
+          },
+          lineHeights: {
+            tight: '1.2',
+            normal: '1.4',
+            relaxed: '1.6',
+          },
+        },
+
+        radius: {
+          sm: '4px',
+          md: '8px',
+          lg: '12px',
+          full: '9999px',
+        },
+
+        spacing: {
+          xs: '4px',
+          sm: '8px',
+          md: '12px',
+          lg: '16px',
+          xl: '24px',
+        },
+
+        motion: {
+          duration: {
+            fast: '150ms',
+            normal: '250ms',
+          },
+          easing: {
+            standard: 'ease',
+            out: 'ease-out',
+          },
+        },
+
+        shadow: {
+          sm: '0 1px 2px rgba(0,0,0,0.05)',
+          md: '0 4px 12px rgba(0,0,0,0.1)',
+        },
+      },
+
+      /* =========================================================
+       * SEMANTIC TOKENS (significado)
+       * ======================================================= */
+      semanticTokens: {
+        text: {
+          primary: '{foundations.colors.neutral.900}',
+          secondary: '{foundations.colors.neutral.700}',
+          muted: '{foundations.colors.neutral.500}',
+          inverse: '{foundations.colors.neutral.0}',
+        },
+
+        surface: {
+          default: '{foundations.colors.neutral.0}',
+          muted: '{foundations.colors.neutral.100}',
+          hover: '{foundations.colors.neutral.200}',
+        },
+
+        border: {
+          default: '{foundations.colors.neutral.300}',
+          focus: '{foundations.colors.brand.primary}',
+        },
+
+        action: {
+          primary: '{foundations.colors.brand.primary}',
+          secondary: '{foundations.colors.brand.secondary}',
+          primaryHover: '{foundations.colors.brand.hover}',
+          disabled: '{foundations.colors.neutral.300}',
+        },
+      },
+
+      /* =========================================================
+       * COMPONENT TOKENS (contratos)
+       * ======================================================= */
+      components: {
+        button: {
+          base: {
+            radius: '{foundations.radius.md}',
+            fontWeight: '{foundations.typography.weights.regular}',
+            transition: '{foundations.motion.duration.fast}',
+          },
+          variants: {
+            primary: {
+              background: '{semanticTokens.action.primary}',
+              backgroundHover: '{semanticTokens.action.primaryHover}',
+              color: '{semanticTokens.text.inverse}',
+            },
+            secondary: {
+              background: '{semanticTokens.surface.muted}',
+              color: '{semanticTokens.text.primary}',
+            },
+          },
+        },
+        label: {
+          fontSize: '{foundations.typography.sizes.sm}',
+          color: '{semanticTokens.text.primary}',
+          padding: '{foundations.spacing.xs} {foundations.spacing.sm}',
+          fontWeight: '{foundations.typography.weights.medium}',
+        },
+
+        input: {
+          background: '{semanticTokens.surface.default}',
+          color: '{semanticTokens.text.primary}',
+          border: '{semanticTokens.border.default}',
+          focusBorder: '{semanticTokens.border.focus}',
+          radius: '{foundations.radius.md}',
+        },
+
+        /* select | combobox */
+        select: {
+          background: '{semanticTokens.surface.default}',
+          color: '{semanticTokens.text.primary}',
+          border: '{semanticTokens.border.default}',
+          focusBorder: '{semanticTokens.border.focus}',
+          radius: '{foundations.radius.md}',
+        },
+
+        tooltip: {
+          background: '{foundations.colors.neutral.700}',
+          color: '{semanticTokens.text.inverse}',
+          radius: '{foundations.radius.sm}',
+        },
+
+        accordion: {
+          text: '{semanticTokens.text.primary}',
+          border: '{semanticTokens.border.default}',
+          radius: '{foundations.radius.sm}',
+          focusBorder: '{semanticTokens.border.focus}',
+        },
+
+        checkbox: {
+          track: {
+            width: '36px',
+            height: '20px',
+            radius: '{foundations.radius.md}',
+            background: '{semanticTokens.surface.muted}',
+            border: '{semanticTokens.border.default}',
+            focusBorder: '{semanticTokens.border.focus}',
+          },
+
+          checked: {
+            background: '{semanticTokens.action.primary}',
+            backgroundHover: '{semanticTokens.action.primaryHover}',
+          },
+
+          disabled: {
+            background: '{semanticTokens.surface.muted}',
+            thumb: '{semanticTokens.surface.default}',
+          },
+
+          thumb: {
+            size: '16px',
+            color: '{semanticTokens.surface.default}',
+          },
+
+          motion: {
+            duration: '{foundations.motion.duration.fast}',
+          },
+        },
+
+        badge: {
+          base: {
+            fontWeight: '550',
+            lineHeight: '1.3',
+          },
+
+          sizes: {
+            small: {
+              fontSize: '12px',
+              padding: '2px 8px',
+            },
+            medium: {
+              fontSize: '14px',
+              padding: '4px 10px',
+            },
+            large: {
+              fontSize: '16px',
+              padding: '6px 12px',
+            },
+          },
+
+          shapes: {
+            rounded: {
+              radius: '{foundations.radius.full}',
+            },
+            square: {
+              radius: '{foundations.radius.md}',
+            },
+          },
+
+          tones: {
+            success: {
+              background: '#F2FDF8',
+              color: '#128751',
+            },
+            warning: {
+              background: '#FEFAF0',
+              color: '#C26E04',
+            },
+            error: {
+              background: '#FEEEEB',
+              color: '#C2040C',
+            },
+            info: {
+              background: '#F0F5FE',
+              color: '#0465C2',
+            },
+            neutral: {
+              background: '#F9F9FA',
+              color: '#3A3F4B',
+              border: '#E2E5E9',
+            },
+            brand: {
+              background: '#F6F2FD',
+              color: '#000000',
+            },
+          },
+        },
+
+        banner: {
+          base: {
+            radius: '{foundations.radius.lg}',
+            paddingX: '16px',
+            paddingY: '16px',
+          },
+
+          sizes: {
+            full: {
+              maxWidth: '1184px',
+            },
+            compact: {
+              maxWidth: '360px',
+            },
+          },
+
+          tones: {
+            success: {
+              background: '#F2FDF8',
+              border: '#128751',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.feedback.success.iconBg}',
+              iconColor: '#128751',
+              action: '{semanticTokens.feedback.success.action}',
+            },
+            warning: {
+              background: '#FEFAF0',
+              border: '#C26E04',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#C26E04',
+              action: '{semanticTokens.text.primary}',
+            },
+            error: {
+              background: '#FEEEEB',
+              border: '#C2040C',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#C2040C',
+              action: '{semanticTokens.text.primary}',
+            },
+            info: {
+              background: '#F0F5FE',
+              border: '#000000',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#000000',
+              action: '{semanticTokens.text.primary}',
+            },
+            neutral: {
+              background: '#F9F9FA',
+              border: '#E2E5E9',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#3A3F4B',
+              action: '{semanticTokens.text.primary}',
+            },
+            brand: {
+              background: '#F6F2FD',
+              color: '#000000',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#000000',
+              action: '{semanticTokens.text.primary}',
+            },
+          },
+        },
+        promoBanner: {
+          primary: {
+            background: '{semanticTokens.action.primary}', // fondo principal
+            color: '{semanticTokens.text.inverse}', // texto principal
+            linkColor: '{semanticTokens.text.inverse}', // color de links
+            linkUnderline: true, // si el link debe subrayarse
+            borderRadius: '16px',
+            padding: '12px 16px',
+            imageBg: 'lightgray', // fondo de la imagen si falla
+          },
+          secondary: {
+            background: '{foundations.colors.brand.secondary}',
+            color: '{semanticTokens.text.primary}',
+            linkColor: '{foundations.colors.brand.primary}',
+            linkUnderline: false,
+            borderRadius: '16px',
+            padding: '12px 16px',
+            imageBg: '#E5E7EB',
+          },
+          tertiary: {
+            background: '{foundations.colors.feedback.warning}',
+            color: '{semanticTokens.text.primary}',
+            linkColor: '{foundations.colors.feedback.warning}',
+            linkUnderline: true,
+            borderRadius: '16px',
+            padding: '12px 16px',
+            imageBg: '#FEF3C7',
+          },
+        },
+
+        alert: {
+          base: {
+            radius: '{foundations.radius.lg}',
+            paddingX: '16px',
+            paddingY: '12px',
+          },
+
+          tones: {
+            success: {
+              background: '#F2FDF8',
+              border: '#128751',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.feedback.success.iconBg}',
+              iconColor: '#128751',
+              action: '{semanticTokens.feedback.success.action}',
+            },
+            warning: {
+              background: '#FEFAF0',
+              border: '#C26E04',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#C26E04',
+              action: '{semanticTokens.text.primary}',
+            },
+            error: {
+              background: '#FEEEEB',
+              border: '#C2040C',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#C2040C',
+              action: '{semanticTokens.text.primary}',
+            },
+            info: {
+              background: '#F0F5FE',
+              border: '#0465C2',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#0465C2',
+              action: '{semanticTokens.text.primary}',
+            },
+            neutral: {
+              background: '#F9F9FA',
+              border: '#E2E5E9',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#3A3F4B',
+              action: '{semanticTokens.text.primary}',
+            },
+            destructive: {
+              background: '#FEF2F2',
+              border: '#DC2626',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '#DC2626',
+              action: '{semanticTokens.text.primary}',
+            },
+          },
+        },
+        avatar: {
+          sizes: {
+            sm: {
+              size: '32px',
+              fontSize: '12px',
+            },
+            md: {
+              size: '40px',
+              fontSize: '14px',
+            },
+            lg: {
+              size: '56px',
+              fontSize: '18px',
+            },
+          },
+
+          shape: {
+            radius: '{foundations.radius.full}',
+          },
+
+          fallback: {
+            background: '{semanticTokens.surface.muted}',
+            color: '{semanticTokens.text.primary}',
+            fontWeight: '{foundations.typography.weights.medium}',
+          },
+        },
+
+        radio: {
+          outer: {
+            size: '16px',
+            radius: '50%',
+            background: '{semanticTokens.surface.default}',
+            border: '{semanticTokens.border.default}',
+            focusBorder: '{semanticTokens.border.focus}',
+          },
+
+          checked: {
+            background: '{semanticTokens.action.primary}',
+            backgroundHover: '{semanticTokens.action.primaryHover}',
+          },
+
+          dot: {
+            size: '8px',
+            color: '{semanticTokens.surface.default}',
+          },
+
+          disabled: {
+            background: '{semanticTokens.surface.muted}',
+            border: '{semanticTokens.border.default}',
+            dot: '{semanticTokens.surface.default}',
+          },
+
+          motion: {
+            duration: '{foundations.motion.duration.fast}',
+          },
+        },
+
+        switch: {
+          track: {
+            width: '36px',
+            height: '20px',
+            radius: '{foundations.radius.full}',
+            offBackground: '{foundations.colors.neutral.300}',
+            onBackground: '{semanticTokens.action.primary}',
+            focusBorder: '{semanticTokens.border.focus}',
+          },
+
+          handle: {
+            size: '12px',
+            color: '{semanticTokens.text.inverse}',
+          },
+
+          disabled: {
+            track: '{semanticTokens.surface.muted}',
+            handle: '{semanticTokens.surface.default}',
+          },
+
+          motion: {
+            duration: '{foundations.motion.duration.fast}',
+          },
+        },
+
+        dropdown: {
+          background: '{semanticTokens.surface.default}',
+          border: '{semanticTokens.border.default}',
+          radius: '{foundations.radius.md}',
+          shadow: '{foundations.shadow.md}',
+        },
+
+        alertDialog: {
+          overlay: {
+            background: 'rgba(0,0,0,0.5)',
+          },
+          content: {
+            background: '{semanticTokens.surface.default}',
+            radius: '{foundations.radius.lg}',
+            border: '{semanticTokens.border.default}',
+          },
+          title: {
+            color: '{semanticTokens.text.primary}',
+            fontWeight: '{foundations.typography.weights.semibold}',
+          },
+          description: {
+            color: '{semanticTokens.text.secondary}',
+          },
+        },
+        card: {
+          backgroundColor: '{semanticTokens.surface.default}',
+          borderColor: '{semanticTokens.border.default}',
+          color: '#111827', // Color del título
+          borderRadius: '{foundations.radius.lg}',
+          padding: '16px',
+          title: {
+            fontSize: '18px',
+            fontWeight: 550,
+            lineHeight: '130%',
+            letterSpacing: '-0.04em',
+          },
+          variants: {
+            primary: {
+              backgroundColor: '{foundations.colors.neutral}',
+              borderColor: '#E5E7EB',
+            },
+            secondary: {
+              backgroundColor: '#F9FAFB',
+              borderColor: 'transparent',
+            },
+            tertiary: {
+              backgroundColor: '{foundations.colors.neutral}',
+              borderColor: '#652BDF', // Borde de marca
+            },
+          },
+        },
+
+        integrationCard: {
+          backgroundColor: '#F9F9FA',
+          borderColor: '#E5E7EB',
+          borderRadius: '16px',
+          title: {
+            color: '#111827',
+            fontSize: '16px',
+            fontWeight: 550,
+          },
+          description: {
+            color: '#6B7280',
+            fontSize: '14px',
+          },
+          link: {
+            color: '#652BDF',
+            fontSize: '14px',
+            fontWeight: 550,
+          },
+          variants: {
+            default: { borderColor: '#E5E7EB' },
+            subtle: { borderColor: '#EEF2F7' },
+            none: { borderColor: 'transparent' },
+          },
+        },
+
+        dragslider: {
+          gap: '16px',
+          cursorGrab: 'grab',
+          cursorGrabbing: 'grabbing',
+          scrollBehavior: 'smooth',
+        },
+
+        calendar: {
+          background: '{semanticTokens.surface.default}',
+          text: '{semanticTokens.text.primary}',
+          mutedText: '{semanticTokens.text.muted}',
+          accent: '#F6F2FD',
+          accentForeground: '{semanticTokens.text.inverse}',
+          radius: '{foundations.radius.md}',
+        },
+
+        popover: {
+          background: '{semanticTokens.surface.default}',
+          border: '{semanticTokens.border.default}',
+          radius: '{foundations.radius.md}',
+          shadow: '{foundations.shadow.md}',
+        },
+
+        pagination: {
+          background: '{semanticTokens.surface.default}',
+          activeBackground: '#F4F0FF',
+          activeText: '{semanticTokens.action.primary}',
+          hoverBackground: '{semanticTokens.surface.hover}',
+          border: '{semanticTokens.border.default}',
+          radius: '{foundations.radius.md}',
+        },
+
+        tabs: {
+          tabsList: {
+            background: '{semanticTokens.surface.muted}',
+            color: '{semanticTokens.text.primary}',
+            border: '{foundations.radius.md}',
+          },
+          tabsTrigger: {
+            color: '{semanticTokens.text.primary}',
+            active: {
+              background: '{semanticTokens.action.primary}',
+              border: '{semanticTokens.border.default}',
+              color: '{semanticTokens.text.inverse}',
+            },
+            disabled: {
+              opacity: 0.5,
+            },
+          },
+          tabsFocusRing: {
+            innerColor: '{semanticTokens.surface.default}',
+            outerColor: '{semanticTokens.border.focus}',
+            innerSize: '2px',
+            outerSize: '4px',
+          },
+        },
+
+        table: {
+          background: '{semanticTokens.surface.default}',
+          color: '{semanticTokens.text.primary}',
+          border: '{semanticTokens.border.default}',
+          radius: '{foundations.radius.md}',
+          hoverBackground: '{semanticTokens.surface.hover}',
+          selectedBackground: '#F4F0FF',
+          shadow: '{foundations.shadow.md}',
+        },
+
+        breadcrumb: {
+          link: {
+            color: '{semanticTokens.action.primary}',
+            fontWeight: '{foundations.typography.weights.semibold}',
+            hoverBackground: '{semanticTokens.surface.hover}',
+          },
+          page: {
+            color: '{semanticTokens.text.muted}',
+          },
+          separator: {
+            color: '{foundations.colors.neutral.400}',
+          },
+        },
+        loader: {
+          sizes: {
+            sm: 16,
+            md: 24,
+            lg: 32,
+          },
+
+          base: {
+            color: '{semanticTokens.text.muted}',
+          },
+
+          variants: {
+            default: {
+              color: '{semanticTokens.text.muted}',
+            },
+            primary: {
+              color: '{semanticTokens.action.primary}',
+            },
+            secondary: {
+              color: '{foundations.colors.brand.secondary}',
+            },
+          },
+        },
+
+        progress: {
+          track: {
+            height: '4px',
+            radius: '{foundations.radius.md}',
+            background: '{semanticTokens.surface.muted}',
+          },
+
+          indicator: {
+            background: '{semanticTokens.action.primary}',
+          },
+
+          motion: {
+            duration: '{foundations.motion.duration.fast}',
+            easing: '{foundations.motion.easing.out}',
+          },
+        },
+
+        sidebar: {
+          container: {
+            background: '{semanticTokens.surface.default}',
+            border: '{semanticTokens.border.default}',
+            width: '240px',
+            collapsedWidth: '64px',
+          },
+
+          header: {
+            titleColor: '{semanticTokens.text.muted}',
+          },
+
+          item: {
+            color: '{semanticTokens.text.muted}',
+            hover: {
+              background: '{semanticTokens.surface.hover}',
+              color: '{semanticTokens.text.primary}',
+            },
+            active: {
+              background: '#F4F0FF',
+              color: '{semanticTokens.action.primary}',
+            },
+          },
+
+          toggle: {
+            color: '{foundations.colors.neutral.400}',
+            hoverColor: '{foundations.colors.neutral.500}',
+          },
+
+          motion: {
+            duration: '{foundations.motion.duration.normal}',
+          },
+        },
+
+        navbar: {
+          container: {
+            height: '64px',
+            background: '{semanticTokens.surface.default}',
+            border: '{semanticTokens.border.default}',
+            radius: '{foundations.radius.md}',
+          },
+
+          content: {
+            maxWidth: '1440px',
+            paddingX: '{foundations.spacing.lg}',
+          },
+
+          merchant: {
+            color: '{semanticTokens.text.primary}',
+            chevronColor: '{semanticTokens.text.muted}',
+          },
+
+          action: {
+            gap: '{foundations.spacing.sm}',
+          },
+
+          user: {
+            nameColor: '{semanticTokens.text.primary}',
+            roleColor: '{semanticTokens.text.muted}',
+          },
+
+          motion: {
+            duration: '{foundations.motion.duration.fast}',
+          },
+        },
+
+        drawer: {
+          container: {
+            background: '{semanticTokens.surface.default}',
+            color: '{semanticTokens.text.primary}',
+            radius: '{foundations.radius.sm}',
+            borderWidth: '{foundations.borderWidths.sm}',
+            borderColor: '{semanticTokens.border.default}',
+            shadow: '{foundations.shadow.md}',
+            padding: '24px',
+            maxHeight: '80vh',
+          },
+
+          overlay: {
+            background: '{semanticTokens.overlay.background}',
+            opacity: '{semanticTokens.overlay.opacity}',
+            backdropBlur: '{semanticTokens.overlay.backdropBlur}',
+          },
+
+          title: {
+            fontSize: '{foundations.fontSizes.xl}',
+            fontWeight: '{foundations.typography.weights.semibold}',
+            lineHeight: '{foundations.lineHeights.relaxed}',
+            color: '{semanticTokens.text.primary}',
+          },
+
+          description: {
+            fontSize: '{foundations.fontSizes.md}',
+            lineHeight: '{foundations.lineHeights.normal}',
+            color: '{semanticTokens.text.secondary}',
+          },
+
+          close: {
+            size: '{foundations.spacing.lg}',
+            radius: '{foundations.radius.md}',
+            color: '{semanticTokens.text.secondary}',
+            hoverBackground: '{foundations.colors.neutral.100}',
+            focusRing: '{foundations.colors.neutral.200}',
+          },
+        },
+
+        icon: {
+          base: {
+            color: '{semanticTokens.action.primary}',
+          },
+
+          sizes: {
+            xs: 12,
+            sm: 16,
+            md: 20,
+            lg: 24,
+            xl: 32,
+          },
+
+          variants: {
+            default: {
+              color: '{semanticTokens.action.primary}',
+            },
+            muted: {
+              color: '{semanticTokens.text.muted}',
+            },
+            danger: {
+              color: '{foundations.colors.semantic.danger}',
+            },
+            success: {
+              color: '{foundations.colors.semantic.success}',
+            },
+          },
+        },
+      },
+    },
+  },
 ];
 
 export const CHANNEL_BY_BRAND: Record<string, string> = {
   nave: 'nave',
   galicia: 'galicia',
+  musimundo: 'musimundo',
 };
 
 export async function getThemeMock() {

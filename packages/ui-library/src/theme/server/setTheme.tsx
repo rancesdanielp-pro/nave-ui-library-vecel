@@ -46,6 +46,8 @@ export function setTheme({ channelId, theme, children }: Props) {
     };
   }, [channelId, theme]);
 
+  console.log('Rendering setTheme with channelId:', channelId, 'and finalTheme:', finalTheme);
+
   return (
     <ThemeContext.Provider value={finalTheme ?? EMPTY_THEME}>
       {children}

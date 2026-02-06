@@ -1,8 +1,10 @@
 export const themeDefault = {
   name: 'mockup-default',
+  schema: 'ui.theme.v1',
+  version: '1.0.0',
   tokens: {
     meta: {
-      version: '1.0.0',
+      theme: 'default',
     },
     foundations: {
       colors: {

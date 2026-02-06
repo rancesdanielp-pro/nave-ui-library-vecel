@@ -1,6 +1,6 @@
 {
     "name": "nave-ui-library",
-    "version": "1.0.0-beta.25",
+    "version": "1.0.0-beta.28",
     "description": "Universal UI library for Nave",
     "type": "module",
     "exports": {

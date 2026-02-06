@@ -1,0 +1,1 @@
+export const SUPPORTED_SCHEMAS = ['ui.theme.v1'] as const;

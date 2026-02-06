@@ -1106,3 +1106,25 @@ Este README funciona como:
 - 📘 Documentación oficial del Design System
 - 🧪 Playground de referencia visual
 - 🧩 Base sólida para escalar nuevos componentes
+
+Estructura JSON contrato
+
+```json
+{
+  "name": "XXXXX",
+  "schema": "ui.theme.v1",
+  "version": "4.0.0",
+  "tokens": {
+    "meta": {
+      "theme": "light"
+    },
+    "foundations": {},
+    "semanticTokens": {},
+    "components": {}
+  }
+}
+```
+
+```env
+NEXT_PUBLIC_THEME_VERSION=4.0.1
+```
