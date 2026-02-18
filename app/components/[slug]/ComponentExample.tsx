@@ -11,7 +11,7 @@ import { CodeBlock } from './CodeBlock';
 
 type ComponentExampleProps = {
   preview: React.ReactNode;
-  code: string;
+  code: any;
 };
 
 export function ComponentExample({
@@ -21,7 +21,7 @@ export function ComponentExample({
   return (
     <Tabs defaultValue="preview">
       {/* Tabs FUERA de la card */}
-      <TabsList className="mb-4 justify-start w-35">
+      <TabsList className="mb-4 justify-start w-37">
         <TabsTrigger value="preview">Preview</TabsTrigger>
         <TabsTrigger value="code">Code</TabsTrigger>
       </TabsList>

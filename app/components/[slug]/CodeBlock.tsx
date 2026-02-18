@@ -1,12 +1,29 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { formatCode } from '@/app/utils/formatCode';
 import { cn } from '@/packages/ui-library/src/utils/cn';
 
 type CodeBlockProps = {
   code: string;
+  lang?: 'js' | 'ts' | 'tsx' | 'json';
 };
 
-export function CodeBlock({ code }: CodeBlockProps) {
+export function CodeBlock({ code, lang = 'ts' }: CodeBlockProps) {
+  const [formatted, setFormatted] = useState<string>(code);
+
+  useEffect(() => {
+    let mounted = true;
+
+    formatCode(code, lang).then((res) => {
+      if (mounted) setFormatted(res);
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, [code, lang]);
+
   return (
     <pre
       className={cn(
@@ -15,7 +32,7 @@ export function CodeBlock({ code }: CodeBlockProps) {
         'overflow-x-auto'
       )}
     >
-      <code>{code}</code>
+      <code>{formatted}</code>
     </pre>
   );
 }

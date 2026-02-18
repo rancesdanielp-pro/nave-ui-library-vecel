@@ -13,71 +13,63 @@ interface SwitchProps extends React.ComponentProps<
 > {
   tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'native';
-  size?: 'medium' | 'small';
+  size?: 'regular' | 'small' | 'extraSmall';
   label?: string;
   description?: string;
-  state?: 'checked' | 'indeterminate';
   disabled?: boolean;
 }
 
-const switchBase =
-  'inline-flex items-center rounded-full transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] focus-visible:ring-offset-2 disabled:cursor-not-allowed p-[2px]';
+const switchBase = `
+  bg-[--switch-background-color]
+  inline-flex items-center rounded-full
+  w-[--switch-width]
+  h-[--switch-height]
+  transition-colors outline-none
+  disabled:cursor-not-allowed
+  p-[2px]
+  `;
 
-const thumbBase = 'block rounded-full bg-white transition-transform';
+const labelStyle = 'leading-[1.3]';
+
+const descriptionStyle = 'leading-[1.3]';
 
 const switchVariants = cva(switchBase, {
-  variants: {
-    size: {
-      medium: 'h-5 w-9', // 20 x 36
-      small: 'h-4 w-7', // 16 x 28
-    },
-  },
+  variants: {},
   compoundVariants: [
-    // UNCHECKED DEFAULT
+    // UNCHECKED
     {
-      className: 'data-[state=unchecked]:bg-[--switch-background-color]',
+      className: `
+        data-[state=unchecked]:bg-[--switch-background]
+        data-[state=unchecked]:hover:bg-[--switch-background-hover]
+      `,
     },
-    // UNCHECKED HOVER
+    // CHECKED
     {
-      className: 'data-[state=unchecked]:hover:bg-[--color-bg-300]',
+      className: `
+        data-[state=checked]:bg-[--switch-active-background]
+        data-[state=checked]:hover:bg-[--switch-active-background-hover]
+      `,
     },
-    // UNCHECKED HOVER DISABLED
+    // DISABLED (terminal)
     {
-      className:
-        'data-[state=unchecked]:data-[disabled]:bg-[--color-bg-disabled]',
-    },
-    // CHECKED DEFAULT
-    {
-      className: 'data-[state=checked]:bg-[--switch-active-background-color]',
-    },
-    // CHECKED HOVER
-    {
-      className:
-        'data-[state=checked]:hover:bg-[--switch-active-background-hover]',
-    },
-    // CHECKED DISABLED
-    {
-      className:
-        'data-[state=checked]:data-[disabled]:bg-[--color-bg-disabled] ' +
-        'data-[state=checked]:data-[disabled]:hover:bg-[--color-bg-disabled]',
-    },
-    // UNCHECKED DISABLED
-    {
-      className:
-        'data-[state=unchecked]:data-[disabled]:hover:bg-[--color-bg-disabled]',
+      className: `
+        data-[disabled]:bg-[--switch-background-disabled]
+        data-[disabled]:hover:bg-[--switch-background-disabled]
+        data-[disabled][data-state=unchecked]:bg-[--switch-background-disabled]
+        data-[disabled][data-state=unchecked]:hover:bg-[--switch-background-disabled]
+        data-[disabled][data-state=checked]:bg-[--switch-background-disabled]
+        data-[disabled][data-state=checked]:hover:bg-[--switch-background-disabled]
+        data-[disabled]:cursor-not-allowed
+      `,
     },
   ],
-  defaultVariants: {
-    size: 'medium',
-  },
 });
 
 const Switch = ({
   className,
   tokens,
-  size = 'medium',
+  size = 'regular',
   label,
-  state,
   description,
   disabled,
   style,
@@ -86,40 +78,47 @@ const Switch = ({
 }: SwitchProps) => {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens(
-    { componentName: 'switch', tokens },
-    theme
-  ) as any ?? {};
+  const mergedTokens =
+    (resolveTokens({ componentName: 'switch', tokens }, theme) as any) ?? {};
+
+  const sizeTokens = mergedTokens?.sizes?.[size ?? 'regular'] ?? {};
 
   const styles = {
-    '--switch-width': mergedTokens?.track?.width ?? 36,
-    '--switch-height': mergedTokens?.track?.height ?? 20,
+    '--switch-label-font-weight': sizeTokens?.labelFontWeight ?? 400,
+    '--switch-description-font-weight':
+      sizeTokens?.descriptionFontWeight ?? 400,
+    '--switch-label-font-size': sizeTokens?.labelFontSize ?? '14px',
+    '--switch-description-font-size': sizeTokens?.descriptionFontSize ?? '12px',
+    '--switch-label-color': sizeTokens?.labelColor ?? '#020303',
+    '--switch-description-color': sizeTokens?.descriptionColor ?? '#6E7991',
 
-    // TRACK Backgrounds
-    '--switch-background-color':
-      mergedTokens?.track?.offBackground ?? 'var(--color-bg-200)',
-    '--switch-active-background-color':
-      mergedTokens?.track?.onBackground ?? 'var(--color-accent-default)',
+    // TRACK
+    '--switch-width': sizeTokens?.track?.width ?? '40px',
+    '--switch-height': sizeTokens?.track?.height ?? '20px',
+
+    '--switch-background': mergedTokens?.background,
+    '--switch-background-hover':
+      mergedTokens?.track?.offBackgroundHover ?? '#E2E5E9',
+    '--switch-active-background':
+      mergedTokens?.track?.onBackground ?? '#652BDF',
     '--switch-active-background-hover':
-      mergedTokens?.track?.onBackgroundHover ?? 'var(--color-accent-dark)',
+      mergedTokens?.track?.onBackgroundHover ?? '#5A23B8',
     '--switch-background-disabled':
-      mergedTokens?.disabled?.track ?? 'var(--color-bg-disabled)',
+      mergedTokens?.disabled?.background ?? '#E2E5E9',
 
     // THUMB
-    '--switch-thumb-size':
-      size === 'medium' ? (mergedTokens?.handle?.size ?? '12px') : '16px',
-    '--switch-thumb-color':
-      mergedTokens?.handle?.color ?? 'var(--color-bg-white)',
-    '--switch-thumb-disabled':
-      mergedTokens?.disabled?.handle ?? 'var(--color-bg-disabled)',
+    '--switch-thumb-size': sizeTokens?.handle?.size ?? '16px',
+    '--switch-thumb-translate': sizeTokens?.handle?.translate ?? '100%',
+    '--switch-thumb-color': mergedTokens?.handle?.color ?? '#FFFFFF',
+    '--switch-thumb-disabled': mergedTokens?.disabled?.track ?? '#A3AAB8',
 
-    // MISC
-    '--switch-transition-duration': mergedTokens?.motion?.duration ?? '150ms',
-    '--switch-thumb-translate': size === 'medium' ? '8px' : '6px',
+    // MOTION
+    '--switch-transition-duration': mergedTokens?.motion?.duration ?? '200ms',
   } as React.CSSProperties;
 
   return (
     <label
+      style={styles}
       className={cn(
         'flex items-start gap-3 cursor-pointer',
         disabled && 'cursor-not-allowed opacity-60'
@@ -129,16 +128,27 @@ const Switch = ({
         disabled={disabled}
         data-slot="switch"
         style={styles}
-        className={cn(switchBase, switchVariants({ size }), className)}
+        className={cn(
+          switchBase,
+          switchVariants(),
+          className,
+          'focus-visible:ring-2 focus-visible:ring-[--switch-active-background] focus-visible:ring-offset-2'
+        )}
         {...props}
       >
         <SwitchPrimitive.Thumb
           data-slot="switch-thumb"
           className={cn(
-            thumbBase,
-            size === 'medium' ? 'h-4 w-4' : 'h-3 w-3',
-            'data-[state=checked]:translate-x-[var(--switch-thumb-translate)] data-[state=checked]:data-[disabled]:bg-[var(--color-bg-300)]',
-            'data-[state=unchecked]:translate-x-0 data-[state=unchecked]:data-[disabled]:bg-[--color-bg-300]'
+            `
+            rounded-full
+            h-[--switch-thumb-size]
+            w-[--switch-thumb-size]
+            bg-[--switch-thumb-color]
+            transition-transform
+            duration-[--switch-transition-duration]
+            data-[state=checked]:translate-x-[--switch-thumb-translate]
+            data-[disabled]:bg-[--switch-thumb-disabled]
+            `
           )}
         />
       </SwitchPrimitive.Root>
@@ -147,14 +157,20 @@ const Switch = ({
         <div className="flex flex-col gap-0.5">
           {label && (
             <span
-              className={`${size === 'medium' ? 'text-base' : 'text-sm'} text-[var(--color-text-primary)] font-[550] leading-[1.3] tracking-[-0.04em]`}
+              className={
+                labelStyle +
+                ' text-[color:var(--switch-label-color)] text-[length:var(--switch-label-font-size)] font-[var(--switch-label-font-weight)]'
+              }
             >
               {label}
             </span>
           )}
           {description && (
             <span
-              className={`${size === 'medium' ? 'text-sm' : 'text-xs'} text-[var(--color-text-tertiary)] leading-[1.3]`}
+              className={
+                descriptionStyle +
+                ' text-[color:var(--switch-description-color)] text-[length:var(--switch-description-font-size)] font-[var(--switch-description-font-weight)]'
+              }
             >
               {description}
             </span>

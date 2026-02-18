@@ -58,19 +58,25 @@ export function TooltipContent({
 }) {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens(
-    { componentName: 'tooltip', tokens },
-    theme
-  ) as any ?? {};
+  const mergedTokens =
+    (resolveTokens({ componentName: 'tooltip', tokens }, theme) as any) ?? {};
+
+  //   textAlign: 'center',
+  //  caretColor: '#020303',
 
   const styles = {
     '--tooltip-text': mergedTokens?.color ?? '#000000',
     '--tooltip-bg': mergedTokens?.background ?? '#a3aab8',
     '--tooltip-radius': mergedTokens?.radius ?? '8px',
-    '--tooltip-border-width': mergedTokens?.borderWidth ?? '1px',
-    '--tooltip-border-color': mergedTokens?.border ?? 'transparent',
-  } as React.CSSProperties;
 
+    '--tooltip-font-size': mergedTokens?.fontSize ?? '14px',
+    '--tooltip-font-weight': mergedTokens?.fontWeight ?? 400,
+    '--tooltip-line-height': mergedTokens?.lineHeight ?? '130%',
+    '--tooltip-letter-spacing': mergedTokens?.letterSpacing ?? '0',
+    '--tooltip-text-align': mergedTokens?.textAlign ?? 'center',
+
+    '--tooltip-caret-color': mergedTokens?.caretColor ?? '#000000',
+  } as React.CSSProperties;
 
   return (
     <TooltipPrimitive.Portal>
@@ -79,19 +85,31 @@ export function TooltipContent({
         style={styles}
         sideOffset={sideOffset}
         className={cn(
-          'text-[--tooltip-text] bg-[--tooltip-bg] border-[--tooltip-border-width] border-[--tooltip-border-color] ' +
-            'animate-in fade-in-0 zoom-in-95 ' +
-            'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 ' +
-            'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 ' +
-            'data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 ' +
-            'z-50 w-fit rounded-md px-3 py-1.5 text-xs',
+          `
+                  z-50 w-fit rounded-md px-3 py-1.5
+                  bg-[var(--tooltip-bg)]
+                  text-[var(--tooltip-text)]
+                  text-[length:var(--tooltip-font-size)]
+                  font-[var(--tooltip-font-weight)]
+                  leading-[var(--tooltip-line-height)]
+                  tracking-[var(--tooltip-letter-spacing)]
+                  text-center
+                  animate-in fade-in-0 zoom-in-95
+                  data-[state=closed]:animate-out
+                  data-[state=closed]:fade-out-0
+                  data-[state=closed]:zoom-out-95
+                  data-[side=bottom]:slide-in-from-top-2
+                  data-[side=left]:slide-in-from-right-2
+                  data-[side=right]:slide-in-from-left-2
+                  data-[side=top]:slide-in-from-bottom-2
+                  `,
           className
         )}
         {...props}
       >
         {children}
 
-        <TooltipPrimitive.Arrow className="fill-[var(--tooltip-bg)]" />
+        <TooltipPrimitive.Arrow className="fill-[var(--tooltip-caret-color)]" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   );

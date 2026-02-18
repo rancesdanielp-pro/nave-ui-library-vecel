@@ -1,7 +1,6 @@
 'use client';
 
 //import { Button, Icon } from 'nave-ui-library/react';
-import { ThemeProvider } from '@/packages/ui-library/dist/react';
 import { Button, Icon } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage';
 import { ContentCards } from '../ContentCards';
@@ -36,12 +35,16 @@ export default function ButtonsPage() {
         <ComponentExample
           preview={
             <div className="flex flex-wrap items-center gap-4">
-                <Button variant="primary">Primary</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="tertiary">Tertiary</Button>
+              <Button variant="primary">Label</Button>
+              <Button variant="secondary">Label</Button>
+              <Button variant="tertiary">Label</Button>
             </div>
           }
-          code={`<Button variant="primary">Primary</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="tertiary">Tertiary</Button>`}
+          code={`<div className="flex flex-wrap items-center gap-4">
+                  <Button variant="primary">Label</Button>
+                  <Button variant="secondary">Label</Button>
+                  <Button variant="tertiary">Label</Button>
+                </div>`}
         />
       </ContentCards>
 
@@ -50,11 +53,6 @@ export default function ButtonsPage() {
         <ComponentExample
           preview={
             <div className="flex flex-col gap-6">
-              <div className="flex flex-wrap items-center gap-4">
-                <Button tone="brand">Brand</Button>
-                <Button tone="neutral">Neutral</Button>
-                <Button tone="destructive">Destructive</Button>
-              </div>
               <div className="flex flex-wrap items-center gap-4">
                 <Button variant="secondary" tone="brand">
                   Outline Brand
@@ -74,12 +72,16 @@ export default function ButtonsPage() {
         <ComponentExample
           preview={
             <div className="flex flex-wrap items-end gap-4">
-              <Button size="sm">Small</Button>
-              <Button size="md">Medium</Button>
-              <Button size="lg">Large</Button>
+              <Button size="small">Label</Button>
+              <Button size="medium">Label</Button>
+              <Button size="large">Label</Button>
             </div>
           }
-          code={`<Button size="sm">Small</Button>\n<Button size="md">Medium</Button>\n<Button size="lg">Large</Button>`}
+          code={`<div className="flex flex-wrap items-end gap-4">
+                    <Button size="small">Label</Button>
+                    <Button size="medium">Label</Button>
+                    <Button size="large">Label</Button>
+                  </div>`}
         />
       </ContentCards>
 
@@ -88,12 +90,14 @@ export default function ButtonsPage() {
         <ComponentExample
           preview={
             <div className="flex flex-wrap items-center gap-4">
-              <Button>Normal</Button>
-              <Button disabled>Disabled State</Button>
+              <Button>Label</Button>
+              <Button disabled>Label</Button>
             </div>
           }
-          code={`<Button>Normal</Button>
-<Button disabled>Disabled</Button>`}
+          code={`<div className="flex flex-wrap items-center gap-4">
+                    <Button>Label</Button>
+                    <Button disabled>Label</Button>
+                 </div>`}
         />
       </ContentCards>
 
@@ -106,68 +110,116 @@ export default function ButtonsPage() {
                 variant="secondary"
                 tone="brand"
                 aria-label="label"
-                className="flex items-center gap-2"
+                startIcon={
+                  <Icon>
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="2"
+                        y="5"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M2 10h20"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </Icon>
+                }
               >
-                <Icon>
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <rect
-                      x="2"
-                      y="5"
-                      width="20"
-                      height="14"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path d="M2 10h20" stroke="currentColor" strokeWidth="2" />
-                  </svg>
-                </Icon>
-                Icon right
+                Left icon
               </Button>
 
               <Button
                 variant="secondary"
                 tone="brand"
                 aria-label="label"
-                className="flex items-center gap-2"
+                endIcon={
+                  <Icon>
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="2"
+                        y="5"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M2 10h20"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </Icon>
+                }
               >
-                Icon left
-                <Icon>
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <rect
-                      x="2"
-                      y="5"
-                      width="20"
-                      height="14"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path d="M2 10h20" stroke="currentColor" strokeWidth="2" />
-                  </svg>
-                </Icon>
+                Right icon
               </Button>
             </div>
           }
-          code={`<Button variant="secondary" tone="brand" className="flex items-center gap-2">
-          <Icon>
-            <svg viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
-              <path d="M2 10h20" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </Icon>
-          Icon right
-        </Button>
+          code={`<div className="flex flex-col items-center gap-4">
+              <Button
+                variant="secondary"
+                tone="brand"
+                aria-label="label"
+                startIcon={
+                  <Icon>
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="2"
+                        y="5"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M2 10h20"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </Icon>
+                }
+              >
+                Left icon
+              </Button>
 
-        <Button variant="secondary" tone="brand" className="flex items-center gap-2">
-          Icon left
-          <Icon>
-            <svg viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
-              <path d="M2 10h20" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </Icon>
-        </Button>`}
+              <Button
+                variant="secondary"
+                tone="brand"
+                aria-label="label"
+                endIcon={
+                  <Icon>
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="2"
+                        y="5"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M2 10h20"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </Icon>
+                }
+              >
+                Right icon
+              </Button>
+            </div>`}
         />
       </ContentCards>
 

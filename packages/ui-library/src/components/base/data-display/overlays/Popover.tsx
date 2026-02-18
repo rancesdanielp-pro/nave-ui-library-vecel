@@ -6,15 +6,7 @@ import { resolveTokens, useTheme } from '../../../../theme';
 
 import { cn } from '../../../../utils/cn';
 
-/*
-const popoverTokens = {
-  backgroundColor: 'colors.surface',
-  textColor: 'colors.text',
-  borderColor: 'colors.border',
-  shadow: 'shadows.md',
-  borderRadius: 'radii.md',
-};
-*/
+
 function Popover({
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Root>) {
@@ -36,24 +28,29 @@ function PopoverContent({
   tokens,
   style,
   ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Content> & { tokens?: Partial<ThemeTokensBase> }) {
+}: React.ComponentProps<typeof PopoverPrimitive.Content> & {
+  tokens?: Partial<ThemeTokensBase>;
+}) {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens(
-    { componentName: 'popover', tokens },
-    theme
-  ) as any ?? {};
+  const mergedTokens =
+    (resolveTokens({ componentName: 'popover', tokens }, theme) as any) ?? {};
 
   const styles = {
-    '--popover-text': mergedTokens?.color ?? '#000000',
-    '--popover-bg': mergedTokens?.background ?? '#FFFFFF',
-    '--popover-radius': mergedTokens?.radius ?? '8px',
-    '--popover-border-width': mergedTokens?.borderWidth ?? '1px',
-    '--popover-border-color': mergedTokens?.border ?? '#E5E7EB',
-    '--popover-shadow':
-      mergedTokens?.shadow ?? '0px 4px 6px rgba(0, 0, 0, 0.1)',
-  } as React.CSSProperties;
+    '--popover-text': mergedTokens?.color,
+    '--popover-bg': mergedTokens?.background,
+    '--popover-radius': mergedTokens?.radius,
+    '--popover-border-color': mergedTokens?.border,
+    '--popover-shadow': mergedTokens?.shadow,
 
+    '--popover-padding': mergedTokens?.padding,
+
+    '--popover-font-size': mergedTokens?.fontSize,
+    '--popover-font-weight': mergedTokens?.fontWeight,
+    '--popover-line-height': mergedTokens?.lineHeight,
+
+    '--popover-z': mergedTokens?.zIndex,
+  } as React.CSSProperties;
 
   return (
     <PopoverPrimitive.Portal>
@@ -63,7 +60,7 @@ function PopoverContent({
         sideOffset={sideOffset}
         style={styles as React.CSSProperties}
         className={cn(
-          'z-50 w-72 origin-(--radix-popover-content-transform-origin)',
+          'z-[var(--popover-z)] w-72 origin-[var(--radix-popover-content-transform-origin)]',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -72,7 +69,9 @@ function PopoverContent({
           'data-[side=right]:slide-in-from-left-2',
           'data-[side=top]:slide-in-from-bottom-2',
           'p-4 outline-hidden',
-          'bg-[--popover-bg] text-[--popover-text] border border-[--popover-border-width] border-[--popover-border-color] shadow-[--popover-shadow] rounded-[--popover-radius]',
+          'padding-[var(--popover-padding)]',
+          'line-height-[var(--popover-line-height)] font-[var(--popover-font-weight)]',
+          'bg-[var(--popover-bg)] text-[color:var(--popover-text)] text-[length:var(--popover-font-size)] border border-[var(--popover-border-width)] border-[var(--popover-border-color)] shadow-[var(--popover-shadow)] rounded-[var(--popover-radius)]',
           className
         )}
         {...props}

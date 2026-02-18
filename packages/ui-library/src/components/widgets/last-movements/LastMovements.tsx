@@ -78,7 +78,7 @@ export function LastMovements({
           <div className="flex items-center gap-1">
             {onDateChange && (
               <PopoverTrigger asChild>
-                <Button variant="primary" size="sm">
+                <Button variant="primary" size="small">
                   {date ? date.toLocaleDateString() : period}
                   <ChevronsUpDown className="ml-2 h-4 w-4" />
                 </Button>

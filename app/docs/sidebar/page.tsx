@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Sidebar } from '@/packages/ui-library/dist/react' // Ajustado a tu ruta de desarrollo
+import { Sidebar } from '@/packages/ui-library/dist/react'
 import { DocsPage } from '../DocsPage'
 import { ContentCards } from '../ContentCards'
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
@@ -44,54 +44,28 @@ export default function SidebarPage() {
   return (
     <DocsPage
       title="Sidebar"
-      description="Navegación lateral robusta con soporte para múltiples secciones, estados de colapso y compatibilidad con tokens dinámicos."
+      description="Navegación lateral 100% configurable mediante tokens. Controla tipografía, espaciados y estados dinámicos desde el tema central."
       theme={naveTheme}
     >
       
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Importación">
         <p className="text-sm text-slate-500 mb-4">
-          El componente resuelve automáticamente los tokens basándose en el <code>theme</code> del contexto.
+          El componente utiliza variables CSS inyectadas para permitir una personalización total sin re-renderizados de lógica.
         </p>
         <CodeBlock 
-          code={`import 'nave-ui-library/styles.css';\nimport { Sidebar } from 'nave-ui-library/react';`} 
+          code={`import { Sidebar } from 'nave-ui-library/react';`} 
         />
-      </ContentCards>
-
-      {/* ───────────── SECCIÓN: OPCIONES DE ESTRUCTURA ───────────── */}
-      <ContentCards title="Opciones de Estructura">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          <div className="space-y-4">
-            <div className="flex flex-col gap-1">
-              <h4 className="text-sm font-bold text-slate-900 italic">Opción A: Lista de Items</h4>
-              <p className="text-xs text-slate-500 italic">Ideal para menús directos sin categorización.</p>
-            </div>
-            <div className="border rounded-lg bg-white overflow-hidden h-[220px] flex">
-              <Sidebar title="App Simple" items={simpleItems} className="w-full border-none" />
-            </div>
-            <CodeBlock code={`<Sidebar items={items} />`} />
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex flex-col gap-1">
-              <h4 className="text-sm font-bold text-slate-900 italic">Opción B: Secciones Agrupadas</h4>
-              <p className="text-xs text-slate-500 italic">Para interfaces con múltiples áreas funcionales.</p>
-            </div>
-            <div className="border rounded-lg bg-white overflow-hidden h-[220px] flex">
-              <Sidebar title="App Enterprise" sections={sectionsData} className="w-full border-none" />
-            </div>
-            <CodeBlock code={`<Sidebar sections={sections} />`} />
-          </div>
-
-        </div>
       </ContentCards>
 
       {/* ───────────── SECCIÓN: INTERACTIVO ───────────── */}
       <ContentCards title="Vista Previa Interactiva">
+        <p className="text-sm text-slate-500 mb-6">
+          Prueba el estado <code>collapsed</code>. Observa cómo los tokens de <code>width</code> y <code>collapsedWidth</code> dictan las dimensiones.
+        </p>
         <ComponentExample
           preview={
-            <div className="flex h-[500px] w-full border rounded-xl bg-[#F9FAFB] overflow-hidden shadow-sm">
+            <div className="flex h-[500px] w-full border rounded-xl bg-slate-50 overflow-hidden shadow-sm">
               <Sidebar 
                 title="Consola Nave"
                 sections={sectionsData}
@@ -99,48 +73,50 @@ export default function SidebarPage() {
                 onToggleCollapse={() => setCollapsed(!collapsed)}
               />
               <div className="flex-1 p-10 flex flex-col items-center justify-center text-center">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 max-w-sm">
-                  <h3 className="text-lg font-bold text-slate-800 mb-2 italic">Área de Trabajo</h3>
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-sm">
+                  <h3 className="text-lg font-bold text-slate-800 mb-2">Área de Contenido</h3>
                   <p className="text-sm text-slate-400">
-                    La transición del Sidebar es de 300ms y utiliza variables CSS para los colores.
+                    El sidebar utiliza <code>transition-all</code> con la duración definida en el token <code>motion.duration</code>.
                   </p>
                 </div>
               </div>
             </div>
           }
-          code={`const [collapsed, setCollapsed] = useState(false);\n\n<Sidebar \n  collapsed={collapsed}\n  onToggleCollapse={() => setCollapsed(!collapsed)}\n/>`}
+          code={`<Sidebar 
+                title="Consola Nave"
+                sections={sectionsData}
+                collapsed={collapsed}
+                onToggleCollapse={() => setCollapsed(!collapsed)}
+              />`}
         />
       </ContentCards>
 
-      {/* ───────────── SECCIÓN: DISEÑO Y ESTADOS ───────────── */}
-      <ContentCards title="Anatomía Visual (Themed)">
-        <p className="text-sm text-slate-500 mb-6 italic">Visualización de los estados consumiendo las variables inyectadas.</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ───────────── SECCIÓN: ANATOMÍA DE TOKENS ───────────── */}
+      <ContentCards title="Anatomía Visual (Basada en Tokens)">
+        <p className="text-sm text-slate-500 mb-6 italic">Cada elemento visual está mapeado a una variable CSS específica.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <div className="space-y-3 p-4 bg-slate-50 rounded-lg border border-slate-100">
-            <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Activo</h5>
-            <div 
-               style={{ backgroundColor: 'var(--sb-item-active-bg)', color: 'var(--sb-item-active-color)' }}
-               className="flex items-center gap-3 h-[36px] rounded-md px-2 text-sm font-bold shadow-sm"
-            >
-              <div className="w-5 h-5 bg-current opacity-20 rounded" /> <span>Seleccionado</span>
+          <div className="space-y-4">
+            <div className="p-4 bg-white rounded-lg border border-slate-100 shadow-sm">
+              <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Navegación (Item)</h5>
+              <ul className="space-y-2 text-xs text-slate-600">
+                <li className="flex justify-between"><span>Altura:</span> <code className="text-purple-600">--sb-item-h</code></li>
+                <li className="flex justify-between"><span>Radio:</span> <code className="text-purple-600">--sb-item-radius</code></li>
+                <li className="flex justify-between"><span>Gap Icono/Texto:</span> <code className="text-purple-600">--sb-item-gap</code></li>
+                <li className="flex justify-between"><span>Fuente:</span> <code className="text-purple-600">--sb-item-size</code></li>
+              </ul>
             </div>
           </div>
 
-          <div className="space-y-3 p-4 bg-slate-50 rounded-lg border border-slate-100">
-            <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Hover / Default</h5>
-            <div 
-              style={{ color: 'var(--sb-item-color)' }}
-              className="flex items-center gap-3 h-[36px] rounded-md px-2 text-sm font-medium"
-            >
-              <div className="w-5 h-5 bg-slate-300 rounded" /> <span>Interacción</span>
-            </div>
-          </div>
-
-          <div className="space-y-3 p-4 bg-slate-50 rounded-lg border border-slate-100 text-center">
-            <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Toggle (Icon)</h5>
-            <div style={{ color: 'var(--sb-toggle-color)' }} className="inline-flex items-center justify-center">
-               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 3.125V16.875H6.25V3.125H7.5Z" /></svg>
+          <div className="space-y-4">
+            <div className="p-4 bg-white rounded-lg border border-slate-100 shadow-sm">
+              <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Secciones y Toggle</h5>
+              <ul className="space-y-2 text-xs text-slate-600">
+                <li className="flex justify-between"><span>Gap Secciones:</span> <code className="text-purple-600">--sb-section-gap</code></li>
+                <li className="flex justify-between"><span>Color Label:</span> <code className="text-purple-600">--sb-section-color</code></li>
+                <li className="flex justify-between"><span>Icono Toggle:</span> <code className="text-purple-600">--sb-toggle-color</code></li>
+                <li className="flex justify-between"><span>Transición:</span> <code className="text-purple-600">--sb-motion</code></li>
+              </ul>
             </div>
           </div>
 
@@ -160,19 +136,24 @@ export default function SidebarPage() {
             </thead>
             <tbody className="text-slate-600">
               <tr className="border-b border-slate-50">
-                <td className="py-3 px-3 font-mono text-xs text-purple-600 font-bold">tokens</td>
-                <td className="py-3 px-3 text-xs italic">any</td>
-                <td className="py-3 px-3">Override opcional de tokens para esta instancia.</td>
+                <td className="py-3 px-3 font-mono text-xs text-purple-600 font-bold">title</td>
+                <td className="py-3 px-3 text-xs italic">string</td>
+                <td className="py-3 px-3">Título que aparece en el header (ej: Nombre de App).</td>
               </tr>
               <tr className="border-b border-slate-50">
                 <td className="py-3 px-3 font-mono text-xs text-purple-600 font-bold">sections</td>
                 <td className="py-3 px-3 text-xs italic">SidebarSection[]</td>
-                <td className="py-3 px-3">Estructura agrupada con títulos de categoría.</td>
+                <td className="py-3 px-3">Arreglo de secciones con títulos y sub-items.</td>
               </tr>
               <tr className="border-b border-slate-50">
                 <td className="py-3 px-3 font-mono text-xs text-purple-600 font-bold">collapsed</td>
                 <td className="py-3 px-3 text-xs italic">boolean</td>
-                <td className="py-3 px-3">Controla si el sidebar está minimizado.</td>
+                <td className="py-3 px-3">Estado de colapso controlado.</td>
+              </tr>
+              <tr className="border-b border-slate-50">
+                <td className="py-3 px-3 font-mono text-xs text-purple-600 font-bold">onToggleCollapse</td>
+                <td className="py-3 px-3 text-xs italic">() = {'>'} void</td>
+                <td className="py-3 px-3">Callback ejecutado al clickear el ícono de colapso.</td>
               </tr>
             </tbody>
           </table>
@@ -181,7 +162,10 @@ export default function SidebarPage() {
 
       {/* ───────────── SECCIÓN: REGISTRY ───────────── */}
       <div className="mt-16 border-t pt-10">
-        <h2 className="text-xl font-bold mb-4 text-slate-900 italic tracking-tighter">Metadata de Registro (JSON)</h2>
+        <h2 className="text-xl font-bold mb-4 text-slate-900 tracking-tighter">Metadata de Registro (JSON)</h2>
+        <p className="text-sm text-slate-500 mb-6">
+          Estructura de tokens definida para el componente <code>sidebar</code>.
+        </p>
         <CodeBlock 
           code={JSON.stringify((registry as any)['sidebar'], null, 2)} 
         />

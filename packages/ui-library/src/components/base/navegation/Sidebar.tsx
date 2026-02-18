@@ -83,25 +83,49 @@ export function Sidebar({
   const theme = useTheme();
 
   const mergedTokens =
-    resolveTokens({ componentName: 'sidebar', tokens }, theme) as any ?? {};
+    (resolveTokens({ componentName: 'sidebar', tokens }, theme) as any) ?? {};
 
   const styles = {
+    // Container
     '--sb-bg': mergedTokens?.container?.background ?? '#ffffff',
     '--sb-border': mergedTokens?.container?.border ?? '#E5E7EB',
     '--sb-width': mergedTokens?.container?.width ?? '240px',
     '--sb-width-collapsed': mergedTokens?.container?.collapsedWidth ?? '64px',
+    '--sb-padding': mergedTokens?.container?.padding ?? '8px',
 
-    '--sb-title': mergedTokens?.header?.titleColor ?? '#6B7280',
+    // Header
+    '--sb-header-h': mergedTokens?.header?.minHeight ?? '56px',
+    '--sb-title-color': mergedTokens?.header?.titleColor ?? '#6B7280',
+    '--sb-title-size': mergedTokens?.header?.titleFontSize ?? '14px',
+    '--sb-title-weight': mergedTokens?.header?.titleFontWeight ?? '500',
 
+    // Item Base
+    '--sb-item-radius': mergedTokens?.item?.radius ?? '8px',
+    '--sb-item-h': mergedTokens?.item?.height ?? '36px',
+    '--sb-item-px': mergedTokens?.item?.paddingX ?? '8px',
+    '--sb-item-gap': mergedTokens?.item?.gap ?? '12px',
+    '--sb-item-size': mergedTokens?.item?.fontSize ?? '14px',
+    '--sb-item-weight': mergedTokens?.item?.fontWeight ?? '500',
     '--sb-item-color': mergedTokens?.item?.color ?? '#6B7280',
+
+    // Item Hover
     '--sb-item-hover-bg': mergedTokens?.item?.hover?.background ?? '#F3F4F6',
     '--sb-item-hover-color': mergedTokens?.item?.hover?.color ?? '#111827',
+
+    // Item Active
     '--sb-item-active-bg': mergedTokens?.item?.active?.background ?? '#F4F0FF',
     '--sb-item-active-color': mergedTokens?.item?.active?.color ?? '#6D28D9',
 
+    // Section Labels
+    '--sb-section-color': mergedTokens?.section?.titleColor ?? '#9CA3AF',
+    '--sb-section-size': mergedTokens?.section?.titleFontSize ?? '10px',
+    '--sb-section-gap': mergedTokens?.section?.gap ?? '16px',
+
+    // Toggle
     '--sb-toggle-color': mergedTokens?.toggle?.color ?? '#9CA3AF',
     '--sb-toggle-hover': mergedTokens?.toggle?.hoverColor ?? '#6B7280',
 
+    // Motion
     '--sb-motion': mergedTokens?.motion?.duration ?? '250ms',
   } as React.CSSProperties;
 
@@ -114,15 +138,25 @@ export function Sidebar({
       className={cn(
         'flex h-full flex-col border-r',
         'bg-[var(--sb-bg)] border-[var(--sb-border)]',
-        'transition-[width] duration-[var(--sb-motion)]',
+        'transition-[width] duration-[var(--sb-motion)] ease-in-out',
         collapsed ? 'w-[var(--sb-width-collapsed)]' : 'w-[var(--sb-width)]',
         className
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 min-h-[56px]">
+      <div 
+        className="flex items-center justify-between px-4 py-3"
+        style={{ minHeight: 'var(--sb-header-h)' }}
+      >
         {!collapsed && (
-          <span className="text-sm font-medium truncate text-[var(--sb-title)]">
+          <span 
+            className="truncate"
+            style={{ 
+                color: 'var(--sb-title-color)',
+                fontSize: 'var(--sb-title-size)',
+                fontWeight: 'var(--sb-title-weight)'
+            }}
+          >
             {title}
           </span>
         )}
@@ -132,7 +166,7 @@ export function Sidebar({
             type="button"
             onClick={onToggleCollapse}
             className={cn(
-              'transition-colors',
+              'transition-colors outline-none cursor-pointer',
               'text-[var(--sb-toggle-color)] hover:text-[var(--sb-toggle-hover)]',
               collapsed && 'mx-auto'
             )}
@@ -143,12 +177,25 @@ export function Sidebar({
         )}
       </div>
 
-      {/* Navigation */}
-      <nav className="flex flex-col gap-4 px-2 overflow-y-auto overflow-x-hidden">
+      {/* Navigation Content */}
+      <nav 
+        className="flex flex-col overflow-y-auto overflow-x-hidden"
+        style={{ 
+            gap: 'var(--sb-section-gap)',
+            paddingLeft: 'var(--sb-padding)',
+            paddingRight: 'var(--sb-padding)'
+        }}
+      >
         {resolvedSections.map((section) => (
           <div key={section.id} className="flex flex-col gap-1">
             {!collapsed && section.title && (
-              <span className="px-2 mb-1 text-[10px] font-bold uppercase tracking-wider text-[var(--sb-toggle-color)]">
+              <span 
+                className="px-2 mb-1 font-bold uppercase tracking-wider"
+                style={{
+                    color: 'var(--sb-section-color)',
+                    fontSize: 'var(--sb-section-size)'
+                }}
+              >
                 {section.title}
               </span>
             )}
@@ -156,31 +203,25 @@ export function Sidebar({
             {section.items.map((item) => {
               const isActive = item.active;
 
-              const linkClasses = cn(
-                'flex items-center gap-3 h-9 w-full rounded-md px-2 text-sm font-medium transition-colors',
-                collapsed && 'justify-center px-0',
-                isActive
-                  ? 'bg-[var(--sb-item-active-bg)] text-[var(--sb-item-active-color)]'
-                  : 'text-[var(--sb-item-color)] hover:bg-[var(--sb-item-hover-bg)] hover:text-[var(--sb-item-hover-color)]'
-              );
-
-              const content = (
-                <>
-                  <span className="flex h-5 w-5 items-center justify-center">
-                    {item.icon}
-                  </span>
-                  {!collapsed && <span className="truncate">{item.label}</span>}
-                </>
-              );
-
               return (
                 <div
                   key={item.id}
-                  className={linkClasses}
                   onClick={() => item.href && onItemClick?.(item.href)}
                   style={{ cursor: item.href ? 'pointer' : 'default' }}
+                  className={cn(
+                    'flex items-center transition-all select-none',
+                    'h-[var(--sb-item-h)] rounded-[var(--sb-item-radius)] px-[var(--sb-item-px)] gap-[var(--sb-item-gap)]',
+                    'text-[var(--sb-item-size)] font-[var(--sb-item-weight)]',
+                    collapsed && 'justify-center px-0',
+                    isActive
+                      ? 'bg-[var(--sb-item-active-bg)] text-[var(--sb-item-active-color)]'
+                      : 'text-[var(--sb-item-color)] hover:bg-[var(--sb-item-hover-bg)] hover:text-[var(--sb-item-hover-color)]'
+                  )}
                 >
-                  {content}
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                    {item.icon}
+                  </span>
+                  {!collapsed && <span className="truncate">{item.label}</span>}
                 </div>
               );
             })}

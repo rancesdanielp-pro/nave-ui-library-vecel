@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import * as React from 'react'
+import * as React from 'react';
 /*
 import {
   DropdownMenu,
@@ -39,19 +39,20 @@ import {
   Button,
 } from '@/packages/ui-library/dist/react';
 
-import { DocsPage } from '../DocsPage'
-import { ContentCards } from '../ContentCards'
-import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
-import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
-import registry from '@/packages/ui-library/src/registry/registry.json'
-import { tokenVariants } from '@/app/utils/tokens'
+import { DocsPage } from '../DocsPage';
+import { ContentCards } from '../ContentCards';
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
+import registry from '@/packages/ui-library/src/registry/registry.json';
+import { tokenVariants } from '@/app/utils/tokens';
+import { UserIcon, MailIcon, Settings } from 'lucide-react';
 
 export default function DropdownMenuPage() {
-  const componentRegistry = (registry as any)['dropdown']
-  const naveTheme = tokenVariants[0].tokens
+  const componentRegistry = (registry as any)['dropdown'];
+  const naveTheme = tokenVariants[0].tokens;
 
-  const [showStatusBar, setShowStatusBar] = React.useState(true)
-  const [position, setPosition] = React.useState('bottom')
+  const [showStatusBar, setShowStatusBar] = React.useState(true);
+  const [position, setPosition] = React.useState('bottom');
 
   return (
     <DocsPage
@@ -61,17 +62,17 @@ export default function DropdownMenuPage() {
     >
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
-        <CodeBlock 
-          code={`import 'nave-ui-library/styles.css
-
-import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n  DropdownMenuItem \n} from 'nave-ui-library/react'`} 
+        <CodeBlock
+          code={`import 'nave-ui-library/styles.css'
+                 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem  } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: BÁSICO ───────────── */}
       <ContentCards title="Basic Usage">
         <p className="text-sm text-slate-500 mb-6">
-          Un menú desplegable simple con etiquetas, separadores y atajos de teclado opcionales.
+          Un menú desplegable simple con etiquetas, separadores y atajos de
+          teclado opcionales.
         </p>
         <ComponentExample
           preview={
@@ -83,29 +84,51 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
                 <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem iconLeft={<UserIcon />}>
                     <span>Perfil</span>
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem iconLeft={<MailIcon />}>
                     <span>Facturación</span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem iconLeft={<UserIcon />} disabled>
                   <span>Cerrar sesión</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           }
-          code={`<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button>Abrir</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuLabel>Cuenta</DropdownMenuLabel>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem>Perfil</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>`}
+          code={`
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary">Abrir Menú</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem iconLeft={<UserIcon />}>
+                    <span>Perfil</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem iconLeft={<MailIcon />}>
+                    <span>Facturación</span>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem iconLeft={<UserIcon />} disabled>
+                  <span>Cerrar sesión</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            `}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: SUBMENÚS ───────────── */}
       <ContentCards title="Submenus">
         <p className="text-sm text-slate-500 mb-6">
-          Puedes anidar menús utilizando el componente <code>DropdownMenuSub</code> para estructuras más complejas.
+          Puedes anidar menús utilizando el componente{' '}
+          <code>DropdownMenuSub</code> para estructuras más complejas.
         </p>
         <ComponentExample
           preview={
@@ -114,7 +137,7 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
                 <Button variant="secondary">Opciones avanzadas</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuItem>
+                <DropdownMenuItem iconRight={<Settings />}>
                   <span>Ajustes</span>
                 </DropdownMenuItem>
                 <DropdownMenuSub>
@@ -122,7 +145,7 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
                     <span>Invitar usuarios</span>
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem iconLeft={<UserIcon />}>
                       <span>Email</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -134,7 +157,32 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
               </DropdownMenuContent>
             </DropdownMenu>
           }
-          code={`<DropdownMenuSub>\n  <DropdownMenuSubTrigger>Invitar</DropdownMenuSubTrigger>\n  <DropdownMenuSubContent>\n    <DropdownMenuItem>Email</DropdownMenuItem>\n  </DropdownMenuSubContent>\n</DropdownMenuSub>`}
+          code={`
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary">Opciones avanzadas</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuItem iconRight={<Settings />}>
+                  <span>Ajustes</span>
+                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <span>Invitar usuarios</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem iconLeft={<UserIcon />}>
+                      <span>Email</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <span>Más...</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            `}
         />
       </ContentCards>
 
@@ -158,6 +206,9 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
                   >
                     Mostrar barra de estado
                   </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem>
+                    Mostrar descargas
+                  </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
@@ -169,16 +220,70 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuLabel>Posición del panel</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-                    <DropdownMenuRadioItem value="top">Arriba</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="bottom">Abajo</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="right">Derecha</DropdownMenuRadioItem>
+                  <DropdownMenuRadioGroup
+                    value={position}
+                    onValueChange={setPosition}
+                  >
+                    <DropdownMenuRadioItem value="top">
+                      Arriba
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="bottom">
+                      Abajo
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="right">
+                      Derecha
+                    </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           }
-          code={`<DropdownMenuCheckboxItem checked={val} onCheckedChange={setVal}>\n  Etiqueta\n</DropdownMenuCheckboxItem>\n\n<DropdownMenuRadioGroup value={pos}>\n  <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>\n</DropdownMenuRadioGroup>`}
+          code={`
+            <div className="flex gap-4">
+              {/* Checkbox Example */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="tertiary">Checkboxes</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuCheckboxItem
+                    checked={showStatusBar}
+                    onCheckedChange={setShowStatusBar}
+                  >
+                    Mostrar barra de estado
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem>
+                    Mostrar descargas
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Radio Example */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="tertiary">Radios</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Posición del panel</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuRadioGroup
+                    value={position}
+                    onValueChange={setPosition}
+                  >
+                    <DropdownMenuRadioItem value="top">
+                      Arriba
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="bottom">
+                      Abajo
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="right">
+                      Derecha
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -186,12 +291,12 @@ import { \n  DropdownMenu, \n  DropdownMenuTrigger, \n  DropdownMenuContent, \n 
       <div className="mt-16 border-t pt-10">
         <h2 className="text-xl font-bold mb-2 text-slate-900">Registry</h2>
         <p className="text-sm text-slate-500 mb-6">
-          Este componente utiliza Radix UI para garantizar accesibilidad total (WAI-ARIA). Los estilos de fondo y bordes se resuelven mediante tokens web.
+          Este componente utiliza Radix UI para garantizar accesibilidad total
+          (WAI-ARIA). Los estilos de fondo y bordes se resuelven mediante tokens
+          web.
         </p>
-        <CodeBlock 
-          code={JSON.stringify(componentRegistry, null, 2)} 
-        />
+        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
       </div>
     </DocsPage>
-  )
+  );
 }

@@ -80,7 +80,32 @@ import {
               </Pagination>
             </div>
           }
-          code={`<Pagination>\n  <PaginationContent>\n    <PaginationPrevious href="#" />\n    <PaginationLink href="#">1</PaginationLink>\n    <PaginationLink href="#" isActive>2</PaginationLink>\n    <PaginationNext href="#" />\n  </PaginationContent>\n</Pagination>`}
+          code={`<div className="flex justify-center w-full">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#" isActive>
+                      2
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>`}
         />
       </ContentCards>
 
@@ -99,18 +124,34 @@ import {
                     <PaginationPrevious href="#" disabled />
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationLink href="#" isActive>
+                    <PaginationLink href="#" disabled>
                       1
                     </PaginationLink>
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationNext href="#" />
+                    <PaginationNext href="#" disabled />
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
             </div>
           }
-          code={`<PaginationPrevious disabled />\n<PaginationNext disabled />`}
+          code={`<div className="flex justify-center w-full gap-4">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" disabled />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#" disabled>
+                      1
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" disabled />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>`}
         />
       </ContentCards>
 
@@ -152,7 +193,21 @@ import {
               </Card>
             </div>
           }
-          code={`<Card title="Historial">\n  {/* Contenido */}\n  <Pagination>...</Pagination>\n</Card>`}
+          code={`<Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" disabled />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#" disabled>
+                      1
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" disabled />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>`}
         />
       </ContentCards>
 

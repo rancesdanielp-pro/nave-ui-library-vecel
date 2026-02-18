@@ -8,29 +8,48 @@ import type { ThemeTokensBase } from '../../../theme/theme';
 
 function Tabs({
   className,
+  size,
   tokens,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root> & {
+  size?: 'medium' | 'small';
   tokens?: Partial<ThemeTokensBase>;
 }) {
   const theme = useTheme();
 
   const mergedTokens =
-    resolveTokens({ componentName: 'tabs', tokens }, theme) ?? {} as any;
+    resolveTokens({ componentName: 'tabs', tokens }, theme) ?? ({} as any);
 
+  const sizeTokens = mergedTokens?.sizes?.[size || 'medium'] ?? {};
+  
   const styles = {
-    '--tabs-list-bg': mergedTokens?.tabsList?.backgroundr ?? '#e2e5e9',
-    '--tabs-list-text': mergedTokens?.tabsList?.color ?? '#000000',
+    '--tabs-list-bg': mergedTokens?.tabsList?.background ?? '#e2e5e9', //
+    '--tabs-list-text': mergedTokens?.tabsList?.color ?? '#000000', //
 
     '--tabs-trigger-color': mergedTokens?.tabsTrigger?.color ?? '#000000',
     '--tabs-trigger-active-bg':
-      mergedTokens?.tabsTrigger?.active?.background ?? '#a3aab8',
-    '--tabs-trigger-active-border':
-      mergedTokens?.tabsTrigger?.active?.border ?? '#E5E7EB',
+      mergedTokens?.tabsTrigger?.active?.background ?? '#a3aab8', //
     '--tabs-trigger-active-text':
-      mergedTokens?.tabsTrigger?.active?.color ?? '#000000',
+      mergedTokens?.tabsTrigger?.active?.color ?? '#000000', //
+
+      //disabled
     '--tabs-trigger-disabled-opacity':
       mergedTokens?.tabsTrigger?.disabled?.opacity ?? '0.5',
+
+    '--tabs-trigger-disabled-bg':
+      mergedTokens?.tabsTrigger?.disabled?.background ?? '#FFFFFF',
+
+    '--tabs-trigger-active-box-shadow':
+      mergedTokens?.tabsTrigger?.active?.boxShadow ??
+      '0px 1px 2px rgba(0, 0, 0, 0.05)', //
+
+    '--tabs-font-size': sizeTokens.fontSize, //
+    '--tabs-font-weight': sizeTokens.fontWeight, //
+    '--tabs-hover-bg':
+      mergedTokens?.tabsTrigger?.hover?.background ?? '#a3aab8', //
+
+    '--tabs-trigger-disabled-color':
+      mergedTokens?.tabsTrigger?.disabled?.color ?? '#000000', //
 
     //focus ring
     '--tabs-focus-inner':
@@ -41,25 +60,26 @@ function Tabs({
     '--tabs-focus-outer-size': mergedTokens?.tabsFocusRing?.outerSize ?? '4px',
 
     //border radius
-    '--tabs-list-border-radius': mergedTokens?.tabsList?.border ?? '6px',
-    '--tabs-trigger-border-radius': mergedTokens?.tabsList?.border ?? '6px',
+    '--tabs-list-border-radius': mergedTokens?.tabsList?.radius ?? '6px',
+    '--tabs-trigger-border-radius': mergedTokens?.tabsList?.radius ?? '6px',
   } as React.CSSProperties;
+
 
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
+      data-size={size || 'medium'}
       style={styles}
-      className={cn('flex flex-col gap-2', className)}
+      className={cn('group/tabs flex flex-col gap-2', className)}
       {...props}
     />
   );
 }
 
-type TabsSize = 'large' | 'small';
+type TabsSize = 'medium' | 'small';
 
 function TabsList({
   className,
-  size = 'large',
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.List> & {
   size?: TabsSize;
@@ -67,13 +87,22 @@ function TabsList({
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      data-size={size}
       className={cn(
-        'inline-flex items-center gap-1 rounded-[var(--tabs-list-border-radius)] p-[2px]',
-        'bg-[var(--tabs-list-bg)] text-[var(--tabs-list-text)]',
+        'inline-flex items-center gap-1 rounded-[var(--tabs-list-border-radius)]',
 
-        size === 'large' && 'h-[42px]',
-        size === 'small' && 'h-[32px]',
+        // background
+        'bg-[var(--tabs-list-bg)] text-[color:var(--tabs-list-text)]',
+
+        // typography
+        'text-[length:var(--tabs-font-size)] font-[var(--tabs-font-weight)]',
+
+        // size from root
+        'group-data-[size=medium]/tabs:h-[42px]',
+        'group-data-[size=small]/tabs:h-[32px]',
+
+        // padding responsive
+        'group-data-[size=medium]/tabs:p-[4px]',
+        'group-data-[size=small]/tabs:p-[3px]',
 
         'group/tabs',
         className
@@ -93,16 +122,34 @@ function TabsTrigger({
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
         'rounded-[var(--tabs-trigger-border-radius)] border border-transparent transition-all',
-        'text-[var(--tabs-trigger-color)]',
 
+        // text
+        'text-[var(--tabs-trigger-color)]',
+        'text-[length:var(--tabs-font-size)] font-[var(--tabs-font-weight)]',
+
+        // active
         'data-[state=active]:bg-[var(--tabs-trigger-active-bg)]',
         'data-[state=active]:text-[var(--tabs-trigger-active-text)]',
-        'data-[state=active]:border-[var(--tabs-trigger-active-border)]',
-
-        'disabled:opacity-[var(--tabs-trigger-disabled-opacity)]',
+        'data-[state=active]:shadow-[0px_2px_4px_-1px_#0000000F,0px_4px_6px_-1px_#0000001A]',
+        'data-[state=active]:disabled:bg-[var(--tabs-trigger-active-bg)]',
+        
+       // disabled
+        'disabled:bg-[var(--tabs-trigger-disabled-bg)]',
+        'disabled:text-[var(--tabs-trigger-disabled-color)]',
         'disabled:pointer-events-none',
 
-        //focus ring
+
+         // inactive state (optional, can be customized via tokens)
+         //'data-[state=inactive]:disabled:bg-[var(--tabs-list-bg)]',
+         //'data-[state=inactive]:text-[var(--tabs-trigger-disabled-color)]',
+         
+
+        // hover
+        'hover:bg-[var(--tabs-hover-bg)]',
+
+ 
+
+        // focus ring
         'focus-visible:outline-none',
         'focus-visible:relative',
         'focus-visible:after:absolute',
@@ -111,13 +158,12 @@ function TabsTrigger({
         'focus-visible:after:pointer-events-none',
         'focus-visible:after:shadow-[0_0_0_var(--tabs-focus-inner-size)_var(--tabs-focus-inner),0_0_0_var(--tabs-focus-outer-size)_var(--tabs-focus-outer)]',
 
-        'group-data-[size=large]/tabs:h-[34px]',
-        'group-data-[size=large]/tabs:px-[12px]',
-        'group-data-[size=large]/tabs:text-sm',
+        // sizes from root
+        'group-data-[size=medium]/tabs:h-[34px]',
+        'group-data-[size=medium]/tabs:px-[12px]',
 
         'group-data-[size=small]/tabs:h-[28px]',
         'group-data-[size=small]/tabs:px-[10px]',
-        'group-data-[size=small]/tabs:text-xs',
 
         className
       )}

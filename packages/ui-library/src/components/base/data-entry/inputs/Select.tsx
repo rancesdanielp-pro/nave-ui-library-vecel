@@ -19,60 +19,26 @@ interface SelectProps {
   onValueChange?: (value: string) => void;
   placeholder?: string;
   items: SelectItem[];
-  size?: 'sm' | 'md';
+  label?: string;
+  size?: 'small' | 'medium';
   disabled?: boolean;
   tokens?: Partial<ThemeTokensBase>;
   className?: string;
   error?: boolean;
 }
 
-const selectBase =
-  'w-full inline-flex items-center justify-between ' +
-  'rounded-[var(--select-radius)] border outline-none ' +
-  'text-[--color-text-primary] ' +
-  'transition-[border-color,box-shadow] ' +
-  'disabled:bg-[--color-bg-disabled] ' +
-  'disabled:text-[--color-text-disabled] ' +
-  'disabled:border-[--border-hover] ' +
-  'disabled:cursor-not-allowed';
+const inputBase = 'ui-input w-full outline-none';
 
-const selectVariants = cva(selectBase, {
-  variants: {
-    size: {
-      sm: 'h-9 px-3 text-sm',
-      md: 'h-11 px-3 text-base',
-    },
-    error: {
-      true: '',
-      false: '',
-    },
-  },
-  compoundVariants: [
-    {
-      error: false,
-      className: `
-        border-[--border-default]
-        hover:border-[--border-hover]
-        focus:border-[--select-border-color]
-        focus:ring-2
-        focus:ring-[--select-focus-ring]
-        focus:ring-offset-0
-      `,
-    },
-    {
-      error: true,
-      className: `
-        border-[--color-error-main]
-        hover:border-[--color-error-dark]
-        focus:border-[--color-error-main]
-        focus:ring-2
-        focus:ring-[--color-error-lighter]
-      `,
-    },
-  ],
+const inputLabel = 'leading-[1.3] tracking-[-0.04em]';
+
+const inputHelper = 'leading-[1.3]';
+
+const inputHelperError = 'leading-[1.3]';
+
+const selectVariants = cva(inputBase, {
+  variants: {},
   defaultVariants: {
-    size: 'md',
-    error: false,
+    size: 'medium',
   },
 });
 
@@ -81,7 +47,8 @@ export function Select({
   onValueChange,
   placeholder = 'Seleccionar...',
   items,
-  size = 'md',
+  label,
+  size = 'medium',
   error = false,
   disabled,
   tokens,
@@ -89,73 +56,144 @@ export function Select({
 }: SelectProps) {
   const theme = useTheme();
 
-  const mergedTokens = resolveTokens(
-    { componentName: 'select', tokens },
-    theme
-  ) as any ?? {};
+  const mergedTokens =
+    (resolveTokens({ componentName: 'select', tokens }, theme) as any) ?? {};
 
+  const sizeTokens = mergedTokens?.sizes?.[size ?? 'medium'] ?? {};
   const styles = {
-    '--select-text': mergedTokens?.color ?? '#000000',
-    '--select-radius': mergedTokens?.radius ?? '8px',
-    '--select-border-width': mergedTokens?.borderWidth ?? '1px',
-    '--select-border-color': mergedTokens?.border ?? 'transparent',
-    '--select-focus-ring': mergedTokens?.focusBorder ?? 'transparent',
-  } as React.CSSProperties;
+    '--input-bg': mergedTokens?.background,
+    '--input-text': mergedTokens?.color,
+    '--input-radius': mergedTokens?.radius,
+    '--input-border': mergedTokens?.border,
+    '--input-shadow': mergedTokens?.boxShadow,
 
+    // hover
+    '--input-hover-bg': mergedTokens?.hover?.background,
+    '--input-hover-text': mergedTokens?.hover?.color,
+    '--input-hover-border': mergedTokens?.hover?.border,
+
+    // focus
+    '--input-focus-border': mergedTokens?.focus?.border,
+    '--input-focus-ring': mergedTokens?.focus?.boxShadow,
+    '--input-focus-text': mergedTokens?.focus?.color,
+
+    // filled
+    '--input-filled-bg': mergedTokens?.filled?.background,
+    '--input-filled-text': mergedTokens?.filled?.color,
+    '--input-filled-shadow': mergedTokens?.filled?.boxShadow,
+
+    // disabled
+    '--input-disabled-bg': mergedTokens?.disabled?.background,
+    '--input-disabled-text': mergedTokens?.disabled?.color,
+    '--input-disabled-border': mergedTokens?.disabled?.border,
+    '--input-disabled-shadow': mergedTokens?.disabled?.boxShadow,
+
+    // error
+    '--input-error-bg': mergedTokens?.error?.background,
+    '--input-error-border': mergedTokens?.error?.border,
+    '--input-error-text': mergedTokens?.error?.color,
+    '--input-error-shadow': mergedTokens?.error?.boxShadow,
+
+    // error.filled
+    '--input-error-filled-border': mergedTokens?.error?.filled?.border,
+    '--input-error-filled-text': mergedTokens?.error?.filled?.color,
+    '--input-error-filled-shadow': mergedTokens?.error?.filled?.boxShadow,
+
+    // error.focus
+    '--input-error-focus-border': mergedTokens?.error?.focus?.border,
+    '--input-error-focus-ring': mergedTokens?.error?.focus?.boxShadow,
+    '--input-error-focus-text': mergedTokens?.error?.focus?.color,
+
+    // error.hover
+    '--input-error-hover-border': mergedTokens?.error?.hover?.border,
+    '--input-error-hover-ring': mergedTokens?.error?.hover?.boxShadow,
+    '--input-error-hover-text': mergedTokens?.error?.hover?.color,
+
+    /* TYPO */
+    '--input-label-font-size': sizeTokens.labelFontSize,
+    '--input-font-size': sizeTokens.inputFontSize,
+    '--input-helper-font-size': sizeTokens.helperFontSize,
+    '--input-label-font-weight': sizeTokens.labelFontWeight,
+    '--input-font-weight': sizeTokens.inputFontWeight,
+    '--input-helper-font-weight': sizeTokens.helperFontWeight,
+    '--input-label-color': sizeTokens.labelColor,
+    '--input-helper-color': sizeTokens.helperColor,
+    '--input-description-color': sizeTokens.descriptionColor,
+
+    /* Height */
+    '--input-height': sizeTokens.height,
+
+    /* Padding */
+    '--input-padding': sizeTokens.padding,
+
+    /* Icon */
+    '--input-icon-size': sizeTokens?.iconSize,
+  } as React.CSSProperties;
 
   const selectedItem = items.find((i) => i.value === value);
 
   return (
     <Popover.Root>
-      <Popover.Trigger asChild>
-        <button
-          disabled={disabled}
-          style={styles}
-          className={cn(
-            selectVariants({ size, error }),
-            'group w-full inline-flex items-center justify-between rounded-[var(--select-radius)] ',
-            className
-          )}
-        >
-          <span className="truncate">{selectedItem?.label ?? placeholder}</span>
+      <div style={styles}>
+        {label && (
+          <label className={inputLabel + ' ui-input-label'}>{label}</label>
+        )}
+        <Popover.Trigger asChild>
+          <button
+            disabled={disabled}
+            data-error={error ? 'true' : 'false'}
+            className={cn(
+              selectVariants(),
+              'group w-full inline-flex items-center justify-between',
+              className
+            )}
+          >
+            <span className="truncate">
+              {selectedItem?.label ?? placeholder}
+            </span>
 
-          <ChevronDownIcon
-            className="
-            h-4 w-4 shrink-0 text-[--color-text-tertiary]
+            <ChevronDownIcon
+              className="
+            shrink-0 ui-input-icon
             transition-transform duration-200
             group-data-[state=open]:rotate-90
             "
-          />
-        </button>
-      </Popover.Trigger>
+            />
+          </button>
+        </Popover.Trigger>
 
-      <Popover.Content
-        align="start"
-        sideOffset={4}
-        className="
+        <Popover.Content
+          align="start"
+          sideOffset={4}
+          className="
           z-50 rounded-md border border-[--border-default]
           bg-white shadow-lg p-1
         "
-        style={{
-          width: 'var(--radix-popover-trigger-width)',
-        }}
-      >
-        <ul className="max-h-60 overflow-auto">
-          {items.map((item) => (
-            <li
-              key={item.value}
-              onClick={() => onValueChange?.(item.value)}
-              className="
+          style={{
+            width: 'var(--radix-popover-trigger-width)',
+          }}
+        >
+          <ul className="max-h-60 overflow-auto">
+            {items.map((item) => (
+              <li
+                key={item.value}
+                onClick={() => onValueChange?.(item.value)}
+                className="
                 flex items-center justify-between
-                h-10 px-3 rounded-sm text-sm cursor-pointer
-                hover:bg-[--border-default]
+                text-[length:var(--input-font-size)] font-[var(--input-font-weight)]
+                h-10 px-3 rounded-[--input-radius] cursor-pointer
+                bg-[--input-bg]
+                hover:bg-[--input-hover-bg]
+                border-[--input-hover-border]
+                box-shadow-[0px_2px_4px_-1px_#0000000F,0px_4px_6px_-1px_#0000001A]
               "
-            >
-              <span>{item.label}</span>
-            </li>
-          ))}
-        </ul>
-      </Popover.Content>
+              >
+                <span>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+        </Popover.Content>
+      </div>
     </Popover.Root>
   );
 }

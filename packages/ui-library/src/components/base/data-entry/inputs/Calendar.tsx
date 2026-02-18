@@ -13,9 +13,8 @@ import {
 } from 'react-day-picker';
 
 import { cn } from '../../../../utils/cn';
-import { Button, buttonBaseClasses } from '../../buttons';
+import { buttonBaseClasses } from '../../buttons';
 import { resolveTokens, useTheme } from '../../../../theme';
-
 import type { ThemeTokensBase } from '../../../../theme/theme';
 
 function Calendar({
@@ -23,13 +22,11 @@ function Calendar({
   classNames,
   showOutsideDays = true,
   captionLayout = 'label',
-  buttonVariant = 'neutral',
   tokens,
   formatters,
   components,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
   tokens?: Partial<ThemeTokensBase>;
 }) {
   const theme = useTheme();
@@ -40,16 +37,27 @@ function Calendar({
     theme
   ) as any;
 
+  // Mapeo exhaustivo de tokens a variables CSS
   const styles = {
     '--calendar-bg': mergedTokens?.background ?? '#FFFFFF',
-    '--calendar-text': mergedTokens?.text ?? '#000000',
-    '--calendar-muted': mergedTokens?.mutedText ?? '#666666',
-    '--calendar-accent': mergedTokens?.accent ?? '#a3aab8',
-    '--calendar-radius': mergedTokens?.radius ?? '8px',
+    '--calendar-text': mergedTokens?.text ?? '#020303',
+    '--calendar-muted': mergedTokens?.muted ?? '#6E7991',
+    '--calendar-radius': mergedTokens?.radius ?? '12px',
+    '--calendar-border': mergedTokens?.border ?? '#E2E5E9',
+    
+    // Day Item tokens
+    '--calendar-item-size': mergedTokens?.item?.size ?? '32px',
+    '--calendar-item-radius': mergedTokens?.item?.radius ?? '8px',
+    
+    // Estados
+    '--calendar-item-hover-bg': mergedTokens?.item?.hover?.background ?? '#E2E5E9',
+    '--calendar-item-current-bg': mergedTokens?.item?.current?.background ?? '#E2E5E9',
+    '--calendar-item-active-bg': mergedTokens?.item?.active?.background ?? '#652BDF',
+    '--calendar-item-active-text': mergedTokens?.item?.active?.color ?? '#FFFFFF',
   } as React.CSSProperties;
 
   return (
-    <div data-slot="calendar" style={styles}>
+    <div data-slot="calendar" style={styles} className="w-fit">
       <DayPicker
         showOutsideDays={showOutsideDays}
         captionLayout={captionLayout}
@@ -59,62 +67,38 @@ function Calendar({
           ...formatters,
         }}
         className={cn(
-          'group/calendar p-3 rounded-[var(--calendar-radius)]',
-          'bg-[color:var(--calendar-bg)]',
-          String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
-          String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
+          'p-3 rounded-[var(--calendar-radius)] border border-[var(--calendar-border)]',
+          'bg-[var(--calendar-bg)] text-[var(--calendar-text)]',
           className
         )}
         classNames={{
-          root: cn('w-fit', defaultClassNames.root),
-          months: cn('flex gap-4 flex-col md:flex-row relative'),
-          month: cn('flex flex-col w-full gap-4'),
-          nav: cn(
-            'flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between'
-          ),
+          months: 'flex gap-4 flex-col relative',
+          month: 'flex flex-col gap-4',
+          nav: 'flex items-center justify-between absolute top-0 inset-x-0 w-full',
           button_previous: cn(
-            buttonBaseClasses({ variant: buttonVariant }),
-            'size-8 p-0 aria-disabled:opacity-50'
+            buttonBaseClasses({ variant: 'neutral' }),
+            'size-8 p-0 hover:bg-[var(--calendar-item-hover-bg)]'
           ),
           button_next: cn(
-            buttonBaseClasses({ variant: buttonVariant }),
-            'size-8 p-0 aria-disabled:opacity-50'
+            buttonBaseClasses({ variant: 'neutral' }),
+            'size-8 p-0 hover:bg-[var(--calendar-item-hover-bg)]'
           ),
           month_caption: 'flex items-center justify-center h-8 w-full',
-          caption_label: cn(
-            'select-none font-medium',
-            captionLayout === 'label' ? 'text-sm' : 'text-sm flex gap-1'
-          ),
+          caption_label: 'text-sm font-semibold select-none',
           table: 'w-full border-collapse',
-          weekdays: 'flex',
-          weekday:
-            'flex-1 text-center text-xs text-[color:var(--calendar-muted)]',
-          week: 'flex w-full mt-2',
-          day: 'aspect-square w-full p-0',
-          today: 'rounded-md bg-[color:var(--calendar-hover)] text-current',
-          outside: 'opacity-50',
-          disabled: 'opacity-40',
+          weekdays: 'flex mb-2',
+          weekday: 'flex-1 text-center text-[10px] font-bold uppercase text-[var(--calendar-muted)]',
+          week: 'flex w-full mt-1',
+          day: 'p-0 flex justify-center items-center',
+          today: '[&:not([data-selected])]:bg-[var(--calendar-item-current-bg)]',
+          outside: 'opacity-30',
+          disabled: 'opacity-10',
           ...classNames,
         }}
         components={{
           Chevron: ({ orientation, className, ...props }) => {
-            if (orientation === 'left')
-              return (
-                <ChevronLeftIcon
-                  className={cn('size-4', className)}
-                  {...props}
-                />
-              );
-            if (orientation === 'right')
-              return (
-                <ChevronRightIcon
-                  className={cn('size-4', className)}
-                  {...props}
-                />
-              );
-            return (
-              <ChevronDownIcon className={cn('size-4', className)} {...props} />
-            );
+            const Icon = orientation === 'left' ? ChevronLeftIcon : orientation === 'right' ? ChevronRightIcon : ChevronDownIcon;
+            return <Icon className={cn('size-4', className)} {...props} />;
           },
           DayButton: CalendarDayButton,
           ...components,
@@ -131,7 +115,6 @@ function CalendarDayButton({
   modifiers,
   ...props
 }: React.ComponentProps<typeof DayButton>) {
-  const defaultClassNames = getDefaultClassNames();
   const ref = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
@@ -139,22 +122,30 @@ function CalendarDayButton({
   }, [modifiers.focused]);
 
   return (
-    <Button
+    <button
       ref={ref}
-      variant="neutral"
-      size="icon"
+      type="button"
       data-selected={modifiers.selected}
-      data-range-start={modifiers.range_start}
-      data-range-end={modifiers.range_end}
-      data-range-middle={modifiers.range_middle}
+      data-today={modifiers.today}
       className={cn(
-        'w-full aspect-square rounded-md',
-        'hover:bg-[color:var(--calendar-hover)]',
-        'focus-visible:ring-2 focus-visible:ring-[color:var(--calendar-accent)]',
-        'data-[selected=true]:bg-[color:var(--calendar-accent)]',
-        'data-[selected=true]:text-[color:var(--calendar-accent-foreground)]',
-        'data-[range-middle=true]:bg-[color:var(--calendar-hover)]',
-        defaultClassNames.day,
+        // Base
+        'flex items-center justify-center transition-all outline-none cursor-pointer',
+        'w-[var(--calendar-item-size)] h-[var(--calendar-item-size)] rounded-[var(--calendar-item-radius)]',
+        'text-sm font-medium',
+        
+        // Hover
+        'hover:bg-[var(--calendar-item-hover-bg)]',
+        
+        // Today (Current state in Figma)
+        'data-[today=true]:bg-[var(--calendar-item-current-bg)]',
+        
+        // Selected (Active state in Figma)
+        'data-[selected=true]:bg-[var(--calendar-item-active-bg)]',
+        'data-[selected=true]:text-[var(--calendar-item-active-text)]',
+        'data-[selected=true]:hover:bg-[var(--calendar-item-active-bg)]',
+        
+        // Focus
+        'focus-visible:ring-2 focus-visible:ring-[var(--calendar-item-active-bg)] focus-visible:ring-offset-2',
         className
       )}
       {...props}
@@ -162,4 +153,4 @@ function CalendarDayButton({
   );
 }
 
-export { Calendar, CalendarDayButton };
+export { Calendar };

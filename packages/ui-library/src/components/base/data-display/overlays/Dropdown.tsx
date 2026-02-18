@@ -9,6 +9,14 @@ import { resolveTokens, useTheme } from '../../../../theme';
 
 import type { ThemeTokensBase } from '../../../../theme/theme';
 
+interface DropdownItemProps {
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
+  selected?: boolean;
+  disabled?: boolean;
+  destructive?: boolean;
+}
+
 type ThemedProps = {
   variant?: string;
   tokens?: Partial<ThemeTokensBase>;
@@ -69,11 +77,12 @@ function DropdownMenuContent({
   const styles = {
     '--dropdown-bg': tokens?.background ?? '#fff',
     '--dropdown-text': tokens?.color ?? '#000',
+    '--dropdown-text-font-size': tokens?.fontSize ?? '14px',
+    '--dropdown-text-font-weight': tokens?.fontWeight ?? 400,
     '--dropdown-border': tokens?.border ?? '#E5E7EB',
     '--dropdown-radius': tokens?.radius ?? '8px',
     '--dropdown-shadow': tokens?.shadow ?? '0 4px 12px rgba(0,0,0,.08)',
   } as React.CSSProperties;
-
 
   return (
     <DropdownMenuPrimitive.Portal>
@@ -84,11 +93,13 @@ function DropdownMenuContent({
         className={cn(
           `
           min-w-[8rem] p-1
-          bg-[--dropdown-bg]
-          text-[--dropdown-text]
-          border border-[--dropdown-border]
-          rounded-[--dropdown-radius]
-          shadow-[--dropdown-shadow]
+          bg-[var(--dropdown-bg)]
+          text-[color:var(--dropdown-text)]
+          text-[length:var(--dropdown-text-font-size)]
+          font-[var(--dropdown-text-font-weight)]
+          border-[var(--dropdown-border)]
+          rounded-[var(--dropdown-radius)]
+          shadow-[0px_2px_4px_-1px_#0000000F,0px_4px_6px_-1px_#0000001A]
           `,
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           className
@@ -109,34 +120,82 @@ function DropdownMenuGroup(
 
 function DropdownMenuItem({
   className,
+  iconLeft,
+  iconRight,
+  selected,
+  destructive,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Item>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Item> &
+  DropdownItemProps) {
   const tokens = React.useContext(DropdownStylesContext) as any;
 
   const styles = {
-    '--item-text': tokens?.item?.textColor ?? 'inherit',
+    '--item-text': tokens?.item?.color ?? 'inherit',
+    '--item-text-font-size': tokens?.item?.fontSize ?? '14px',
+    '--item-text-font-weight': tokens?.item?.fontWeight ?? 400,
+    '--item-bg': tokens?.item?.background ?? 'transparent',
     '--item-hover-bg': tokens?.item?.hoverBackground ?? '#F1F5F9',
-    '--item-hover-text': tokens?.item?.hoverTextColor ?? 'inherit',
     '--item-radius': tokens?.item?.borderRadius ?? '6px',
+    '--item-active': tokens?.item?.activeBackground ?? '#E2E5E9',
     '--item-disabled': tokens?.item?.disabledOpacity ?? '0.4',
+    '--item-icon-size': tokens?.item?.iconSize ?? '13px', //
+    '--item-icon-color': tokens?.item?.iconColor ?? 'inherit', //
   } as React.CSSProperties;
+
   return (
     <DropdownMenuPrimitive.Item
       style={styles}
+      data-selected={selected ? 'true' : 'false'}
+      data-destructive={destructive ? 'true' : 'false'}
+      data-slot="dropdown-menu-item"
       className={cn(
         `
-        flex items-center gap-2 px-2 py-1.5 text-sm
-        text-[--item-text]
-        rounded-[--item-radius]
+        flex items-center gap-2 px-2 py-1.5
+        text-[color:var(--item-text)]
+        text-[length:var(--item-text-font-size)]
+        font-[var(--item-text-font-weight)]
+        bg-[var(--item-bg)]
+        rounded-[var(--item-radius)]
         outline-none select-none
-        focus:bg-[--item-hover-bg]
-        focus:text-[--item-hover-text]
-        data-[disabled]:opacity-[--item-disabled]
+
+        focus:bg-[var(--item-hover-bg)]
+        data-[highlighted]:bg-[var(--item-hover-bg)]
+        data-[state=open]:bg-[var(--item-active-bg)]
+        data-[selected=true]:bg-[var(--item-hover-bg)]
+        data-[disabled]:opacity-[var(--item-disabled)]
         `,
         className
       )}
       {...props}
-    />
+    >
+      {iconLeft && (
+        <span
+          className="flex items-center"
+          style={{
+            width: 'var(--item-icon-size)',
+            height: 'var(--item-icon-size)',
+            color: 'var(--item-icon-color)',
+          }}
+        >
+          {iconLeft}
+        </span>
+      )}
+
+      <span className="flex-1 truncate">{props.children}</span>
+
+      {iconRight && (
+        <span
+          className="flex items-center"
+          style={{
+            width: 'var(--item-icon-size)',
+            height: 'var(--item-icon-size)',
+            color: 'var(--item-icon-color)',
+          }}
+        >
+          {iconRight}
+        </span>
+      )}
+    </DropdownMenuPrimitive.Item>
   );
 }
 
@@ -146,28 +205,62 @@ function DropdownMenuCheckboxItem({
   checked,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
+  const tokens = React.useContext(DropdownStylesContext) as any;
+
+  const styles = {
+    '--item-text': tokens?.item?.color ?? 'inherit',
+    '--item-text-font-size': tokens?.item?.fontSize ?? '14px',
+    '--item-text-font-weight': tokens?.item?.fontWeight ?? 400,
+    '--item-bg': tokens?.item?.background ?? 'transparent',
+    '--item-hover-bg': tokens?.item?.hoverBackground ?? '#F1F5F9',
+    '--item-radius': tokens?.item?.borderRadius ?? '6px',
+    '--item-active': tokens?.item?.activeBackground ?? '#E2E5E9',
+    '--item-disabled': tokens?.item?.disabledOpacity ?? '0.4',
+    '--item-icon-size': tokens?.item?.iconSize ?? '13px', //
+    '--item-icon-color': tokens?.item?.iconColor ?? 'inherit', //
+  } as React.CSSProperties;
+
   return (
     <DropdownMenuPrimitive.CheckboxItem
-      data-slot="dropdown-menu-checkbox-item"
       checked={checked}
+      style={styles}
+      data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        'relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm',
-        'outline-none select-none focus:bg-accent focus:text-accent-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+        `
+        relative flex items-center gap-2 px-2 py-1.5 pl-8
+        text-[color:var(--item-text)]
+        text-[length:var(--item-text-font-size)]
+        font-[var(--item-text-font-weight)]
+        bg-[var(--item-bg)]
+        rounded-[var(--item-radius)]
+        outline-none select-none
+
+        focus:bg-[var(--item-hover-bg)]
+        data-[highlighted]:bg-[var(--item-hover-bg)]
+        data-[state=open]:bg-[var(--item-active-bg)]
+        data-[selected=true]:bg-[var(--item-hover-bg)]
+        data-[disabled]:opacity-[var(--item-disabled)]
+        `,
         className
       )}
       {...props}
     >
-      <span className="absolute left-2 flex size-3.5 items-center justify-center">
+      <span
+        className="absolute left-2 flex items-center justify-center"
+        style={{
+          width: 'var(--item-icon-size)',
+          height: 'var(--item-icon-size)',
+        }}
+      >
         <DropdownMenuPrimitive.ItemIndicator>
-          <CheckIcon className="size-4" />
+          <CheckIcon className="w-[var(--item-icon-size)] h-[var(--item-icon-size)] fill-[color:var(--item-icon-color)]" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      {children}
+
+      <span className="flex-1">{children}</span>
     </DropdownMenuPrimitive.CheckboxItem>
   );
 }
-
 function DropdownMenuRadioGroup(
   props: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>
 ) {
@@ -184,23 +277,58 @@ function DropdownMenuRadioItem({
   children,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {
+  const tokens = React.useContext(DropdownStylesContext) as any;
+
+  const styles = {
+    '--item-text': tokens?.item?.color ?? 'inherit',
+    '--item-text-font-size': tokens?.item?.fontSize ?? '14px',
+    '--item-text-font-weight': tokens?.item?.fontWeight ?? 400,
+    '--item-bg': tokens?.item?.background ?? 'transparent',
+    '--item-hover-bg': tokens?.item?.hoverBackground ?? '#F1F5F9',
+    '--item-radius': tokens?.item?.borderRadius ?? '6px',
+    '--item-active': tokens?.item?.activeBackground ?? '#E2E5E9',
+    '--item-disabled': tokens?.item?.disabledOpacity ?? '0.4',
+    '--item-icon-size': tokens?.item?.iconSize ?? '13px', //
+    '--item-icon-color': tokens?.item?.iconColor ?? 'inherit', //
+  } as React.CSSProperties;
+
   return (
     <DropdownMenuPrimitive.RadioItem
+      style={styles}
       data-slot="dropdown-menu-radio-item"
       className={cn(
-        'relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm',
-        'outline-none select-none focus:bg-accent focus:text-accent-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+        `
+        relative flex items-center gap-2 px-2 py-1.5 pl-8
+        text-[color:var(--item-text)]
+        text-[length:var(--item-text-font-size)]
+        font-[var(--item-text-font-weight)]
+        bg-[var(--item-bg)]
+        rounded-[var(--item-radius)]
+        outline-none select-none
+
+        focus:bg-[var(--item-hover-bg)]
+        data-[highlighted]:bg-[var(--item-hover-bg)]
+        data-[state=open]:bg-[var(--item-active-bg)]
+        data-[selected=true]:bg-[var(--item-hover-bg)]
+        data-[disabled]:opacity-[var(--item-disabled)]
+        `,
         className
       )}
       {...props}
     >
-      <span className="absolute left-2 flex size-3.5 items-center justify-center">
+      <span
+        className="absolute left-2 flex items-center justify-center"
+        style={{
+          width: 'var(--item-icon-size)',
+          height: 'var(--item-icon-size)',
+        }}
+      >
         <DropdownMenuPrimitive.ItemIndicator>
-          <CircleIcon className="size-2 fill-current" />
+          <CircleIcon className="w-[var(--item-icon-size)] h-[var(--item-icon-size)] fill-[color:var(--item-icon-color)]" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      {children}
+
+      <span className="flex-1">{children}</span>
     </DropdownMenuPrimitive.RadioItem>
   );
 }
@@ -212,12 +340,23 @@ function DropdownMenuLabel({
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & {
   inset?: boolean;
 }) {
+  const tokens = React.useContext(DropdownStylesContext) as any;
+
+
   return (
     <DropdownMenuPrimitive.Label
       data-slot="dropdown-menu-label"
       data-inset={inset}
+      style={{
+        color: tokens?.item?.color ?? '#6B7280',
+        fontSize: tokens?.item?.fontSize ?? '12px',
+        fontWeight: tokens?.item?.fontWeight ?? 600,
+      }}
       className={cn(
-        'px-2 py-1.5 text-sm font-medium data-[inset]:pl-8',
+        `
+        flex items-center gap-2 px-2 py-1.5
+        data-[inset=true]:pl-8
+        `,
         className
       )}
       {...props}
@@ -228,9 +367,15 @@ function DropdownMenuLabel({
 function DropdownMenuSeparator(
   props: React.ComponentProps<typeof DropdownMenuPrimitive.Separator>
 ) {
+  const tokens = React.useContext(DropdownStylesContext) as any;
+
+  const styles = {
+    '--dropdown-separator': tokens?.section?.separatorColor ?? 'inherit',
+  } as React.CSSProperties;
   return (
     <DropdownMenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
+      style={styles}
       className="bg-border bg-white -mx-1 my-1 h-px"
       {...props}
     />
@@ -238,10 +383,17 @@ function DropdownMenuSeparator(
 }
 
 function DropdownMenuShortcut(props: React.ComponentProps<'span'>) {
+  const tokens = React.useContext(DropdownStylesContext) as any;
+
   return (
     <span
       data-slot="dropdown-menu-shortcut"
-      className="ml-auto text-xs tracking-widest text-muted-foreground"
+      style={{
+        color: tokens?.item?.iconColor ?? '#6B7280',
+        fontSize: tokens?.item?.fontSize ?? '12px',
+        fontWeight: tokens?.item?.fontWeight ?? 400,
+      }}
+      className="ml-auto tracking-wider"
       {...props}
     />
   );
@@ -261,26 +413,39 @@ function DropdownMenuSubTrigger({
 }: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> & {
   inset?: boolean;
 }) {
+  const tokens = React.useContext(DropdownStylesContext) as any;
+  const styles = {
+    '--item-text': tokens?.item?.color ?? 'inherit',
+    '--item-text-font-size': tokens?.item?.fontSize ?? '14px',
+    '--item-hover-bg': tokens?.item?.hoverBackground ?? '#F1F5F9',
+    '--item-radius': tokens?.item?.borderRadius ?? '6px',
+    '--item-active': tokens?.item?.activeBackground ?? '#E2E5E9',
+    '--item-icon-size': tokens?.item?.iconSize ?? '16px',
+  } as React.CSSProperties;
+
   return (
     <DropdownMenuPrimitive.SubTrigger
       data-slot="dropdown-menu-sub-trigger"
+      style={styles}
       data-inset={inset}
       className={cn(
-        'flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm',
-        'outline-none select-none',
-        'focus:bg-accent focus:text-accent-foreground',
-        'data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
-        'data-[inset]:pl-8',
+        `
+        flex items-center gap-2 px-2 py-1.5
+        rounded-[var(--item-radius)]
+        outline-none select-none
+        focus:bg-[var(--item-hover-bg)]
+        data-[state=open]:bg-[var(--item-hover-bg)]
+        data-[inset=true]:pl-8
+        `,
         className
       )}
       {...props}
     >
-      {children}
-      <ChevronRightIcon className="ml-auto size-4" />
+      <span className="flex-1">{children}</span>
+      <ChevronRightIcon className="size-[var(--item-icon-size)] opacity-70" />
     </DropdownMenuPrimitive.SubTrigger>
   );
 }
-
 function DropdownMenuSubContent({
   className,
   ...props
@@ -288,19 +453,34 @@ function DropdownMenuSubContent({
   const tokens = React.useContext(DropdownStylesContext) as any;
 
   const styles = {
-    '--item-text': tokens?.item?.textColor ?? 'inherit',
+    '--item-text': tokens?.item?.color ?? 'inherit',
+    '--item-text-font-size': tokens?.item?.fontSize ?? '14px',
+    '--item-text-font-weight': tokens?.item?.fontWeight ?? 400,
+    '--item-bg': tokens?.item?.background ?? 'transparent',
     '--item-hover-bg': tokens?.item?.hoverBackground ?? '#F1F5F9',
-    '--item-hover-text': tokens?.item?.hoverTextColor ?? 'inherit',
     '--item-radius': tokens?.item?.borderRadius ?? '6px',
+    '--item-active': tokens?.item?.activeBackground ?? '#E2E5E9',
     '--item-disabled': tokens?.item?.disabledOpacity ?? '0.4',
+    '--item-icon-size': tokens?.item?.iconSize ?? '13px', //
+    '--item-icon-color': tokens?.item?.iconColor ?? 'inherit', //
+    '--dropdown-shadow': tokens?.shadow ?? '0 4px 12px rgba(0,0,0,.08)',
   } as React.CSSProperties;
+
   return (
     <DropdownMenuPrimitive.SubContent
       data-slot="dropdown-menu-sub-content"
       style={styles}
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden  border border-[--dropdown-border]  rounded-[--dropdown-radius] p-1 shadow-[--dropdown-shadow]',
-        'bg-[--dropdown-bg] text-[--dropdown-text]',
+        `
+        min-w-[8rem] p-2
+        bg-[var(--item-bg)]
+        text-[color:var(--item-text)]
+        text-[length:var(--item-text-font-size)]
+        font-[var(--item-text-font-weight)]
+        border-[var(--item-disabled)]
+        rounded-[var(--item-radius)]
+        shadow-[0px_2px_4px_-1px_#0000000F,0px_4px_6px_-1px_#0000001A]
+        `,
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         className
       )}

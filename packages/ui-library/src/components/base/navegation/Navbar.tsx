@@ -1,153 +1,100 @@
 'use client';
 
 import * as React from 'react';
-import { ChevronDown } from 'lucide-react';
-
-import { Button } from '../buttons';
+import { useTheme, resolveTokens } from '../../../theme';
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
 } from '../data-display';
-
+import { ChevronDown, ChevronsUpDown } from 'lucide-react';
 import { cn } from '../../../utils/cn';
-import { useTheme, resolveTokens } from '../../../theme';
 
 export type Merchant = {
   id: string;
   name: string;
 };
 
-export type NavbarAction = {
-  id: string;
-  label: string;
-  icon?: React.ReactNode;
-  onClick: () => void;
-};
-
 export type NavbarUser = {
   name: string;
   role?: string;
   avatarUrl?: string;
-  menu: {
-    id: string;
-    label: string;
-    onClick: () => void;
-  }[];
+  menu: { id: string; label: string; onClick: () => void }[];
 };
 
-type HeaderMerchantSelectProps = {
-  merchants?: Merchant[];
-  currentMerchantId?: string;
-  onSelect?: (id: string) => void;
+type NavbarComponent = React.FC<{ children: React.ReactNode }> & {
+  Start: React.FC<{ children: React.ReactNode }>;
+  End: React.FC<{ children: React.ReactNode }>;
+  Slot: React.FC<{ children: React.ReactNode }>;
+  Logo: typeof NavbarLogo;
+  Merchant: typeof NavbarMerchant;
+  User: typeof NavbarUserMenu;
 };
 
-function HeaderMerchantSelect({
-  merchants = [],
-  currentMerchantId,
-  onSelect,
-}: HeaderMerchantSelectProps) {
-  if (merchants.length === 0) return null;
+const NavbarContext = React.createContext<any>(null);
 
-  const current = merchants.find((m) => m.id === currentMerchantId);
+export const Navbar = (({ children }) => {
+  const theme = useTheme();
+  const mergedTokens = resolveTokens({ componentName: 'navbar' }, theme) as any;
 
-  if (merchants.length === 1) {
-    return (
-      <span className="text-sm font-medium text-[var(--nb-merchant-color)]">
-        {current?.name}
-      </span>
-    );
-  }
+  const styles = {
+    /* Container */
+    '--nb-height': mergedTokens?.container?.height ?? '64px',
+    '--nb-bg': mergedTokens?.container?.background ?? '#ffffff',
+    '--nb-border': mergedTokens?.container?.border ?? '#E2E5E9',
+    '--nb-radius': mergedTokens?.container?.radius ?? '0px',
+    '--nb-icon-color': mergedTokens?.container?.iconColor ?? '#9DA5B5',
+
+    /* Layout */
+    '--nb-max-width': mergedTokens?.content?.maxWidth ?? '1440px',
+    '--nb-padding-x': mergedTokens?.content?.paddingX ?? '24px',
+
+    /* Motion */
+    '--nb-motion': mergedTokens?.motion?.duration ?? '150ms',
+  } as React.CSSProperties;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        className="
-          flex items-center gap-2 text-sm font-medium
-          text-[var(--nb-merchant-color)]
-          outline-none
-        "
+    <NavbarContext.Provider value={mergedTokens}>
+      <header
+        style={styles}
+        className={cn(
+          'w-full border-b',
+          'h-[var(--nb-height)]',
+          'bg-[var(--nb-bg)] border-[var(--nb-border)]',
+          'rounded-[var(--nb-radius)]',
+          'transition-colors duration-[var(--nb-motion)]'
+        )}
       >
-        <span>{current?.name}</span>
-        <ChevronDown className="h-4 w-4 text-[var(--nb-chevron-color)]" />
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="start">
-        {merchants.map((merchant) => (
-          <DropdownMenuItem
-            key={merchant.id}
-            onClick={() => onSelect?.(merchant.id)}
-          >
-            {merchant.name}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-
-function HeaderActions({ actions }: { actions: NavbarAction[] }) {
-  return (
-    <div className="flex items-center gap-2">
-      {actions.map((action) => (
-        <Button
-          key={action.id}
-          size="sm"
-          variant="secondary"
-          className="gap-2"
-          onClick={action.onClick}
-        >
-          {action.icon}
-          {action.label}
-        </Button>
-      ))}
-    </div>
-  );
-}
-
-function HeaderUserMenu({ user }: { user: NavbarUser }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-2 outline-none">
-        <Avatar className="h-8 w-8">
-          {user.avatarUrl ? (
-            <>
-              <AvatarImage src={user.avatarUrl} />
-              <AvatarFallback>RP</AvatarFallback>
-            </>
-          ) : (
-            <AvatarFallback>RP</AvatarFallback>
-          )}
-        </Avatar>
-
-        <div className="text-left leading-tight">
-          <p className="text-sm font-medium text-[var(--nb-user-name)]">
-            {user.name}
-          </p>
-          {user.role && (
-            <p className="text-xs text-[var(--nb-user-role)]">{user.role}</p>
-          )}
+        <div className="mx-auto h-full flex items-center justify-between px-6">
+          {children}
         </div>
-
-        <ChevronDown className="h-4 w-4 text-[var(--nb-chevron-color)]" />
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="end">
-        {user.menu.map((item) => (
-          <DropdownMenuItem key={item.id} onClick={item.onClick}>
-            {item.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </header>
+    </NavbarContext.Provider>
   );
-}
+}) as NavbarComponent;
 
-function Logo() {
+/* Layout */
+Navbar.Start = ({ children }) => (
+  <div className="flex items-center gap-6">{children}</div>
+);
+
+Navbar.End = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex items-center gap-4">{children}</div>
+);
+
+Navbar.Slot = ({ children }) => (
+  <div className="flex items-center">{children}</div>
+);
+
+Navbar.Logo = NavbarLogo;
+Navbar.Merchant = NavbarMerchant;
+Navbar.User = NavbarUserMenu;
+
+export function NavbarLogo() {
   return (
     <div className="flex items-center gap-2">
       <Avatar>
@@ -157,84 +104,121 @@ function Logo() {
   );
 }
 
-export function Navbar({
-  merchants,
-  currentMerchantId,
-  onMerchantChange,
-  actions,
-  user,
+export function NavbarMerchant({
+  merchants = [],
+  currentId,
+  onChange,
 }: {
-  merchants: Merchant[];
-  currentMerchantId?: string;
-  onMerchantChange?: (id: string) => void;
-  actions: NavbarAction[];
-  user: NavbarUser;
+  merchants?: Merchant[];
+  currentId?: string;
+  onChange?: (id: string) => void;
 }) {
-  const theme = useTheme();
-
-  const mergedTokens = resolveTokens({ componentName: 'navbar' }, theme) as any ?? {};
-
-  /* ---------------------------------------------
-   * CSS VARIABLES + FALLBACKS
-   * --------------------------------------------*/
+  const tokens = (React.useContext(NavbarContext) as any) ?? {};
 
   const styles = {
-    /* Container */
-    '--nb-height': mergedTokens?.container?.height ?? '64px',
-    '--nb-bg': mergedTokens?.container?.background ?? '#ffffff',
-    '--nb-border': mergedTokens?.container?.border ?? '#E2E5E9',
-    '--nb-radius': mergedTokens?.container?.radius ?? '0px',
-
-    /* Layout */
-    '--nb-max-width': mergedTokens?.content?.maxWidth ?? '1440px',
-    '--nb-padding-x': mergedTokens?.content?.paddingX ?? '24px',
-
     /* Merchant */
-    '--nb-merchant-color': mergedTokens?.merchant?.color ?? '#111827',
-    '--nb-chevron-color': mergedTokens?.merchant?.chevronColor ?? '#6B7280',
+    '--nb-merchant-color': tokens?.merchant?.color ?? '#111827',
+    '--nb-merchant-font-size': tokens?.merchant?.fontSize ?? '14px',
+    '--nb-merchant-font-weight': tokens?.merchant?.fontWeight ?? 550,
+    '--nb-icon-color': tokens?.container?.iconColor ?? '#9DA5B5',
+  } as React.CSSProperties;
 
+  if (!merchants.length) return null;
+
+  const current = merchants.find((m) => m.id === currentId);
+
+  if (merchants.length === 1) {
+    return <span>{current?.name}</span>;
+  }
+
+  return (
+    <div style={styles}>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center gap-2 outline-none text-[color:var(--nb-merchant-color)] text-[length:var(--nb-merchant-font-size)] font-[var(--nb-merchant-font-weight)]">
+          {current?.name}
+          <ChevronsUpDown className="h-4 w-4 text-[color:var(--nb-icon-color)]" />
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="start">
+          {merchants.map((m) => (
+            <DropdownMenuItem key={m.id} onClick={() => onChange?.(m.id)}>
+              {m.name}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+export function NavbarUserMenu({ user }: { user: NavbarUser }) {
+  const tokens = (React.useContext(NavbarContext) as any) ?? {};
+
+  const styles = {
     /* User */
-    '--nb-user-name': mergedTokens?.user?.nameColor ?? '#111827',
-    '--nb-user-role': mergedTokens?.user?.roleColor ?? '#6B7280',
-
-    /* Motion */
-    '--nb-motion': mergedTokens?.motion?.duration ?? '150ms',
+    '--nb-user-name': tokens?.user?.nameColor ?? '#111827',
+    '--nb-user-role': tokens?.user?.roleColor ?? '#6B7280',
+    '--nb-user-name-font-size': tokens?.user?.nameFontSize ?? '12px',
+    '--nb-user-role-font-size': tokens?.user?.roleFontSize ?? '12px',
+    '--nb-user-name-font-weight': tokens?.user?.nameFontWeight ?? 550,
+    '--nb-user-role-font-weight': tokens?.user?.roleFontWeight ?? 400,
+    '--nb-icon-color': tokens?.container?.iconColor ?? '#9DA5B5',
   } as React.CSSProperties;
 
   return (
-    <header
-      style={styles}
-      className={cn(
-        'w-full border-b',
-        'h-[var(--nb-height)]',
-        'bg-[var(--nb-bg)] border-[var(--nb-border)]',
-        'rounded-[var(--nb-radius)]',
-        'transition-colors duration-[var(--nb-motion)]'
-      )}
-    >
-      <div
-        className={cn(
-          'mx-auto h-full flex items-center justify-between',
-          'max-w-[var(--nb-max-width)]',
-          'px-[var(--nb-padding-x)]'
-        )}
-      >
-        {/* Left */}
-        <div className="flex items-center gap-6">
-          <Logo />
-          <HeaderMerchantSelect
-            merchants={merchants}
-            currentMerchantId={currentMerchantId}
-            onSelect={onMerchantChange}
-          />
-        </div>
+    <div style={styles}>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className="
+          flex items-start gap-3
+          px-3 py-2
+          rounded-xl
+          outline-none
+          transition-colors
+          hover:bg-[var(--nb-trigger-hover)]
+          focus-visible:ring-2 focus-visible:ring-[var(--nb-focus)]
+          "
+        >
+          {/* Avatar */}
+          <Avatar size="md">
+            {user.avatarUrl ? (
+              <AvatarImage src={user.avatarUrl} />
+            ) : (
+              <AvatarFallback>{user.name[0]}</AvatarFallback>
+            )}
+          </Avatar>
 
-        {/* Right */}
-        <div className="flex items-center gap-4">
-          <HeaderActions actions={actions} />
-          <HeaderUserMenu user={user} />
-        </div>
-      </div>
-    </header>
+          {/* Name + role */}
+          <div className="flex flex-col text-left">
+            <span className="text-[color:var(--nb-user-name)] text-[length:var(--nb-user-name-font-size)] font-[var(--nb-user-name-font-weight)] leading-none">
+              {user.name}
+            </span>
+
+            {user.role && (
+              <span className="mt-0.5 text-[length:var(--nb-user-role-font-size)] leading-none text-[color:var(--nb-user-role)] font-[var(--nb-user-role-font-weight)]">
+                {user.role}
+              </span>
+            )}
+          </div>
+
+          {/* Chevron */}
+          <ChevronDown
+            className="
+                    ml-1
+                    h-4 w-4
+                    text-[color:var(--nb-icon-color)]
+                    translate-y-[0px]
+                     "
+          />
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end">
+          {user.menu.map((item) => (
+            <DropdownMenuItem key={item.id} onClick={item.onClick}>
+              {item.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }

@@ -2,3 +2,148 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* Button styles */
+  .ui-button {
+    background: var(--button-bg);
+    color: var(--button-text);
+    font-size: var(--button-font-size);
+    font-weight: var(--button-font-weight);
+  }
+
+  .ui-button:hover {
+    background: var(--button-bg-hover);
+    color: var(--button-text-hover, var(--button-text));
+  }
+
+  .ui-button:disabled {
+    background: var(--button-bg-disabled);
+    color: var(--button-text-disabled);
+  }
+
+  .ui-button:focus-visible {
+    box-shadow: var(--button-focus-ring);
+  }
+
+  /* Input styles */
+  .ui-input {
+    height: var(--input-height);
+    width: 100%;
+    padding: var(--input-padding);
+    border-radius: var(--input-radius);
+    background: var(--input-bg);
+    color: var(--input-text);
+    font-size: var(--input-font-size);
+    font-weight: var(--input-font-weight);
+    border: var(--input-border);
+    box-shadow: var(--input-shadow);
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .ui-input:hover {
+    background: var(--input-hover-bg);
+    color: var(--input-hover-text);
+    border: var(--input-hover-border);
+  }
+
+  /*select*/
+  .ui-input:focus,
+  .ui-input:focus-visible {
+    border: var(--input-focus-border);
+    box-shadow: var(--input-focus-ring);
+    color: var(--input-focus-text);
+  }
+
+  .ui-input[data-state='open'] {
+    border: var(--input-focus-border);
+    box-shadow: var(--input-focus-ring);
+    color: var(--input-focus-text);
+  }
+
+  /* Por si Radix lo pone en el button interno */
+  .ui-input:has([data-state='open']) {
+    border: var(--input-focus-border);
+    box-shadow: var(--input-focus-ring);
+    color: var(--input-focus-text);
+  }
+
+  .ui-input:disabled {
+    background: var(--input-disabled-bg);
+    color: var(--input-disabled-text);
+    border: var(--input-disabled-border);
+    box-shadow: var(--input-disabled-shadow);
+    cursor: not-allowed;
+  }
+
+  /* Filled state */
+  .ui-input[data-filled='true'] {
+    background: var(--input-filled-bg);
+    color: var(--input-filled-text);
+    box-shadow: var(--input-filled-shadow);
+  }
+
+  /* Error state */
+  .ui-input[data-error='true'] {
+    background: var(--input-error-bg);
+    border: var(--input-error-border);
+    color: var(--input-text);
+    box-shadow: var(--input-error-shadow);
+  }
+
+  .ui-input[data-error='true']:hover {
+    border: var(--input-error-hover-border);
+    box-shadow: var(--input-error-hover-ring);
+    color: var(--input-error-hover-text);
+  }
+
+  .ui-input[data-error='true']:focus-visible {
+    border: var(--input-error-focus-border);
+    box-shadow: var(--input-error-focus-ring);
+    color: var(--input-error-focus-text);
+  }
+
+  .ui-input-label {
+    color: var(--input-label-color);
+    font-size: var(--input-label-font-size);
+    font-weight: var(--input-label-font-weight);
+  }
+  .ui-input-helper {
+    color: var(--input-helper-color);
+    font-size: var(--input-helper-font-size);
+    font-weight: var(--input-helper-font-weight);
+  }
+  .ui-input-helper-error {
+    color: var(--input-error-text);
+    font-size: var(--input-helper-font-size);
+    font-weight: var(--input-helper-font-weight);
+  }
+
+  .ui-input-icon {
+    width: var(--input-icon-size);
+    height: var(--input-icon-size);
+    color: var(--input-helper-color);
+  }
+
+  /* default */
+  .ui-eye-off {
+    display: none;
+  }
+
+  .ui-eye {
+    display: block;
+  }
+
+  /* cuando el input es text */
+  .ui-input[type='text'] ~ .ui-password-toggle .ui-eye {
+    display: none;
+  }
+
+  .ui-input[type='text'] ~ .ui-password-toggle .ui-eye-off {
+    display: block;
+  }
+}

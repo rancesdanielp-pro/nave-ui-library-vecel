@@ -23,9 +23,8 @@ export default function SearchBarPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock 
-          code={`import 'nave-ui-library/styles.css
-
-import { SearchBar } from 'nave-ui-library/react'`} 
+          code={`import 'nave-ui-library/styles.css';
+                 import { SearchBar } from 'nave-ui-library/react'`} 
         />
       </ContentCards>
 
@@ -40,7 +39,9 @@ import { SearchBar } from 'nave-ui-library/react'`}
               <SearchBar placeholder="Buscar movimientos, clientes..." />
             </div>
           }
-          code={`<SearchBar placeholder="Buscar..." />`}
+          code={`<div className="w-full max-w-md">
+                    <SearchBar placeholder="Buscar movimientos, clientes..." />
+                 </div>`}
         />
       </ContentCards>
 
@@ -54,15 +55,26 @@ import { SearchBar } from 'nave-ui-library/react'`}
             <div className="w-full max-w-md flex flex-col gap-6">
               <div className="space-y-2">
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Medium (Default)</span>
-                <SearchBar size="md" placeholder="Search size md..." />
+                <SearchBar size="medium" label="Label" placeholder="Placeholder" />
               </div>
               <div className="space-y-2">
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
-                <SearchBar size="sm" placeholder="Search size sm..." />
+                <SearchBar size="small" label="Label" placeholder="Placeholder" />
               </div>
             </div>
           }
-          code={`<SearchBar size="md" />\n<SearchBar size="sm" />`}
+          code={`
+            <div className="w-full max-w-md flex flex-col gap-6">
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Medium (Default)</span>
+                <SearchBar size="medium" label="Label" placeholder="Placeholder" />
+              </div>
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
+                <SearchBar size="small" label="Label" placeholder="Placeholder" />
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -77,7 +89,11 @@ import { SearchBar } from 'nave-ui-library/react'`}
               <SearchBar disabled placeholder="Búsqueda deshabilitada" />
             </div>
           }
-          code={`<SearchBar disabled />`}
+          code={`
+            <div className="w-full max-w-md">
+              <SearchBar disabled placeholder="Búsqueda deshabilitada" />
+            </div>
+            `}
         />
       </ContentCards>
 

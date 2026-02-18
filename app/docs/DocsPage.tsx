@@ -4,6 +4,7 @@
 import { ThemeProvider } from '@/packages/ui-library/dist/react';
 import { useBrand } from './BrandContext';
 import { tokenVariants } from '../utils/tokens';
+import ds_last from '../utils/DSL';
 
 export function DocsPage({
   title,
@@ -13,10 +14,10 @@ export function DocsPage({
   // Suscripción al cambio de brand
   useBrand();
    const { activeBrand } = useBrand();
-  const channelId = 'nave';
+   const channelId = 'nave';
 
   return (
-    <ThemeProvider channelId={activeBrand?.name || channelId}>
+     <ThemeProvider channelId={activeBrand?.name || channelId}>
       <section className="w-full min-h-screen flex justify-center bg-slate-100">
         <div className="w-full max-w-[960px] px-6 py-12">
           <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 px-8 py-8">

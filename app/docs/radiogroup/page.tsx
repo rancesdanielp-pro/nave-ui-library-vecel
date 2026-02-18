@@ -22,9 +22,8 @@ export default function RadioGroupPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock 
-          code={`import 'nave-ui-library/styles.css
-
-import { RadioGroup, RadioItem } from 'nave-ui-library/react'`} 
+          code={`import 'nave-ui-library/styles.css'
+                 import { RadioGroup, RadioItem } from 'nave-ui-library/react'`} 
         />
       </ContentCards>
 
@@ -37,17 +36,31 @@ import { RadioGroup, RadioItem } from 'nave-ui-library/react'`}
           preview={
             <div className="w-full max-w-sm">
               <RadioGroup defaultValue="option-1">
-                <RadioItem value="option-1" label="Opción estándar" />
+                <RadioItem value="option-1" label="Label" description='Description' />
                 <RadioItem 
                   value="option-2" 
                   label="Con descripción" 
                   description="Esta es una breve explicación de la opción seleccionada." 
                 />
-                <RadioItem value="option-3" label="Opción deshabilitada" disabled />
+                <RadioItem value="option-3" label="Opción habilitada disabled" checked disabled />
+                <RadioItem value="option-4" label="Opción deshabilitada" disabled />
               </RadioGroup>
             </div>
           }
-          code={`<RadioGroup defaultValue="option-1">\n  <RadioItem value="option-1" label="Opción 1" />\n  <RadioItem \n    value="option-2" \n    label="Opción 2" \n    description="Descripción..." \n  />\n</RadioGroup>`}
+          code={`
+            <div className="w-full max-w-sm">
+              <RadioGroup defaultValue="option-1">
+                <RadioItem value="option-1" label="Label" description='Description' />
+                <RadioItem 
+                  value="option-2" 
+                  label="Con descripción" 
+                  description="Esta es una breve explicación de la opción seleccionada." 
+                />
+                <RadioItem value="option-3" label="Opción habilitada disabled" checked disabled />
+                <RadioItem value="option-4" label="Opción deshabilitada" disabled />
+              </RadioGroup>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -62,20 +75,45 @@ import { RadioGroup, RadioItem } from 'nave-ui-library/react'`}
               <div className="space-y-4">
                  <span className="text-[10px] uppercase text-slate-400 font-bold">Regular (20px)</span>
                  <RadioGroup defaultValue="r1">
-                    <RadioItem value="r1" size="regular" label="Opción A" />
-                    <RadioItem value="r2" size="regular" label="Opción B" />
+                    <RadioItem value="r1" size="regular" label="Label" description='Description' />
                  </RadioGroup>
               </div>
               <div className="space-y-4">
                  <span className="text-[10px] uppercase text-slate-400 font-bold">Small (16px)</span>
                  <RadioGroup defaultValue="s1">
-                    <RadioItem value="s1" size="small" label="Opción A" />
-                    <RadioItem value="s2" size="small" label="Opción B" />
+                    <RadioItem value="s1" size="small" label="Label" description='Description' />
+                 </RadioGroup>
+              </div>
+                            <div className="space-y-4">
+                 <span className="text-[10px] uppercase text-slate-400 font-bold">Extra Small (16px)</span>
+                 <RadioGroup defaultValue="s1">
+                    <RadioItem value="s1" size="extraSmall" label="Label" description='Description' />
                  </RadioGroup>
               </div>
             </div>
           }
-          code={`<RadioItem size="regular" />\n<RadioItem size="small" />`}
+          code={`
+            <div className="flex items-start justify-center gap-16">
+              <div className="space-y-4">
+                 <span className="text-[10px] uppercase text-slate-400 font-bold">Regular (20px)</span>
+                 <RadioGroup defaultValue="r1">
+                    <RadioItem value="r1" size="regular" label="Label" description='Description' />
+                 </RadioGroup>
+              </div>
+              <div className="space-y-4">
+                 <span className="text-[10px] uppercase text-slate-400 font-bold">Small (16px)</span>
+                 <RadioGroup defaultValue="s1">
+                    <RadioItem value="s1" size="small" label="Label" description='Description' />
+                 </RadioGroup>
+              </div>
+                            <div className="space-y-4">
+                 <span className="text-[10px] uppercase text-slate-400 font-bold">Extra Small (16px)</span>
+                 <RadioGroup defaultValue="s1">
+                    <RadioItem value="s1" size="extraSmall" label="Label" description='Description' />
+                 </RadioGroup>
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 

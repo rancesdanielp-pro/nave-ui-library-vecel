@@ -3,29 +3,63 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../utils/cn';
 import { useTheme, resolveTokens } from '../../../theme';
 import type { ThemeTokensBase } from '../../../theme/theme';
 
-function Breadcrumb({
-  className,
-  tokens,
-  style,
-  ...props
-}: React.ComponentProps<'nav'> & { tokens?: Partial<ThemeTokensBase> }) {
+// Variantes basadas en los tokens de tamaño
+const breadcrumbListVariants = cva(
+  'flex flex-wrap items-center transition-colors',
+  {
+    variants: {
+      size: {
+        small: 'text-[var(--bc-font-size)] gap-[var(--bc-gap)]',
+        medium: 'text-[var(--bc-font-size)] gap-[var(--bc-gap)]',
+      },
+    },
+    defaultVariants: {
+      size: 'medium',
+    },
+  }
+);
+
+interface BreadcrumbProps extends React.ComponentProps<'nav'> {
+  tokens?: Partial<ThemeTokensBase>;
+  size?: 'small' | 'medium';
+}
+
+function Breadcrumb({ 
+  className, 
+  tokens, 
+  style, 
+  size = 'medium', 
+  ...props 
+}: BreadcrumbProps) {
   const theme = useTheme();
 
-  // Resolvemos los tokens del componente 'breadcrumb'
+  // Resolvemos los tokens pasando el tamaño actual para obtener fontSize y gap específicos
   const mergedTokens =
-    resolveTokens({ componentName: 'breadcrumb', tokens }, theme) as any ?? {};
+    (resolveTokens({ componentName: 'breadcrumb', size, tokens }, theme) as any) ?? {};
 
   const styles = {
-    '--bc-link-color': mergedTokens?.link?.color ?? 'inherit',
-    '--bc-link-weight': mergedTokens?.link?.fontWeight ?? '600',
-    '--bc-link-hover': mergedTokens?.link?.hoverDecoration ?? 'underline',
-    '--bc-page-color': mergedTokens?.page?.color ?? 'gray',
-    '--bc-page-weight': mergedTokens?.page?.fontWeight ?? '500',
-    '--bc-sep-color': mergedTokens?.separator?.color ?? '#A3AAB8',
+    // Tipografía y Espaciado según tamaño
+    '--bc-font-size': mergedTokens?.fontSize ?? '14px',
+    '--bc-gap': mergedTokens?.gap ?? '8px',
+    
+    // Estados del Link (Default y Hover)
+    '--bc-link-color': mergedTokens?.link?.default?.color ?? 'inherit',
+    '--bc-link-weight': mergedTokens?.link?.default?.fontWeight ?? '600',
+    '--bc-link-hover-color': mergedTokens?.link?.hover?.color ?? 'inherit',
+    '--bc-link-hover-decor': mergedTokens?.link?.hover?.textDecoration ?? 'underline',
+    
+    // Estado Current (Page)
+    '--bc-page-color': mergedTokens?.page?.color ?? '#64748b',
+    '--bc-page-weight': mergedTokens?.page?.fontWeight ?? '400',
+    
+    // Separador
+    '--bc-sep-color': mergedTokens?.separator?.color ?? '#94a3b8',
+    '--bc-sep-size': mergedTokens?.separator?.size ?? '14px',
     ...style,
   } as React.CSSProperties;
 
@@ -40,25 +74,14 @@ function Breadcrumb({
   );
 }
 
-const breadcrumbSizes = {
-  md: 'text-sm gap-2.5',
-  sm: 'text-xs gap-2',
-};
-
 function BreadcrumbList({
   className,
-  size = 'md',
   ...props
-}: React.ComponentProps<'ol'> & { size?: 'sm' | 'md' }) {
+}: React.ComponentProps<'ol'>) {
   return (
     <ol
       data-slot="breadcrumb-list"
-      data-size={size}
-      className={cn(
-        'flex flex-wrap items-center text-slate-700',
-        breadcrumbSizes[size],
-        className
-      )}
+      className={cn(breadcrumbListVariants(), className)}
       {...props}
     />
   );
@@ -68,26 +91,31 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
   return (
     <li
       data-slot="breadcrumb-item"
-      className={cn('inline-flex items-center gap-1.5', className)}
+      className={cn('inline-flex items-center', className)}
       {...props}
     />
   );
 }
 
-type BreadcrumbLinkProps = React.ComponentProps<'a'> & {
-  asChild?: boolean;
-};
-
-function BreadcrumbLink({ asChild, className, ...props }: BreadcrumbLinkProps) {
+/**
+ * BreadcrumbLink: Representa el ItemLink (Required)
+ * Aplica los estados Default y Hover desde tokens.
+ */
+function BreadcrumbLink({ 
+  asChild, 
+  className, 
+  ...props 
+}: React.ComponentProps<'a'> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : 'a';
 
   return (
     <Comp
       data-slot="breadcrumb-link"
       className={cn(
-        'transition-colors',
+        'transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring',
         'text-[var(--bc-link-color)] font-[var(--bc-link-weight)]',
-        'hover:underline hover:decoration-[var(--bc-link-hover)]',
+        'underline underline-offset-[3px] decoration-1',
+        'hover:text-[var(--bc-link-hover-color)] hover:decoration-[var(--bc-link-hover-color)]',
         className
       )}
       {...props}
@@ -95,6 +123,9 @@ function BreadcrumbLink({ asChild, className, ...props }: BreadcrumbLinkProps) {
   );
 }
 
+/**
+ * BreadcrumbPage: Representa el estado Current
+ */
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
   return (
     <span
@@ -112,6 +143,9 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
   );
 }
 
+/**
+ * BreadcrumbSeparator: Icono Separador (Required)
+ */
 function BreadcrumbSeparator({
   children,
   className,
@@ -123,7 +157,8 @@ function BreadcrumbSeparator({
       role="presentation"
       aria-hidden="true"
       className={cn(
-        'flex items-center text-[var(--bc-sep-color)] [&>svg]:size-3.5',
+        'flex items-center justify-center text-[var(--bc-sep-color)]',
+        '[&>svg]:size-[var(--bc-sep-size)]',
         className
       )}
       {...props}
@@ -142,10 +177,10 @@ function BreadcrumbEllipsis({
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       aria-hidden="true"
-      className={cn('flex size-5 items-center justify-center', className)}
+      className={cn('flex items-center justify-center', className)}
       {...props}
     >
-      <MoreHorizontal className="size-4 text-[var(--bc-page-color)]" />
+      <MoreHorizontal className="size-[var(--bc-sep-size)] text-[var(--bc-sep-color)]" />
       <span className="sr-only">More</span>
     </span>
   );

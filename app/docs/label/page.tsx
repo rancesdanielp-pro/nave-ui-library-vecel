@@ -39,7 +39,9 @@ export default function LabelPage() {
               <Label>Nombre de usuario</Label>
             </div>
           }
-          code={`<Label>Nombre de usuario</Label>`}
+          code={`<div className="flex justify-center">
+                  <Label>Nombre de usuario</Label>
+                 </div>`}
         />
       </ContentCards>
 
@@ -66,7 +68,21 @@ export default function LabelPage() {
               </div>
             </div>
           }
-          code={`{/* Integración con Inputs */}\n<div className="grid gap-2">\n  <Label htmlFor="email">Email</Label>\n  <Input id="email" />\n</div>\n\n{/* Integración con Checkbox */}\n<div className="flex items-center gap-3">\n  <Checkbox id="terms" />\n  <Label htmlFor="terms">Términos</Label>\n</div>`}
+          code={`<div className="flex flex-col gap-8 max-w-sm w-full mx-auto">
+                  {/* Con Input */}
+                  <div className="grid gap-2">
+                    <Label htmlFor="email-input">Correo electrónico</Label>
+                    <Input id="email-input" placeholder="tu@email.com" />
+                  </div>
+
+                  {/* Con Checkbox */}
+                  <div className="flex items-center gap-3">
+                    <Checkbox id="terms" />
+                    <Label htmlFor="terms" className="cursor-pointer">
+                      Acepto los términos y condiciones
+                    </Label>
+                  </div>
+                 </div>`}
         />
       </ContentCards>
 
@@ -88,7 +104,17 @@ export default function LabelPage() {
               </div>
             </div>
           }
-          code={`{/* El componente detecta automáticamente el estado del entorno */}\n<Label htmlFor="airplane-mode">Etiqueta</Label>\n<Switch disabled id="airplane-mode" />`}
+          code={`{/* El componente detecta automáticamente el estado del entorno */}
+                  <div className="flex flex-col gap-6 max-w-sm w-full mx-auto">
+                  <div className="flex items-center gap-3">
+                    <Switch disabled id="airplane-mode" />
+                    <Label htmlFor="airplane-mode">Modo avión (Auto-disabled)</Label>
+                  </div>
+                  <div className="grid gap-2 group" data-disabled="true">
+                    <Label>Campo bloqueado por grupo</Label>
+                    <Input disabled placeholder="Solo lectura" />
+                  </div>
+                </div>`}
         />
       </ContentCards>
 

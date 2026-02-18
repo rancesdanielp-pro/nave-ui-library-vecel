@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
 //import { Badge } from 'nave-ui-library/react';
 import { Badge } from '@/packages/ui-library/dist/react';
-import { DocsPage } from '../DocsPage'
-import { ContentCards } from '../ContentCards'
-import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
-import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
-import registry from '@/packages/ui-library/src/registry/registry.json'
-import { tokenVariants } from '@/app/utils/tokens'
+import { DocsPage } from '../DocsPage';
+import { ContentCards } from '../ContentCards';
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
+import registry from '@/packages/ui-library/src/registry/registry.json';
+import { tokenVariants } from '@/app/utils/tokens';
 
 export default function BadgePage() {
-  const componentRegistry = (registry as any)['badge']
-  const naveTheme = tokenVariants[0].tokens
+  const componentRegistry = (registry as any)['badge'];
+  const naveTheme = tokenVariants[0].tokens;
 
   return (
     <DocsPage
@@ -24,9 +24,9 @@ export default function BadgePage() {
         <p className="text-sm text-slate-500 mb-4">
           Importa el componente Badge desde la librería:
         </p>
-        <CodeBlock 
+        <CodeBlock
           code={`import 'nave-ui-library/styles.css'
-import { Badge } from 'nave-ui-library/react'`} 
+                 import { Badge } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -43,7 +43,14 @@ import { Badge } from 'nave-ui-library/react'`}
               <Badge tone="error">Error</Badge>
             </div>
           }
-          code={`<Badge tone="neutral">Neutral</Badge>\n<Badge tone="brand">Brand</Badge>\n<Badge tone="success">Success</Badge>\n<Badge tone="info">Info</Badge>\n<Badge tone="warning">Warning</Badge>\n<Badge tone="error">Error</Badge>`}
+          code={`<div className="flex flex-wrap justify-center gap-4">
+              <Badge tone="neutral">Neutral</Badge>
+              <Badge tone="brand">Brand</Badge>
+              <Badge tone="success">Success</Badge>
+              <Badge tone="info">Info</Badge>
+              <Badge tone="warning">Warning</Badge>
+              <Badge tone="error">Error</Badge>
+              </div>`}
         />
       </ContentCards>
 
@@ -54,19 +61,44 @@ import { Badge } from 'nave-ui-library/react'`}
             <div className="flex items-center justify-center gap-6">
               <div className="flex flex-col items-center gap-2">
                 <Badge size="small">Small</Badge>
-                <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Small
+                </span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <Badge size="medium">Medium</Badge>
-                <span className="text-[10px] uppercase text-slate-400 font-bold">Medium</span>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Medium
+                </span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <Badge size="large">Large</Badge>
-                <span className="text-[10px] uppercase text-slate-400 font-bold">Large</span>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Large
+                </span>
               </div>
             </div>
           }
-          code={`<Badge size="small">Small</Badge>\n<Badge size="medium">Medium</Badge>\n<Badge size="large">Large</Badge>`}
+          code={`<div className="flex items-center justify-center gap-6">
+              <div className="flex flex-col items-center gap-2">
+                <Badge size="small">Small</Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Small
+                </span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Badge size="medium">Medium</Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Medium
+                </span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Badge size="large">Large</Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Large
+                </span>
+              </div>
+            </div>`}
         />
       </ContentCards>
 
@@ -76,16 +108,41 @@ import { Badge } from 'nave-ui-library/react'`}
           preview={
             <div className="flex justify-center gap-8">
               <div className="flex flex-col items-center gap-2">
-                <Badge shape="rounded" tone="brand">Rounded</Badge>
-                <span className="text-[10px] uppercase text-slate-400 font-bold">Default / Rounded</span>
+                <Badge shape="rounded" tone="brand">
+                  Rounded
+                </Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Default / Rounded
+                </span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <Badge shape="square" tone="brand">Square</Badge>
-                <span className="text-[10px] uppercase text-slate-400 font-bold">Square / Rounded-md</span>
+                <Badge shape="square" tone="brand">
+                  Square
+                </Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Square / Rounded-md
+                </span>
               </div>
             </div>
           }
-          code={`<Badge shape="rounded">Rounded</Badge>\n<Badge shape="square">Square</Badge>`}
+          code={`<div className="flex justify-center gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <Badge shape="rounded" tone="brand">
+                  Rounded
+                </Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Default / Rounded
+                </span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Badge shape="square" tone="brand">
+                  Square
+                </Badge>
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Square / Rounded-md
+                </span>
+              </div>
+            </div>`}
         />
       </ContentCards>
 
@@ -95,10 +152,8 @@ import { Badge } from 'nave-ui-library/react'`}
         <p className="text-sm text-slate-500 mb-6">
           Propiedades técnicas y metadatos del componente Badge.
         </p>
-        <CodeBlock 
-          code={JSON.stringify(componentRegistry, null, 2)} 
-        />
+        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
       </div>
     </DocsPage>
-  )
+  );
 }

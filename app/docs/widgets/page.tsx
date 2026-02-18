@@ -10,8 +10,6 @@ import {
   ListItem,
   EmptyState,
   Alert,
-  AlertDescription,
-  AlertTitle,
   Banner,
 } from '@/packages/ui-library/dist/react';
 import { DocsPage } from '../DocsPage';
@@ -19,6 +17,23 @@ import { ContentCards } from '../ContentCards';
 import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
 import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
 import { tokenVariants } from '@/app/utils/tokens';
+
+const ErrorIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="15" y1="9" x2="9" y2="15" />
+    <line x1="9" y1="9" x2="15" y2="15" />
+  </svg>
+);
 
 export default function LastMovementsPage() {
   const naveTheme = tokenVariants[0].tokens;
@@ -156,7 +171,7 @@ const [expanded, setExpanded] = useState(true);
                   onExpandedChange={setExpandedLoading}
                   loadingContent={
                     <div className="flex flex-col items-center gap-2 p-4 justify-center">
-                      <Loader size="lg" />
+                      <Loader size="large" />
                       <Label>Cargando datos...</Label>
                     </div>
                   }
@@ -245,10 +260,16 @@ const [expanded, setExpanded] = useState(true);
                   onDateChange={setDate}
                   onExpandedChange={setExpandedErrorAlert}
                   errorContent={
-                    <Alert tone="error">
-                      <AlertTitle>Error</AlertTitle>
-                      <AlertDescription>Something went wrong.</AlertDescription>
-                    </Alert>
+                    <Alert
+                      tone="error"
+                      size="full-width"
+                      icon={<ErrorIcon />}
+                      title="Title"
+                      subtitle="Subtitle"
+                      label="Label"
+                      onClose={() => {}}
+                      className="w-full"
+                    />
                   }
                 />
               }

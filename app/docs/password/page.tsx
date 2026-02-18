@@ -22,9 +22,8 @@ export default function PasswordInputPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock
-          code={`import 'nave-ui-library/styles.css
-
-import { PasswordInput } from 'nave-ui-library/react'`}
+          code={`import 'nave-ui-library/styles.css'
+                 import { PasswordInput } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -44,7 +43,15 @@ import { PasswordInput } from 'nave-ui-library/react'`}
               />
             </div>
           }
-          code={`<PasswordInput \n  label="Contraseña" \n  placeholder="Ingresá tu clave" \n  helperText="Debe tener al menos 8 caracteres."\n/>`}
+          code={`
+            <div className="w-full max-w-sm">
+              <PasswordInput
+                label="Contraseña"
+                placeholder="Ingresá tu clave"
+                helperText="Debe tener al menos 8 caracteres."
+              />
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -81,24 +88,58 @@ import { PasswordInput } from 'nave-ui-library/react'`}
               </div>
             </div>
           }
-          code={`<PasswordInput error label="Error" />\n<PasswordInput disabled label="Deshabilitado" />`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-8">
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Error State
+                </span>
+                <PasswordInput
+                  error
+                  label="Clave actual"
+                  defaultValue="clave123"
+                  helperText="La contraseña es incorrecta."
+                />
+              </div>
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Disabled State
+                </span>
+                <PasswordInput
+                  disabled
+                  label="Clave de seguridad"
+                  defaultValue="••••••••"
+                  helperText="No puedes modificar la clave en este momento."
+                />
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: SIZES ───────────── */}
       <ContentCards title="Sizes">
         <p className="text-sm text-slate-500 mb-6">
-          Al igual que el Input estándar, soporta tamaños <code>sm</code> y{' '}
-          <code>md</code>, ajustando la posición del icono automáticamente.
+          Al igual que el Input estándar, soporta tamaños <code>small</code> y{' '}
+          <code>medium</code>, ajustando la posición del icono automáticamente.
         </p>
         <ComponentExample
           preview={
             <div className="w-full max-w-sm flex flex-col gap-6">
-              <PasswordInput size="md" label="Tamaño Medium" />
-              <PasswordInput size="sm" label="Tamaño Small" />
+              <span>Medium</span>
+              <PasswordInput size="medium" label="Label" placeholder="Placeholder" />
+              <span>Small</span>
+              <PasswordInput size="small" label="Label" placeholder="Placeholder" />
             </div>
           }
-          code={`<PasswordInput size="md" />\n<PasswordInput size="sm" />`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <span>Medium</span>
+              <PasswordInput size="medium" label="Label" placeholder="Placeholder" />
+              <span>Small</span>
+              <PasswordInput size="small" label="Label" placeholder="Placeholder" />
+            </div>
+            `}
         />
       </ContentCards>
 

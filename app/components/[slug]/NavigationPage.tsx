@@ -27,7 +27,7 @@ export default function NavigationPage() {
           label: 'Introduction',
           href: '/docs',
           active: pathname === '/docs',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -40,28 +40,28 @@ export default function NavigationPage() {
           label: 'Icon',
           href: '/docs/icon',
           active: pathname === '/docs/icon',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'label',
           label: 'Label',
           href: '/docs/label',
           active: pathname === '/docs/label',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'colors',
           label: 'colors',
           href: '/docs/color',
           active: pathname === '/docs/color',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'typography',
           label: 'typography',
           href: '/docs/typography',
           active: pathname === '/docs/typography',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -74,7 +74,7 @@ export default function NavigationPage() {
           label: 'Buttons',
           href: '/docs/buttons',
           active: pathname === '/docs/buttons',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -87,56 +87,56 @@ export default function NavigationPage() {
           label: 'Alerts',
           href: '/docs/alert',
           active: pathname === '/docs/alert',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'badge',
           label: 'Badge',
           href: '/docs/badge',
           active: pathname === '/docs/badge',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'banner',
           label: 'Banners',
           href: '/docs/banner',
           active: pathname === '/docs/banner',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'promoBanner',
           label: 'Promo Banners',
           href: '/docs/promoBanner',
           active: pathname === '/docs/promoBanner',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'loader',
           label: 'Loaders',
           href: '/docs/loader',
           active: pathname === '/docs/loader',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'progress',
           label: 'Progress',
           href: '/docs/barprogress',
           active: pathname === '/docs/barprogress',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'emptyState',
           label: 'Empty State',
           href: '/docs/emptyState',
           active: pathname === '/docs/emptyState',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'tooltip',
           label: 'Tooltip',
           href: '/docs/tooltip',
           active: pathname === '/docs/tooltip',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -149,35 +149,35 @@ export default function NavigationPage() {
           label: 'Navbar',
           href: '/docs/navbar',
           active: pathname === '/docs/navbar',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'sidebar',
           label: 'Sidebar',
           href: '/docs/sidebar',
           active: pathname === '/docs/sidebar',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'tabs',
           label: 'Tabs',
           href: '/docs/tabs',
           active: pathname === '/docs/tabs',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'pagination',
           label: 'Pagination',
           href: '/docs/pagination',
           active: pathname === '/docs/pagination',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'breadcrumbs',
           label: 'Breadcrumbs',
           href: '/docs/breadcrumb',
           active: pathname === '/docs/breadcrumb',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -190,36 +190,37 @@ export default function NavigationPage() {
           label: 'Avatars',
           href: '/docs/avatar',
           active: pathname === '/docs/avatar',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'cards',
           label: 'Cards',
           href: '/docs/cards',
           active: pathname === '/docs/cards',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'colorCards',
           label: 'colorCards',
           href: '/docs/colorExample',
           active: pathname === '/docs/colorExample',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'integrationCard',
           label: 'Integration Cards',
           href: '/docs/integrationCard',
           active: pathname === '/docs/integrationCard',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'table',
           label: 'Tables',
           href: '/docs/table',
           active: pathname === '/docs/table',
-          icon: dotIcon
+          icon: dotIcon,
         },
+        /*
         {
           id: 'listItem',
           label: 'Lists',
@@ -227,19 +228,20 @@ export default function NavigationPage() {
           active: pathname === '/docs/listItem',
           icon: dotIcon
         },
+        */
         {
           id: 'dragSlider',
           label: 'Sliders',
           href: '/docs/dragSlider',
           active: pathname === '/docs/dragSlider',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'calendar',
           label: 'Calendar',
           href: '/docs/calendar',
           active: pathname === '/docs/calendar',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -259,63 +261,63 @@ export default function NavigationPage() {
           label: 'Inputs Password',
           href: '/docs/password',
           active: pathname === '/docs/password',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'textarea',
           label: 'Inputs Textarea',
           href: '/docs/textarea',
           active: pathname === '/docs/textarea',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'checkbox',
           label: 'Checkbox',
           href: '/docs/checkbox',
           active: pathname === '/docs/checkbox',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'switch',
           label: 'Switch',
           href: '/docs/switch',
           active: pathname === '/docs/switch',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'radiogroup',
           label: 'Radiogroup',
           href: '/docs/radiogroup',
           active: pathname === '/docs/radiogroup',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'combobox',
-          label: 'Combobox',
+          label: 'Combobox | Select',
           href: '/docs/combobox',
           active: pathname === '/docs/combobox',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'search',
           label: 'Search Bar',
           href: '/docs/search',
           active: pathname === '/docs/search',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'datepicker',
           label: 'Datepicker',
           href: '/docs/datepicker',
           active: pathname === '/docs/datepicker',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'fileUpload',
           label: 'File Upload',
           href: '/docs/fileUpload',
           active: pathname === '/docs/fileUpload',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
@@ -328,38 +330,54 @@ export default function NavigationPage() {
           label: 'Dropdown',
           href: '/docs/dropdown',
           active: pathname === '/docs/dropdown',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'popover',
           label: 'Popover',
           href: '/docs/popover',
           active: pathname === '/docs/popover',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'modaldialog',
           label: 'Modal Dialog',
           href: '/docs/modaldialog',
           active: pathname === '/docs/modaldialog',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'drawer',
           label: 'Drawer',
           href: '/docs/drawer',
           active: pathname === '/docs/drawer',
-          icon: dotIcon
+          icon: dotIcon,
         },
         {
           id: 'accordion',
           label: 'Accordion',
           href: '/docs/accordion',
           active: pathname === '/docs/accordion',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },
+    /*
+    {
+      id: 'overview',
+      title: 'Overview',
+      items: [
+        {
+          id: 'overview',
+          label: 'Overview',
+          href: '/docs/overview',
+          active: pathname === '/docs/overview',
+          icon: dotIcon,
+        },
+      ],
+    },
+    */
+    /*
     {
       id: 'widgets',
       title: 'Widgets',
@@ -380,23 +398,17 @@ export default function NavigationPage() {
         },
       ],
     },
+    */
     {
       id: 'tokens',
-      title: 'Design Token',
+      title: 'Design',
       items: [
-        {
-          id: 'design',
-          label: 'Design Token',
-          href: '/docs/designtoken',
-          active: pathname === '/docs/designtoken',
-          icon: dotIcon,
-        },
         {
           id: 'themes',
           label: 'Design Themes',
           href: '/docs/formtokens',
           active: pathname === '/docs/formtokens',
-          icon: dotIcon
+          icon: dotIcon,
         },
       ],
     },

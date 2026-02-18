@@ -37,7 +37,9 @@ import { Loader } from 'nave-ui-library/react'`}
               <Loader />
             </div>
           }
-          code={`<Loader />`}
+          code={`<div className="flex justify-center">
+                    <Loader />
+                 </div>`}
         />
       </ContentCards>
 
@@ -46,11 +48,13 @@ import { Loader } from 'nave-ui-library/react'`}
         <ComponentExample
           preview={
             <div className="flex flex-col items-center gap-3">
-              <Loader className="size-8" />
-              <Label className="text-slate-500">Cargando datos...</Label>
+              <Loader className="size-8" variant="primary" label="Label" description='Description'/>
             </div>
           }
-          code={`<div className="flex flex-col items-center gap-3">\n  <Loader className="size-8" />\n  <Label>Cargando datos...</Label>\n</div>`}
+          code={`
+            <div className="flex flex-col items-center gap-3">
+              <Loader className="size-8" variant="primary" label="Label" description='Description'/>
+            </div>`}
         />
       </ContentCards>
 
@@ -60,20 +64,43 @@ import { Loader } from 'nave-ui-library/react'`}
           preview={
             <div className="flex items-center justify-center gap-8">
               <div className="flex flex-col items-center gap-2">
-                <Loader size="sm" variant="default" />
+                <Loader size="small" variant="primary" label="Label" description='Description' />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <Loader size="md" variant="primary" />
+                <Loader size="medium" variant="primary" label="Label" description="Description" />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Medium</span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <Loader size="lg" variant="secondary" />
+                <Loader size="large" variant="primary" label="Label" description="Description" />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">Large</span>
+              </div>
+                       <div className="flex flex-col items-center gap-2">
+                <Loader size="extraLarge" variant="primary" label="Label" description="Description" />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Extra Large</span>
               </div>
             </div>
           }
-          code={`<Loader className="size-4" />\n<Loader className="size-8" />\n<Loader className="size-12" />`}
+          code={`
+            <div className="flex items-center justify-center gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <Loader size="small" variant="primary" label="Label" description='Description' />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Small</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Loader size="medium" variant="primary" label="Label" description="Description" />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Medium</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Loader size="large" variant="primary" label="Label" description="Description" />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Large</span>
+              </div>
+                       <div className="flex flex-col items-center gap-2">
+                <Loader size="extraLarge" variant="primary" label="Label" description="Description" />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">Extra Large</span>
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 

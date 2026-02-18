@@ -44,7 +44,11 @@ export default function CardsPage() {
               </Card>
             </div>
           }
-          code={`<Card title="Título de la Card">\n  <p>Contenido principal...</p>\n</Card>`}
+          code={`<Card title="Título de la Card">
+                <p className="text-sm text-slate-600">
+                  Este es el área de contenido principal. Los márgenes y el radio de borde se ajustan según los tokens del tema activo.
+                </p>
+              </Card>`}
         />
       </ContentCards>
 
@@ -60,7 +64,7 @@ export default function CardsPage() {
                 title="Configuración" 
                 width={320}
                 action={
-                  <Button variant="tertiary" size="icon-sm">
+                  <Button variant="tertiary" size="small">
                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
                   </Button>
                 }
@@ -71,7 +75,21 @@ export default function CardsPage() {
               </Card>
             </div>
           }
-          code={`<Card \n  title="Configuración" \n  action={<Button size="icon-sm">...</Button>}\n>\n  <p>...</p>\n</Card>`}
+          code={`<div className="flex justify-center w-full">
+              <Card 
+                title="Configuración" 
+                width={320}
+                action={
+                  <Button variant="tertiary" size="small">
+                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
+                  </Button>
+                }
+              >
+                <p className="text-sm text-slate-600">
+                  Administra las preferencias de tu cuenta y notificaciones desde este contenedor modular.
+                </p>
+              </Card>
+            </div>`}
         />
       </ContentCards>
 
@@ -99,7 +117,22 @@ export default function CardsPage() {
               </Card>
             </div>
           }
-          code={`<Card title="Actividad Reciente">\n  <Banner tone="success" title="Venta exitosa" />\n  <PromoBanner title="¡Duplica tus ventas!" />\n</Card>`}
+          code={`<div className="flex justify-center w-full">
+              <Card title="Actividad Reciente" width={400}>
+                <div className="space-y-4">
+                  <Banner 
+                    tone="success" 
+                    size="compact" 
+                    title="Venta exitosa" 
+                    subtitle="Cobraste $2.500" 
+                  />
+                  <PromoBanner 
+                    title="¡Duplica tus ventas!" 
+                    imageSrc="https://picsum.photos/400/200" 
+                  />
+                </div>
+              </Card>
+            </div>`}
         />
       </ContentCards>
 
@@ -119,7 +152,14 @@ export default function CardsPage() {
               </Card>
             </div>
           }
-          code={`<Card width="100%" title="Full Width" />\n<Card width={286} title="Fixed Width" />`}
+          code={`<div className="flex flex-col gap-6 items-center w-full">
+              <Card width="100%" title="Tarjeta de Ancho Completo">
+                <p className="text-sm text-slate-600 italic">Esta tarjeta se expande para ocupar el total del contenedor padre.</p>
+              </Card>
+              <Card width={286} title="Ancho Fijo (286px)">
+                <p className="text-sm text-slate-600 italic">Estructura rígida ideal para grids de información lateral.</p>
+              </Card>
+            </div>`}
         />
       </ContentCards>
 

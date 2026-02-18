@@ -22,9 +22,8 @@ export default function TextareaPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock 
-          code={`import 'nave-ui-library/styles.css
-
-import { Textarea } from 'nave-ui-library/react'`} 
+          code={`import 'nave-ui-library/styles.css'
+                 import { Textarea } from 'nave-ui-library/react'`} 
         />
       </ContentCards>
 
@@ -43,7 +42,13 @@ import { Textarea } from 'nave-ui-library/react'`}
               />
             </div>
           }
-          code={`<Textarea \n  label="Comentarios" \n  placeholder="Escribí aquí..." \n  helperText="Máximo 500 caracteres."\n/>`}
+          code={`<div className="w-full max-w-lg">
+                  <Textarea 
+                    label="Comentarios adicionales" 
+                    placeholder="Escribí aquí tus observaciones..." 
+                    helperText="Máximo 500 caracteres."
+                  />
+                </div>`}
         />
       </ContentCards>
 
@@ -74,7 +79,25 @@ import { Textarea } from 'nave-ui-library/react'`}
               </div>
             </div>
           }
-          code={`<Textarea error label="Error" helperText="Mensaje de error" />\n<Textarea disabled label="Deshabilitado" />`}
+          code={`<div className="w-full max-w-lg flex flex-col gap-8">
+                  <div className="space-y-2">
+                    <span className="text-[10px] uppercase text-slate-400 font-bold italic">Error State</span>
+                    <Textarea 
+                      error
+                      label="Descripción del problema" 
+                      defaultValue="Texto corto"
+                      helperText="La descripción debe ser más detallada."
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <span className="text-[10px] uppercase text-slate-400 font-bold italic">Disabled State</span>
+                    <Textarea 
+                      disabled
+                      label="Notas de auditoría" 
+                      defaultValue="Esta nota no puede ser modificada una vez cerrada la sesión."
+                    />
+                  </div>
+                </div>`}
         />
       </ContentCards>
 
@@ -93,7 +116,37 @@ import { Textarea } from 'nave-ui-library/react'`}
               />
             </div>
           }
-          code={`<Textarea label="Mensaje" rows={8} />`}
+          code={`<div className="w-full max-w-lg">
+                    <Textarea 
+                      label="Mensaje extenso" 
+                      rows={8}
+                      placeholder="Este área de texto es más alta por defecto."
+                    />
+                </div>`}
+        />
+      </ContentCards>
+
+       {/* ───────────── SECCIÓN: SIZES ───────────── */}
+      <ContentCards title="Sizes">
+        <p className="text-sm text-slate-500 mb-6">
+          Al igual que el Input estándar, soporta tamaños <code>small</code> y{' '}
+          <code>medium</code>, ajustando la posición del icono automáticamente.
+        </p>
+        <ComponentExample
+          preview={
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <span>Medium</span>
+              <Textarea size="medium" label="Label" placeholder="Placeholder" />
+              <span>Small</span>
+              <Textarea size="small" label="Label" placeholder="Placeholder" />
+            </div>
+          }
+          code={`<div className="w-full max-w-sm flex flex-col gap-6">
+                    <span>Medium</span>
+                    <Textarea size="medium" label="Label" placeholder="Placeholder" />
+                    <span>Small</span>
+                    <Textarea size="small" label="Label" placeholder="Placeholder" />
+                  </div>`}
         />
       </ContentCards>
 

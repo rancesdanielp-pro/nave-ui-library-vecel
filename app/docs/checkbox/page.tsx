@@ -22,9 +22,8 @@ export default function CheckboxPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock
-          code={`import 'nave-ui-library/styles.css
-
-import { Checkbox } from 'nave-ui-library/react'`}
+          code={`import 'nave-ui-library/styles.css'
+                 import { Checkbox } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -37,7 +36,7 @@ import { Checkbox } from 'nave-ui-library/react'`}
         <ComponentExample
           preview={
             <div className="flex flex-col gap-6">
-              <Checkbox label="Aceptar términos y condiciones" />
+              <Checkbox label="Label" description="Description" />
               <Checkbox
                 label="Suscribirme al newsletter"
                 description="Recibí novedades y promociones exclusivas cada semana."
@@ -45,7 +44,15 @@ import { Checkbox } from 'nave-ui-library/react'`}
               />
             </div>
           }
-          code={`<Checkbox label="Aceptar términos" />\n<Checkbox \n  label="Newsletter" \n  description="Recibí novedades..." \n  defaultChecked \n/>`}
+          code={`
+            <div className="flex flex-col gap-6">
+              <Checkbox label="Label" description="Description" />
+              <Checkbox
+                label="Suscribirme al newsletter"
+                description="Recibí novedades y promociones exclusivas cada semana."
+                defaultChecked
+              />
+            </div>`}
         />
       </ContentCards>
 
@@ -72,19 +79,42 @@ import { Checkbox } from 'nave-ui-library/react'`}
                 <Checkbox
                   label="Seleccionar todos"
                   description="Estado parcial activo."
-                  state="indeterminate"
                   checked="indeterminate"
                 />
                 <Checkbox
                   label="Deshabilitado Marcado"
                   disabled
-                  state="indeterminate"
                   checked="indeterminate"
                 />
               </div>
             </div>
           }
-          code={`<Checkbox label="Disabled" disabled />\n<Checkbox \n  label="Indeterminado" \n  state="indeterminate" \n  checked="indeterminate" \n/>`}
+          code={`
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Disabled States
+                </span>
+                <Checkbox label="Deshabilitado" disabled />
+                <Checkbox label="Deshabilitado Marcado" disabled checked />
+              </div>
+              <div className="space-y-4">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Indeterminate State
+                </span>
+                <Checkbox
+                  label="Seleccionar todos"
+                  description="Estado parcial activo."
+                  checked="indeterminate"
+                />
+                <Checkbox
+                  label="Deshabilitado Marcado"
+                  disabled
+                  checked="indeterminate"
+                />
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -97,20 +127,62 @@ import { Checkbox } from 'nave-ui-library/react'`}
           preview={
             <div className="flex items-start justify-center gap-12">
               <div className="flex flex-col items-center gap-2">
-                <Checkbox size="regular" defaultChecked />
+                <Checkbox
+                  size="regular"
+                  label="Label"
+                  description="Description"
+                  defaultChecked
+                />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">
                   Regular
                 </span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <Checkbox size="small" defaultChecked />
+                <Checkbox
+                  size="small"
+                  label="Label"
+                  description="Description"
+                  defaultChecked
+                />
                 <span className="text-[10px] uppercase text-slate-400 font-bold">
                   Small
                 </span>
               </div>
+
+              <div className="flex flex-col items-center gap-2">
+                <Checkbox
+                  size="extraSmall"
+                  label="Label"
+                  description="Description"
+                  defaultChecked
+                />
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Extra Small
+                </span>
+              </div>
             </div>
           }
-          code={`<Checkbox size="regular" />\n<Checkbox size="small" />`}
+          code={`<div className="flex items-start justify-center gap-12">
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="regular" label="Label" description="Description" defaultChecked />
+                    <span className="text-[10px] uppercase text-slate-400 font-bold">
+                      Regular
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="small" label="Label" description="Description" defaultChecked />
+                    <span className="text-[10px] uppercase text-slate-400 font-bold">
+                      Small
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="extraSmall" label="Label" description="Description" defaultChecked />
+                    <span className="text-[10px] uppercase text-slate-400 font-bold">
+                      Extra Small
+                    </span>
+                  </div>
+                </div>`}
         />
       </ContentCards>
 

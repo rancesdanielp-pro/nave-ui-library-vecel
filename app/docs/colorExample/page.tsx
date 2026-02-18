@@ -72,15 +72,6 @@ export default function ColorsPage() {
 </div>`}
         />
       </ContentCards>
-
-      {/* ───────────── SECCIÓN: REGISTRY JSON ───────────── */}
-      <div className="mt-16 border-t pt-10">
-        <h2 className="text-xl font-bold mb-2 text-slate-900">Registry</h2>
-        <p className="text-sm text-slate-500 mb-6">
-          Metadatos técnicos y configuración del componente ColorExample.
-        </p>
-        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
-      </div>
     </DocsPage>
   );
 }

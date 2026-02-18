@@ -1,91 +1,159 @@
 import * as React from 'react';
-import { Button } from '../../buttons';
 import { cn } from '../../../../utils/cn';
-
-import { ArrowLeftRight } from 'lucide-react';
+import { resolveTokens, useTheme } from '../../../../theme';
+import type { ThemeTokensBase } from '../../../../theme/theme';
 
 export type EmptyStateAction = {
   label: string;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'neutral';
 };
 
 export type EmptyStateProps = {
-  /** Icono superior (SVG / ReactNode) */
+  tokens?: Partial<ThemeTokensBase>;
   icon?: React.ReactNode;
-  /** Título principal */
-  title: string;
-  /** Descripción opcional */
-  description?: string;
-  /** Acciones (1 o 2 botones recomendado) */
-  actions?: EmptyStateAction[];
-  /** Alineación del contenido */
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  actions?: React.ReactNode;
   align?: 'center' | 'left';
-  /** Clases extra */
-  className?: string;
-  /** Size */
   size?: 'small' | 'medium';
+  className?: string;
 };
 
 export function EmptyState({
+  icon,
   title,
   description,
-  actions = [],
+  actions,
   align = 'center',
   className,
   size = 'medium',
+  tokens,
 }: EmptyStateProps) {
+  const theme = useTheme();
+
+  const mergedTokens =
+    (resolveTokens(
+      {
+        componentName: 'emptyState',
+        tokens,
+      },
+      theme
+    ) as any) ?? {};
+
   const isCenter = align === 'center';
+
+  const iconSize = mergedTokens.icon.size[size];
+  const titleSize = mergedTokens.title.size[size];
+  const descriptionSize = mergedTokens.description.size[size];
+
+  const styles: React.CSSProperties = {
+    /* Container */
+    '--es-bg': mergedTokens?.container?.background,
+    '--es-padding': mergedTokens?.container?.padding,
+    '--es-min-height': mergedTokens?.container?.minHeight ?? '300px',
+    '--es-width': mergedTokens?.container?.width ?? '380px',
+    '--es-gap': mergedTokens?.container?.gap ?? '24px',
+
+    /* Icon */
+    '--es-icon-size': iconSize,
+    '--es-icon-color': mergedTokens?.icon?.color,
+    '--es-icon-radius': mergedTokens?.icon?.containerRadius,
+
+    /* Title */
+    '--es-title-color': mergedTokens?.title?.color,
+    '--es-title-weight': mergedTokens?.title?.fontWeight,
+    '--es-title-size': titleSize,
+
+    /* Description */
+    '--es-desc-color': mergedTokens?.description?.color,
+    '--es-desc-weight': mergedTokens?.description?.fontWeight,
+    '--es-desc-size': descriptionSize,
+
+    /* Actions */
+    '--es-actions-gap': mergedTokens?.actions?.gap ?? '8px',
+  } as React.CSSProperties;
 
   return (
     <section
-      className={cn(
-        'w-full rounded-xl bg-white p-8',
-        isCenter ? 'text-center' : 'text-left',
-        className
-      )}
+      className={cn(className)}
+      style={{
+        ...styles,
+        background: 'var(--es-bg)',
+        padding: 'var(--es-padding)',
+        minHeight: 'var(--es-min-height)',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: isCenter ? 'center' : 'flex-start',
+      }}
     >
       <div
-        className={cn(
-          'mx-auto flex max-w-md flex-col gap-4',
-          isCenter ? 'items-center' : 'items-start'
-        )}
+        style={{
+          width: 'var(--es-width)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--es-gap)',
+          textAlign: isCenter ? 'center' : 'left',
+          alignItems: isCenter ? 'center' : 'flex-start',
+        }}
       >
-        <div className="flex h-12 w-12 items-center justify-center rounded-md border-none">
-          <ArrowLeftRight className="text-[--color-text-tertiary]" />
-        </div>
+        {icon && (
+          <div
+            style={{
+              width: 'var(--es-icon-size)',
+              height: 'var(--es-icon-size)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--es-icon-color)',
+              borderRadius: 'var(--es-icon-radius)',
+            }}
+          >
+            {icon}
+          </div>
+        )}
 
-        <div className="space-y-1">
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+          }}
+        >
           <h3
-            className={`text-base font-semibold text-[--color-text-primary] ${size === 'medium' ? 'text-lg' : 'text-base'}`}
+            style={{
+              color: 'var(--es-title-color)',
+              fontWeight: 'var(--es-title-weight)',
+              fontSize: 'var(--es-title-size)',
+              margin: 0,
+            }}
           >
             {title}
           </h3>
+
           {description && (
             <p
-              className={`text-sm text-muted-foreground text-[--color-text-tertiary] ${size === 'medium' ? 'text-sm' : 'text-xs'}`}
+              style={{
+                color: 'var(--es-desc-color)',
+                fontWeight: 'var(--es-desc-weight)',
+                fontSize: 'var(--es-desc-size)',
+                margin: 0,
+              }}
             >
               {description}
             </p>
           )}
         </div>
 
-        {actions.length > 0 && (
+        {actions && (
           <div
-            className={cn(
-              'flex gap-2',
-              isCenter ? 'justify-center' : 'justify-start'
-            )}
+            style={{
+              display: 'flex',
+              gap: 'var(--es-actions-gap)',
+              justifyContent: isCenter ? 'center' : 'flex-start',
+            }}
           >
-            {actions.map((action, index) => (
-              <Button
-                key={index}
-                variant={action.variant ?? 'primary'}
-                onClick={action.onClick}
-              >
-                {action.label}
-              </Button>
-            ))}
+            {actions}
           </div>
         )}
       </div>
@@ -95,14 +163,15 @@ export function EmptyState({
 
 /*
 USO:
-
 <EmptyState
-  icon={<YourIcon />}
-  title="Title"
-  description="Description"
-  actions={[
-    { label: "Primary", variant: "default", onClick: () => {} },
-    { label: "Secondary", variant: "outline" },
-  ]}
+  icon={<Inbox />}
+  title="No results"
+  description="Try adjusting filters"
+  actions={
+    <>
+      <Button>Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+    </>
+  }
 />
 */

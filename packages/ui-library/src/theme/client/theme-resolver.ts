@@ -23,10 +23,25 @@ type Theme = ThemeTokensBase;
 const TOKEN_REGEX = /^\{(.+)\}$/;
 const MAX_TOKEN_DEPTH = 10;
 
+function parseTokenPath(path: string): string[] {
+  const parts: string[] = [];
+  const regex = /([^.[]+)|\["([^"]+)"\]|\['([^']+)'\]/g;
+
+  let match;
+  while ((match = regex.exec(path))) {
+    if (match[1]) parts.push(match[1]);       // dot notation
+    if (match[2]) parts.push(match[2]);       // ["key"]
+    if (match[3]) parts.push(match[3]);       // ['key']
+  }
+
+  return parts;
+}
+
 export function resolveTokens(
-  { componentName, variant, size, tokens = {} }: ResolveTokensParams,
+  { componentName, variant, size, tone, tokens = {} }: ResolveTokensParams,
   theme: ThemeTokensBase
 ) {
+  //console.log(`Resolving tokens for component "${componentName}"`, theme)
   const component: any =
     (theme as any)?.components?.[componentName] ??
     (theme as any)?.tokens?.components?.[componentName];
@@ -46,6 +61,9 @@ export function resolveTokens(
         : {}),
       ...(size && isObject(component.sizes?.[size])
         ? component.sizes![size]
+        : {}),
+      ...(tone && isObject(component.tones?.[tone])
+        ? component.tones![tone]
         : {}),
     };
   } else {
@@ -82,43 +100,46 @@ function resolveObject<T extends ThemeTokensBase>(
   return resolveValue(value, theme);
 }
 
+const TOKEN_GLOBAL_REGEX = /\{([^}]+)\}/g;
+
 function resolveValue<T extends ThemeTokensBase>(
   value: unknown,
   theme: T
 ): unknown {
   if (typeof value !== 'string') return value;
 
-  let current: unknown = value;
+  let result = value;
   let depth = 0;
 
-  while (typeof current === 'string' && TOKEN_REGEX.test(current)) {
-    const match = current.match(TOKEN_REGEX);
-    if (!match) break;
+  while (depth < MAX_TOKEN_DEPTH) {
+    let replaced = false;
 
-    const path = match[1].split('.');
+    result = result.replace(TOKEN_GLOBAL_REGEX, (_, tokenPath) => {
+      const path = parseTokenPath(tokenPath);
+      const resolved = resolveFromRoots(path, theme);
 
-    const resolved = resolveFromRoots(path, theme);
-
-    if (resolved === undefined) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`Token not resolved: ${current}`);
+      if (resolved === undefined) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(`Token not resolved: {${tokenPath}}`);
+        }
+        return `{${tokenPath}}`; // deja el token
       }
-      return current;
-    }
 
-    current = resolved;
+      replaced = true;
+      return String(resolved);
+    });
 
-    if (++depth > MAX_TOKEN_DEPTH) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(
-          `Possible circular reference detected while resolving: ${value}`
-        );
-      }
-      return current;
+    if (!replaced) break;
+    depth++;
+  }
+
+  if (depth >= MAX_TOKEN_DEPTH) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`Possible circular reference in token: ${value}`);
     }
   }
 
-  return current;
+  return result;
 }
 
 function isStructuredComponent(

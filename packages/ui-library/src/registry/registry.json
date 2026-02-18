@@ -19,26 +19,68 @@
         ],
         "props": {
             "variant": {
-                "type": "'primary' | 'secondary' | 'tertiary' | 'neutral'",
-                "description": "Variant of the button."
+                "type": "enum",
+                "values": [
+                    "primary",
+                    "secondary",
+                    "tertiary",
+                    "neutral"
+                ],
+                "default": "primary",
+                "description": "Estilo visual del botón"
             },
             "size": {
-                "type": "'sm' | 'md' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg'",
-                "description": "Size of the button."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral' | 'destructive'",
-                "description": "Tone of the button."
+                "type": "enum",
+                "values": [
+                    "small",
+                    "medium",
+                    "large"
+                ],
+                "default": "medium",
+                "description": "Tamaño del botón"
             },
             "asChild": {
                 "type": "boolean",
-                "description": "Render as child component."
+                "default": false,
+                "description": "Renderiza el botón como Slot (Radix) para composición"
             },
-            "disabled": {
-                "type": "boolean",
-                "description": "Whether the button is disabled."
+            "startIcon": {
+                "type": "node",
+                "default": null,
+                "description": "Icono al inicio del contenido"
+            },
+            "endIcon": {
+                "type": "node",
+                "default": null,
+                "description": "Icono al final del contenido"
             }
-        }
+        },
+        "states": {
+            "default": {},
+            "hover": {},
+            "focus": {},
+            "active": {},
+            "disabled": {
+                "aria-disabled": true
+            }
+        },
+        "examples": [
+            {
+                "name": "Primary",
+                "props": {
+                    "variant": "primary",
+                    "size": "md"
+                }
+            },
+            {
+                "name": "Icon Button",
+                "props": {
+                    "variant": "primary",
+                    "size": "icon",
+                    "startIcon": "<Icon />"
+                }
+            }
+        ]
     },
     "separator": {
         "name": "Separator",
@@ -75,17 +117,30 @@
             "class-variance-authority"
         ],
         "props": {
+            "label": {
+                "type": "string",
+                "required": true,
+                "description": "Text content of the badge."
+            },
             "tone": {
-                "type": "'success' | 'warning' | 'error' | 'info' | 'neutral' | 'brand'",
-                "description": "Tone of the badge."
+                "type": "'neutral' | 'brand' | 'success' | 'info' | 'warning' | 'error'",
+                "default": "neutral",
+                "description": "Semantic tone of the badge."
             },
             "size": {
                 "type": "'small' | 'medium' | 'large'",
-                "description": "Size of the badge."
+                "default": "medium",
+                "description": "Controls the badge size and font scale."
             },
             "shape": {
-                "type": "'rounded' | 'pill'",
-                "description": "Shape of the badge."
+                "type": "'rounded' | 'square'",
+                "default": "rounded",
+                "description": "Defines the badge corner style."
+            },
+            "asChild": {
+                "type": "boolean",
+                "default": false,
+                "description": "Renders the badge as a child component, allowing full control over the underlying element."
             }
         }
     },
@@ -103,12 +158,8 @@
         "void": true,
         "props": {
             "size": {
-                "type": "'sm' | 'md'",
+                "type": "'small' | 'medium'",
                 "description": "Size of the input."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral'",
-                "description": "Tone of the input."
             },
             "error": {
                 "type": "boolean",
@@ -147,25 +198,29 @@
         ],
         "void": true,
         "props": {
-            "size": {
-                "type": "'regular' | 'small'",
-                "description": "Size of the checkbox."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral' | 'destructive'",
-                "description": "Tone of the checkbox."
-            },
             "label": {
                 "type": "string",
-                "description": "Label for the checkbox."
+                "required": true,
+                "description": "Main label text displayed next to the checkbox."
             },
             "description": {
                 "type": "string",
-                "description": "Description text for the checkbox."
+                "description": "Optional helper text displayed below the label."
+            },
+            "size": {
+                "type": "'regular' | 'small' | 'extraSmall'",
+                "default": "regular",
+                "description": "Controls the checkbox size and text scale."
+            },
+            "checked": {
+                "type": "boolean | 'indeterminate'",
+                "default": false,
+                "description": "Controls the checked state of the checkbox."
             },
             "disabled": {
                 "type": "boolean",
-                "description": "Whether the input is disabled."
+                "default": false,
+                "description": "Disables the checkbox interaction."
             }
         }
     },
@@ -183,25 +238,29 @@
         ],
         "void": true,
         "props": {
-            "size": {
-                "type": "'regular' | 'small'",
-                "description": "Size of the radio."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral' | 'destructive'",
-                "description": "Tone of the radio."
-            },
             "label": {
                 "type": "string",
-                "description": "Label for the radio."
+                "required": true,
+                "description": "Main label text displayed next to the checkbox."
             },
             "description": {
                 "type": "string",
-                "description": "Description text for the radio."
+                "description": "Optional helper text displayed below the label."
+            },
+            "size": {
+                "type": "'regular' | 'small' | 'extraSmall'",
+                "default": "regular",
+                "description": "Controls the checkbox size and text scale."
+            },
+            "checked": {
+                "type": "boolean | 'indeterminate'",
+                "default": false,
+                "description": "Controls the checked state of the checkbox."
             },
             "disabled": {
                 "type": "boolean",
-                "description": "Whether the input is disabled."
+                "default": false,
+                "description": "Disables the checkbox interaction."
             }
         }
     },
@@ -220,24 +279,25 @@
         "void": true,
         "props": {
             "size": {
-                "type": "'regular' | 'small'",
-                "description": "Size of the c."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral' | 'destructive'",
-                "description": "Tone of the ."
+                "type": "'regular' | 'small' | 'extraSmall'",
+                "description": "Controls the size of the switch track and thumb."
             },
             "label": {
                 "type": "string",
-                "description": "Label for the switch."
+                "description": "Primary label displayed next to the switch."
             },
             "description": {
                 "type": "string",
-                "description": "Description text for the switch."
+                "description": "Optional helper text displayed below the label."
+            },
+            "checked": {
+                "type": "boolean",
+                "default": false,
+                "description": "Controls the checked state of the switch."
             },
             "disabled": {
                 "type": "boolean",
-                "description": "Whether the input is disabled."
+                "description": "Disables the switch and prevents user interaction."
             }
         }
     },
@@ -353,7 +413,7 @@
     },
     "drag-slider": {
         "name": "DragSlider",
-        "description": "Slider con funcionalidad de arrastre.",
+        "description": "Componente de carrusel o slider con soporte para desplazamiento mediante arrastre (drag) y scroll fluido.",
         "component": "DragSlider",
         "files": [
             "components/base/data-display/cards-blocks/DragSlider.tsx"
@@ -361,7 +421,23 @@
         "dependencies": [
             "react"
         ],
-        "props": {}
+        "props": {
+            "children": {
+                "type": "ReactNode",
+                "required": true,
+                "description": "Elementos que se deslizarán dentro del contenedor."
+            },
+            "freeScroll": {
+                "type": "boolean",
+                "default": true,
+                "description": "Permite el desplazamiento libre sin ajustar a puntos de anclaje (snapping)."
+            },
+            "showArrows": {
+                "type": "boolean",
+                "default": false,
+                "description": "Muestra u oculta flechas de navegación laterales."
+            }
+        }
     },
     "accordion": {
         "name": "Accordion",
@@ -383,6 +459,11 @@
             "collapsible": {
                 "type": "boolean",
                 "description": "Whether items can be collapsed."
+            },
+            "size": {
+                "type": "'sm' | 'md'",
+                "default": "md",
+                "description": "Controls spacing and typography scale of the accordion."
             }
         }
     },
@@ -400,15 +481,25 @@
         "props": {
             "src": {
                 "type": "string",
-                "description": "Image source URL."
+                "description": "Image source URL. When provided, the avatar renders an image by default."
             },
             "alt": {
                 "type": "string",
-                "description": "Alt text for the image."
+                "description": "Alternative text for the avatar image. Required when src is provided for accessibility."
             },
             "fallback": {
                 "type": "string",
-                "description": "Fallback text when image fails to load."
+                "description": "Text displayed when the image fails to load or when src is not provided. Typically initials."
+            },
+            "size": {
+                "type": "'sm' | 'md' | 'lg'",
+                "default": "md",
+                "description": "Controls the avatar dimensions and fallback text size."
+            },
+            "asChild": {
+                "type": "boolean",
+                "default": false,
+                "description": "Renders the avatar as a child component, allowing full control over the underlying element."
             }
         }
     },
@@ -433,8 +524,7 @@
         ],
         "dependencies": [
             "react"
-        ],
-        "props": {}
+        ]
     },
     "dropdown": {
         "name": "Dropdown",
@@ -447,7 +537,169 @@
             "react",
             "@radix-ui/react-dropdown-menu"
         ],
-        "props": {}
+        "props": {
+            "Dropdown": {
+                "open": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Controla el estado abierto/cerrado del dropdown."
+                },
+                "defaultOpen": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Estado inicial del dropdown."
+                },
+                "onOpenChange": {
+                    "type": "(open: boolean) => void",
+                    "required": false,
+                    "description": "Callback cuando cambia el estado."
+                },
+                "modal": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Si bloquea interacción con el resto de la UI."
+                }
+            },
+            "DropdownTrigger": {
+                "asChild": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Permite usar un componente custom como trigger."
+                },
+                "disabled": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Deshabilita el trigger."
+                }
+            },
+            "DropdownContent": {
+                "align": {
+                    "type": "'start' | 'center' | 'end'",
+                    "required": false,
+                    "default": "center",
+                    "description": "Alineación horizontal del contenido."
+                },
+                "side": {
+                    "type": "'top' | 'right' | 'bottom' | 'left'",
+                    "required": false,
+                    "description": "Lado donde se abre el dropdown."
+                },
+                "sideOffset": {
+                    "type": "number",
+                    "required": false,
+                    "default": 4,
+                    "description": "Separación respecto al trigger."
+                }
+            },
+            "DropdownItem": {
+                "disabled": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Deshabilita la opción."
+                },
+                "inset": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Aplica padding extra a la izquierda."
+                },
+                "onSelect": {
+                    "type": "(event: Event) => void",
+                    "required": false,
+                    "description": "Callback al seleccionar."
+                }
+            },
+            "DropdownCheckboxItem": {
+                "checked": {
+                    "type": "boolean | 'indeterminate'",
+                    "required": false,
+                    "description": "Estado del checkbox."
+                },
+                "onCheckedChange": {
+                    "type": "(checked: boolean) => void",
+                    "required": false,
+                    "description": "Callback al cambiar estado."
+                },
+                "disabled": {
+                    "type": "boolean",
+                    "required": false
+                }
+            },
+            "DropdownRadioGroup": {
+                "value": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Valor seleccionado."
+                },
+                "onValueChange": {
+                    "type": "(value: string) => void",
+                    "required": false,
+                    "description": "Callback al cambiar selección."
+                }
+            },
+            "DropdownRadioItem": {
+                "value": {
+                    "type": "string",
+                    "required": true,
+                    "description": "Valor del item."
+                },
+                "disabled": {
+                    "type": "boolean",
+                    "required": false
+                }
+            },
+            "DropdownLabel": {
+                "inset": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Indentación visual del label."
+                }
+            },
+            "DropdownSeparator": {
+                "decorative": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Si es solo visual (no semántico)."
+                }
+            },
+            "DropdownShortcut": {
+                "children": {
+                    "type": "ReactNode",
+                    "required": true,
+                    "description": "Texto del shortcut (ej: ⌘K, Ctrl+S)."
+                }
+            },
+            "DropdownSub": {
+                "open": {
+                    "type": "boolean",
+                    "required": false
+                },
+                "onOpenChange": {
+                    "type": "(open: boolean) => void",
+                    "required": false
+                }
+            },
+            "DropdownSubTrigger": {
+                "disabled": {
+                    "type": "boolean",
+                    "required": false
+                },
+                "inset": {
+                    "type": "boolean",
+                    "required": false
+                }
+            },
+            "DropdownSubContent": {
+                "sideOffset": {
+                    "type": "number",
+                    "required": false,
+                    "default": 4
+                },
+                "alignOffset": {
+                    "type": "number",
+                    "required": false
+                }
+            }
+        }
     },
     "popover": {
         "name": "Popover",
@@ -460,7 +712,50 @@
             "react",
             "@radix-ui/react-popover"
         ],
-        "props": {}
+        "props": {
+            "defaultOpen": {
+                "type": "boolean",
+                "description": "Estado inicial del popover (modo no controlado)."
+            },
+            "onOpenChange": {
+                "type": "(open: boolean) => void",
+                "description": "Callback cuando cambia el estado del popover."
+            },
+            "align": {
+                "type": "'start' | 'center' | 'end'",
+                "default": "center",
+                "description": "Alineación horizontal respecto al trigger."
+            },
+            "side": {
+                "type": "'top' | 'right' | 'bottom' | 'left'",
+                "default": "bottom",
+                "description": "Lado donde se posiciona el popover."
+            },
+            "sideOffset": {
+                "type": "number",
+                "default": 4,
+                "description": "Distancia en píxeles desde el trigger al popover."
+            },
+            "alignOffset": {
+                "type": "number",
+                "default": 0,
+                "description": "Offset adicional en el eje de alineación."
+            },
+            "avoidCollisions": {
+                "type": "boolean",
+                "default": true,
+                "description": "Evita que el popover se salga del viewport."
+            },
+            "collisionPadding": {
+                "type": "number | { top?: number; right?: number; bottom?: number; left?: number }",
+                "description": "Padding interno del viewport para colisiones."
+            },
+            "sticky": {
+                "type": "'partial' | 'always'",
+                "default": "partial",
+                "description": "Define comportamiento cuando no hay espacio suficiente."
+            }
+        }
     },
     "tooltip": {
         "name": "Tooltip",
@@ -474,15 +769,26 @@
             "@radix-ui/react-tooltip"
         ],
         "props": {
-            "delayDuration": {
+            "side": {
+                "type": "'top' | 'right' | 'bottom' | 'left'",
+                "default": "top",
+                "description": "Preferred side of the trigger where the tooltip will be displayed."
+            },
+            "sideOffset": {
                 "type": "number",
-                "description": "Delay before showing tooltip."
+                "default": 4,
+                "description": "Distance in pixels from the trigger to the tooltip content."
+            },
+            "align": {
+                "type": "'start' | 'center' | 'end'",
+                "default": "center",
+                "description": "Alignment of the tooltip content relative to the trigger."
             }
         }
     },
     "alert": {
         "name": "Alert",
-        "description": "Alert para mostrar mensajes importantes al usuario.",
+        "description": "Componente de notificación contextual con soporte para acciones y layouts adaptables.",
         "component": "Alert",
         "files": [
             "components/base/data-display/system-feedback/Alert.tsx"
@@ -491,7 +797,35 @@
             "react",
             "class-variance-authority"
         ],
-        "props": {}
+        "props": {
+            "tone": {
+                "type": "'info' | 'success' | 'warning' | 'error' | 'neutral' | 'destructive'",
+                "default": "neutral",
+                "description": "Define el estilo visual y semántico de la alerta."
+            },
+            "size": {
+                "type": "'inline' | 'full-width' | 'stacked'",
+                "default": "inline",
+                "description": "Controla el ancho máximo y la disposición del contenido."
+            },
+            "title": {
+                "type": "ReactNode",
+                "required": true,
+                "description": "Título principal de la alerta."
+            },
+            "subtitle": {
+                "type": "ReactNode",
+                "description": "Texto descriptivo opcional."
+            },
+            "label": {
+                "type": "ReactNode",
+                "description": "Texto para la acción o enlace inferior."
+            },
+            "onClose": {
+                "type": "function",
+                "description": "Callback para manejar el cierre de la alerta."
+            }
+        }
     },
     "empty-state": {
         "name": "EmptyState",
@@ -511,6 +845,20 @@
             "description": {
                 "type": "string",
                 "description": "Descriptive text providing additional information."
+            },
+            "icon": {
+                "type": "React.ReactNode",
+                "description": "Icon element to be displayed above the title."
+            },
+            "align": {
+                "type": "'left' | 'center'",
+                "default": "center",
+                "description": "Alignment of the content."
+            },
+            "size": {
+                "type": "'small' | 'medium'",
+                "default": "medium",
+                "description": "Size of the empty state content."
             }
         }
     },
@@ -526,8 +874,20 @@
         ],
         "props": {
             "size": {
-                "type": "'sm' | 'md' | 'lg'",
+                "type": "'small' | 'medium' | 'large' | 'extraLarge'",
                 "description": "Size of the loader."
+            },
+            "variant": {
+                "type": "'default' | 'primary' | 'secondary' | 'tertiary'",
+                "description": "Visual variant of the loader."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label text displayed below the loader animation."
+            },
+            "description": {
+                "type": "string",
+                "description": "Additional descriptive text displayed below the label."
             }
         }
     },
@@ -611,6 +971,10 @@
             "react"
         ],
         "props": {
+            "size": {
+                "type": "'small' | 'medium'",
+                "description": "Size of the input."
+            },
             "rows": {
                 "type": "number",
                 "description": "Number of visible text lines."
@@ -650,12 +1014,8 @@
         ],
         "props": {
             "size": {
-                "type": "'sm' | 'md'",
+                "type": "'small' | 'medium'",
                 "description": "Size of the input."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral'",
-                "description": "Tone of the input."
             },
             "error": {
                 "type": "boolean",
@@ -692,12 +1052,8 @@
         ],
         "props": {
             "size": {
-                "type": "'sm' | 'md'",
+                "type": "'small' | 'medium'",
                 "description": "Size of the input."
-            },
-            "tone": {
-                "type": "'brand' | 'neutral'",
-                "description": "Tone of the input."
             },
             "error": {
                 "type": "boolean",
@@ -723,7 +1079,7 @@
     },
     "calendar": {
         "name": "Calendar",
-        "description": "Calendario para selección de fechas.",
+        "description": "Calendario para selección de fechas con soporte para estados dinámicos y selección de rangos.",
         "component": "Calendar",
         "files": [
             "components/base/data-entry/inputs/Calendar.tsx"
@@ -751,7 +1107,28 @@
             "react-day-picker",
             "@radix-ui/react-popover"
         ],
-        "props": {}
+        "props": {
+            "size": {
+                "type": "'small' | 'medium'",
+                "description": "Size of the input."
+            },
+            "error": {
+                "type": "boolean",
+                "description": "Whether the input has an error."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the input."
+            },
+            "placeholder": {
+                "type": "string",
+                "description": "Placeholder text for the input."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
+            }
+        }
     },
     "combobox": {
         "name": "Combobox",
@@ -780,6 +1157,22 @@
             "placeholder": {
                 "type": "string",
                 "description": "Placeholder text displayed when no value is selected."
+            },
+            "size": {
+                "type": "'small' | 'medium'",
+                "description": "Size of the input."
+            },
+            "error": {
+                "type": "boolean",
+                "description": "Whether the input has an error."
+            },
+            "label": {
+                "type": "string",
+                "description": "Label for the input."
+            },
+            "disabled": {
+                "type": "boolean",
+                "description": "Whether the input is disabled."
             }
         }
     },
@@ -841,8 +1234,7 @@
         "dependencies": [
             "react",
             "@radix-ui/react-slot"
-        ],
-        "props": {}
+        ]
     },
     "drawer": {
         "name": "Drawer",
@@ -874,6 +1266,11 @@
             "@radix-ui/react-dialog"
         ],
         "props": {
+            "alignment": {
+                "type": "'left' | 'center'",
+                "default": "center",
+                "description": "Alignment of the alert dialog content."
+            },
             "open": {
                 "type": "boolean",
                 "description": "Whether the modal is open."
@@ -888,17 +1285,36 @@
         "name": "Navbar",
         "description": "Navbar de navegación principal.",
         "component": "Navbar",
+        "subcomponents": [
+            "Navbar.Start",
+            "Navbar.End",
+            "Navbar.Logo",
+            "Navbar.Merchant",
+            "Navbar.User",
+            "Navbar.Slot"
+        ],
         "files": [
             "components/base/navegation/Navbar.tsx"
         ],
         "dependencies": [
             "react"
         ],
-        "props": {}
+        "props": {
+            "children": {
+                "type": "React.ReactNode",
+                "required": true,
+                "description": "Contenido compuesto del Navbar utilizando subcomponentes."
+            }
+        },
+        "examples": [
+            "Navbar básico",
+            "Navbar con selector de comercios",
+            "Navbar con menú de usuario"
+        ]
     },
     "pagination": {
         "name": "Pagination",
-        "description": "Componente de paginación para navegar entre páginas de contenido.",
+        "description": "Componente de navegación jerárquica para fragmentar grandes listas de datos en páginas accesibles.",
         "component": "Pagination",
         "files": [
             "components/base/navegation/Pagination.tsx"
@@ -910,15 +1326,22 @@
         "props": {
             "currentPage": {
                 "type": "number",
-                "description": "Current page number."
+                "required": true,
+                "description": "Índice de la página actual (basado en 1)."
             },
             "totalPages": {
                 "type": "number",
-                "description": "Total number of pages."
+                "required": true,
+                "description": "Cantidad total de páginas disponibles."
             },
             "onPageChange": {
                 "type": "(page: number) => void",
-                "description": "Callback when page changes."
+                "description": "Callback ejecutado al hacer clic en un número de página o en las flechas de navegación."
+            },
+            "siblingCount": {
+                "type": "number",
+                "default": 1,
+                "description": "Número de páginas adyacentes a mostrar a cada lado de la página actual."
             }
         }
     },
@@ -934,19 +1357,17 @@
             "@radix-ui/react-tabs"
         ],
         "props": {
-            "defaultValue": {
-                "type": "string",
-                "description": "Default active tab."
-            },
-            "orientation": {
-                "type": "'horizontal' | 'vertical'",
-                "description": "Orientation of tabs."
+            "size": {
+                "type": "'medium' | 'small'",
+                "required": false,
+                "default": "medium",
+                "description": "Tamaño del componente Tabs."
             }
         }
     },
     "sidebar": {
         "name": "Sidebar",
-        "description": "Sidebar de navegación lateral con soporte para estado colapsado.",
+        "description": "Navegación lateral persistente o colapsable con soporte para secciones, encabezados y estados activos basados en tokens.",
         "component": "Sidebar",
         "files": [
             "components/base/navegation/_Sidebar.tsx"
@@ -957,19 +1378,24 @@
         "props": {
             "title": {
                 "type": "string",
-                "description": "Title displayed in the sidebar."
+                "description": "Título principal que se muestra en el encabezado del sidebar."
             },
             "items": {
                 "type": "SidebarItem[]",
-                "description": "Array of navigation items."
+                "description": "Lista de objetos que definen los enlaces, iconos y etiquetas de navegación."
             },
             "collapsed": {
                 "type": "boolean",
-                "description": "Whether the sidebar is collapsed."
+                "default": false,
+                "description": "Controla si el sidebar se muestra en ancho completo o contraído (solo iconos)."
             },
             "footer": {
                 "type": "React.ReactNode",
-                "description": "Footer content for the sidebar."
+                "description": "Contenido opcional para la parte inferior del sidebar (ej: perfil de usuario o configuración)."
+            },
+            "onToggle": {
+                "type": "(collapsed: boolean) => void",
+                "description": "Callback ejecutado cuando se expande o contrae el sidebar manualmente."
             }
         }
     }

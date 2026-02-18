@@ -31,7 +31,7 @@ export default function BannersPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock
-          code={`import 'nave-ui-library/styles.css
+          code={`import 'nave-ui-library/styles.css'
 import { Banner } from 'nave-ui-library/react'`}
         />
       </ContentCards>
@@ -71,7 +71,32 @@ import { Banner } from 'nave-ui-library/react'`}
               />
             </div>
           }
-          code={`<Banner tone="info" title="..." subtitle="..." />\n<Banner tone="success" title="..." subtitle="..." />\n<Banner tone="warning" title="..." subtitle="..." />\n<Banner tone="error" title="..." subtitle="..." />`}
+          code={`<div className="flex flex-col gap-4 w-full">
+              <Banner
+                tone="info"
+                title="Nueva funcionalidad"
+                subtitle="Ahora puedes exportar tus reportes en formato Excel."
+                icon={<Info className="size-5" />}
+              />
+              <Banner
+                tone="success"
+                title="Pago acreditado"
+                subtitle="El dinero ya se encuentra disponible en tu cuenta."
+                icon={<CheckCircle className="size-5" />}
+              />
+              <Banner
+                tone="warning"
+                title="Acceso limitado"
+                subtitle="Tu suscripción vence en 3 días. Renueva ahora para evitar cortes."
+                icon={<AlertTriangle className="size-5" />}
+              />
+              <Banner
+                tone="error"
+                title="Error de conexión"
+                subtitle="No pudimos sincronizar tus ventas. Reintenta en unos minutos."
+                icon={<XCircle className="size-5" />}
+              />
+            </div>`}
         />
       </ContentCards>
 
@@ -102,7 +127,24 @@ import { Banner } from 'nave-ui-library/react'`}
               />
             </div>
           }
-          code={`<Banner \n  tone="brand" \n  title="..." \n  actionLabel="Click me" \n  onActionClick={() => {}} \n/>`}
+          code={`<div className="flex flex-col gap-4 w-full">
+              <Banner
+                tone="brand"
+                title="¡Bienvenido a Nave!"
+                subtitle="Completa tu perfil para empezar a cobrar."
+                icon={<CardSim className="size-5" />}
+                actionLabel="Completar perfil"
+                onActionClick={() => alert('Redirigiendo...')}
+              />
+              <Banner
+                tone="neutral"
+                title="Mantenimiento programado"
+                subtitle="El sistema estará fuera de servicio hoy a las 23:00hs."
+                icon={<Timer className="size-5" />}
+                actionLabel="Ver cronograma"
+                actionHref="#"
+              />
+            </div>`}
         />
       </ContentCards>
 
@@ -134,7 +176,29 @@ import { Banner } from 'nave-ui-library/react'`}
               </div>
             </div>
           }
-          code={`<Banner size="full" title="..." />\n<Banner size="compact" title="..." icon={<Info className="size-5" />} />`}
+          code={`            <div className="flex flex-col gap-6 items-start w-full">
+              <div className="w-full space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Full (Default)
+                </span>
+                <Banner
+                  tone="info"
+                  title="Banner de ancho completo"
+                  icon={<Info className="size-5" />}
+                />
+              </div>
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Compact
+                </span>
+                <Banner
+                  size="compact"
+                  tone="info"
+                  title="Banner compacto"
+                  icon={<Info className="size-5" />}
+                />
+              </div>
+            </div>`}
         />
       </ContentCards>
 
@@ -150,10 +214,15 @@ import { Banner } from 'nave-ui-library/react'`}
               tone="neutral"
               title="¿Necesitas ayuda?"
               subtitle="Nuestro equipo de soporte está disponible 24/7."
-              endSlot={<Button size="sm">Chat</Button>}
+              endSlot={<Button size="small">Chat</Button>}
             />
           }
-          code={`<Banner \n  title="..." \n  endSlot={<Button size="sm">Chat</Button>} \n/>`}
+          code={`<Banner
+              tone="neutral"
+              title="¿Necesitas ayuda?"
+              subtitle="Nuestro equipo de soporte está disponible 24/7."
+              endSlot={<Button size="small">Chat</Button>}
+            />`}
         />
       </ContentCards>
 

@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
 //import { Input } from 'nave-ui-library/react';
 import { Input } from '@/packages/ui-library/dist/react';
-import { DocsPage } from '../DocsPage'
-import { ContentCards } from '../ContentCards'
-import { CodeBlock } from '@/app/components/[slug]/CodeBlock'
-import { ComponentExample } from '@/app/components/[slug]/ComponentExample'
-import registry from '@/packages/ui-library/src/registry/registry.json'
-import { tokenVariants } from '@/app/utils/tokens'
+import { DocsPage } from '../DocsPage';
+import { ContentCards } from '../ContentCards';
+import { CodeBlock } from '@/app/components/[slug]/CodeBlock';
+import { ComponentExample } from '@/app/components/[slug]/ComponentExample';
+import registry from '@/packages/ui-library/src/registry/registry.json';
+import { tokenVariants } from '@/app/utils/tokens';
 
 export default function InputPage() {
-  const componentRegistry = (registry as any)['input']
-  const naveTheme = tokenVariants[0].tokens
+  const componentRegistry = (registry as any)['input'];
+  const naveTheme = tokenVariants[0].tokens;
 
   return (
     <DocsPage
@@ -21,84 +21,125 @@ export default function InputPage() {
     >
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
-        <CodeBlock 
-          code={`import 'nave-ui-library/styles.css
-
-import { Input } from 'nave-ui-library/react'`} 
+        <CodeBlock
+          code={`import 'nave-ui-library/styles.css'
+                 import { Input } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: BÁSICO ───────────── */}
       <ContentCards title="Basic Usage">
         <p className="text-sm text-slate-500 mb-6">
-          El input estándar incluye soporte para etiquetas (labels) y textos de ayuda (helper text) integrados.
+          El input estándar incluye soporte para etiquetas (labels) y textos de
+          ayuda (helper text) integrados.
         </p>
+
         <ComponentExample
           preview={
             <div className="w-full max-w-sm flex flex-col gap-6">
-              <Input 
-                label="Nombre de usuario" 
-                placeholder="Ej: juan.perez" 
-              />
-              <Input 
-                label="Correo electrónico" 
-                placeholder="tu@email.com" 
+              <Input label="Nombre de usuario" placeholder="Ej: juan.perez" />
+              <Input
+                label="Correo electrónico"
+                placeholder="tu@email.com"
                 helperText="Nunca compartiremos tu email con terceros."
               />
             </div>
           }
-          code={`<Input label="Usuario" placeholder="juan.perez" />\n<Input \n  label="Email" \n  helperText="Nunca compartiremos..." \n/>`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <Input label="Nombre de usuario" placeholder="Ej: juan.perez" />
+              <Input
+                label="Correo electrónico"
+                placeholder="tu@email.com"
+                helperText="Nunca compartiremos tu email con terceros."
+              />
+            </div>
+            `}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: ESTADOS (ERROR & DISABLED) ───────────── */}
       <ContentCards title="States">
         <p className="text-sm text-slate-500 mb-6">
-          Manejo de validación mediante la prop <code>error</code> y estados de lectura mediante <code>disabled</code>.
+          Manejo de validación mediante la prop <code>error</code> y estados de
+          lectura mediante <code>disabled</code>.
         </p>
+
         <ComponentExample
           preview={
             <div className="w-full max-w-sm flex flex-col gap-6">
-              <Input 
+              <Input
                 error
-                label="Contraseña" 
+                label="Contraseña"
                 type="password"
                 defaultValue="123"
                 helperText="La contraseña es demasiado corta."
               />
-              <Input 
-                disabled
-                label="ID de Cliente" 
+              <Input
+                label="Disabled con valor"
                 defaultValue="NAVE-99283"
                 helperText="Este campo no es editable."
+                disabled
+              />
+
+              <Input
+                label="Disabled"
+                helperText="Este campo no es editable."
+                placeholder="Placeholder"
+                disabled
               />
             </div>
           }
-          code={`<Input error label="Password" helperText="Error..." />\n<Input disabled label="ID" />`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <Input
+                error
+                label="Contraseña"
+                type="password"
+                defaultValue="123"
+                helperText="La contraseña es demasiado corta."
+              />
+              <Input
+                label="Disabled con valor"
+                defaultValue="NAVE-99283"
+                helperText="Este campo no es editable."
+                disabled
+              />
+
+              <Input
+                label="Disabled"
+                helperText="Este campo no es editable."
+                placeholder="Placeholder"
+                disabled
+              />
+            </div>
+            `}
         />
       </ContentCards>
 
       {/* ───────────── SECCIÓN: TAMAÑOS ───────────── */}
       <ContentCards title="Sizes">
         <p className="text-sm text-slate-500 mb-6">
-          Disponible en tamaño mediano (por defecto) y pequeño para interfaces más densas.
+          Disponible en tamaño mediano (por defecto) y pequeño para interfaces
+          más densas.
         </p>
         <ComponentExample
           preview={
             <div className="w-full max-w-sm flex flex-col gap-6">
-              <Input 
-                size="md"
-                label="Medium (Default)" 
-                placeholder="Altura 44px"
-              />
-              <Input 
-                size="sm"
-                label="Small" 
-                placeholder="Altura 36px"
-              />
+              <span>Medium</span>
+              <Input size="medium" label="Label" placeholder="Placeholder" />
+              <span>Small</span>
+              <Input size="small" label="Label" placeholder="Placeholder" />
             </div>
           }
-          code={`<Input size="md" label="Medium" />\n<Input size="sm" label="Small" />`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <span>Medium</span>
+              <Input size="medium" label="Label" placeholder="Placeholder" />
+              <span>Small</span>
+              <Input size="small" label="Label" placeholder="Placeholder" />
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -106,12 +147,11 @@ import { Input } from 'nave-ui-library/react'`}
       <div className="mt-16 border-t pt-10">
         <h2 className="text-xl font-bold mb-2 text-slate-900">Registry</h2>
         <p className="text-sm text-slate-500 mb-6">
-          Metadatos técnicos. El componente utiliza <code>cva</code> para gestionar las variantes de borde y foco basadas en el estado de error.
+          Metadatos técnicos. El componente utiliza <code>cva</code> para
+          gestionar las variantes de borde y foco basadas en el estado de error.
         </p>
-        <CodeBlock 
-          code={JSON.stringify(componentRegistry, null, 2)} 
-        />
+        <CodeBlock code={JSON.stringify(componentRegistry, null, 2)} />
       </div>
     </DocsPage>
-  )
+  );
 }

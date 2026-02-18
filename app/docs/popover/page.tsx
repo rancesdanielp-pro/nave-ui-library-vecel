@@ -37,9 +37,8 @@ export default function PopoverPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock
-          code={`import 'nave-ui-library/styles.css
-
-import { Popover, PopoverTrigger, PopoverContent } from 'nave-ui-library/react'`}
+          code={`import 'nave-ui-library/styles.css'
+                 import { Popover, PopoverTrigger, PopoverContent } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -67,15 +66,39 @@ import { Popover, PopoverTrigger, PopoverContent } from 'nave-ui-library/react'`
                       </p>
                     </div>
                     <div className="grid gap-3">
-                      <Input label="Ancho" defaultValue="100%" size="sm" />
-                      <Input label="Alto" defaultValue="auto" size="sm" />
+                      <Input label="Ancho" defaultValue="100%" size="small" />
+                      <Input label="Alto" defaultValue="auto" size="small" />
                     </div>
                   </div>
                 </PopoverContent>
               </Popover>
             </div>
           }
-          code={`<Popover>\n  <PopoverTrigger asChild>\n    <Button size="icon"><Settings2 /></Button>\n  </PopoverTrigger>\n  <PopoverContent className="w-80">\n    <div className="grid gap-4">\n      <h4>Dimensiones</h4>\n      <Input label="Ancho" size="sm" />\n    </div>\n  </PopoverContent>\n</Popover>`}
+          code={`
+            <div className="flex justify-center p-8">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="secondary">Click Aquí</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <div className="grid gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-semibold leading-none">
+                        Dimensiones
+                      </h4>
+                      <p className="text-xs text-slate-500">
+                        Ajusta el tamaño del contenedor.
+                      </p>
+                    </div>
+                    <div className="grid gap-3">
+                      <Input label="Ancho" defaultValue="100%" size="small" />
+                      <Input label="Alto" defaultValue="auto" size="small" />
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -90,7 +113,7 @@ import { Popover, PopoverTrigger, PopoverContent } from 'nave-ui-library/react'`
             <div className="flex flex-wrap justify-center gap-4 p-8">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="tertiary" size="sm">
+                  <Button variant="tertiary" size="small">
                     Alineado al inicio
                   </Button>
                 </PopoverTrigger>
@@ -100,17 +123,54 @@ import { Popover, PopoverTrigger, PopoverContent } from 'nave-ui-library/react'`
               </Popover>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="tertiary" size="sm">
+                  <Button variant="tertiary" size="small">
                     Alineado al final
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="end">
+                <PopoverContent
+                  align="end"
+                  sticky="partial"
+                  sideOffset={8}
+                  side="left"
+                  avoidCollisions={false}
+                  collisionPadding={10}
+                >
                   Este Popover se alinea al final del botón.
                 </PopoverContent>
               </Popover>
             </div>
           }
-          code={`<PopoverContent align="start">...</PopoverContent>\n<PopoverContent align="end">...</PopoverContent>`}
+          code={`
+            <div className="flex flex-wrap justify-center gap-4 p-8">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="tertiary" size="small">
+                    Alineado al inicio
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start">
+                  Este Popover se alinea al inicio del botón.
+                </PopoverContent>
+              </Popover>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="tertiary" size="small">
+                    Alineado al final
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="end"
+                  sticky="partial"
+                  sideOffset={8}
+                  side="left"
+                  avoidCollisions={false}
+                  collisionPadding={10}
+                >
+                  Este Popover se alinea al final del botón.
+                </PopoverContent>
+              </Popover>
+            </div>
+            `}
         />
       </ContentCards>
 

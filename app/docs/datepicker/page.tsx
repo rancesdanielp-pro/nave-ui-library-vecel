@@ -40,7 +40,7 @@ export default function DatePickerPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock
-          code={`import { \n  DatePickerInput, \n  Popover, \n  PopoverTrigger, \n  PopoverContent, \n  Calendar \n} from 'nave-ui-library/react'`}
+          code={`import { DatePickerInput, Popover, PopoverTrigger, PopoverContent, Calendar } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -55,14 +55,13 @@ export default function DatePickerPage() {
           preview={
             <div className="w-full max-w-sm mx-auto">
               {/* Pasamos error={undefined} o simplemente no lo pasamos para evitar el warning de React */}
-              
+
               <Popover>
                 <PopoverTrigger asChild>
                   <DatePickerInput
                     label="Fecha de operación"
                     placeholder="Seleccioná una fecha"
-                    readOnly
-                    value={date ? date.toLocaleDateString('es-AR') : ''}
+                    value={date ? date.toLocaleDateString('es-AR') : 'Date'}
                   />
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -75,7 +74,30 @@ export default function DatePickerPage() {
               </Popover>
             </div>
           }
-          code={`const [date, setDate] = useState<Date>()\n\n<Popover>\n  <PopoverTrigger asChild>\n    <DatePickerInput\n      label="Select date"\n      value={date ? date.toLocaleDateString() : 'Este mes'}\n    />\n  </PopoverTrigger>\n  <PopoverContent className="w-auto p-0">\n    <Calendar mode="single" selected={date} onSelect={setDate} />\n  </PopoverContent>\n</Popover>`}
+          code={`
+            // Estado para manejar la fecha en el ejemplo interactivo
+            const [date, setDate] = React.useState<Date | undefined>();
+
+            <div className="w-full max-w-sm mx-auto">
+              {/* Pasamos error={undefined} o simplemente no lo pasamos para evitar el warning de React */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <DatePickerInput
+                    label="Fecha de operación"
+                    placeholder="Seleccioná una fecha"
+                    value={date ? date.toLocaleDateString('es-AR') : 'Date'}
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(d) => setDate(d)}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -105,7 +127,7 @@ export default function DatePickerPage() {
               </div>
               <div className="space-y-2">
                 <span className="text-[10px] uppercase text-slate-400 font-bold">
-                  Disabled State
+                  Disabled State Con un valor
                 </span>
                 <DatePickerInput
                   disabled
@@ -113,9 +135,59 @@ export default function DatePickerPage() {
                   defaultValue="01/01/2024"
                 />
               </div>
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Disabled State Sin valor
+                </span>
+                <DatePickerInput
+                  disabled
+                  label="Fecha de registro"
+                  placeholder="Seleccioná una fecha"
+                />
+              </div>
             </div>
           }
-          code={`<DatePickerInput error label="Vencimiento" />\n<DatePickerInput disabled label="Registro" />`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-8">
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Error State
+                </span>
+
+                  {/* Para evitar el warning "Received true for a non-boolean attribute error",
+      nos aseguramos que el componente no inyecte props inválidas al DOM.
+    */}
+   
+                <DatePickerInput
+                  error={true}
+                  label="Fecha de vencimiento"
+                  defaultValue="12/10/2023"
+                  helperText="La fecha no puede ser anterior a hoy."
+                  onChange={() => {}} // dummy to avoid readOnly warning
+                />
+              </div>
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Disabled State Con un valor
+                </span>
+                <DatePickerInput
+                  disabled
+                  label="Fecha de registro"
+                  defaultValue="01/01/2024"
+                />
+              </div>
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase text-slate-400 font-bold">
+                  Disabled State Sin valor
+                </span>
+                <DatePickerInput
+                  disabled
+                  label="Fecha de registro"
+                  placeholder="Seleccioná una fecha"
+                />
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -123,16 +195,37 @@ export default function DatePickerPage() {
       <ContentCards title="Sizes">
         <p className="text-sm text-slate-500 mb-6">
           Al igual que el resto de los controles, ofrece variantes{' '}
-          <code>sm</code> y <code>md</code>.
+          <code>small</code> y <code>medium</code>.
         </p>
         <ComponentExample
           preview={
             <div className="w-full max-w-sm flex flex-col gap-6">
-              <DatePickerInput size="md" label="Medium (44px)" />
-              <DatePickerInput size="sm" label="Small (36px)" />
+              <DatePickerInput
+                size="medium"
+                label="Label"
+                placeholder="Placeholder"
+              />
+              <DatePickerInput
+                size="small"
+                label="Label"
+                placeholder="Placeholder"
+              />
             </div>
           }
-          code={`<DatePickerInput size="md" />\n<DatePickerInput size="sm" />`}
+          code={`
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <DatePickerInput
+                size="medium"
+                label="Label"
+                placeholder="Placeholder"
+              />
+              <DatePickerInput
+                size="small"
+                label="Label"
+                placeholder="Placeholder"
+              />
+            </div>
+            `}
         />
       </ContentCards>
 

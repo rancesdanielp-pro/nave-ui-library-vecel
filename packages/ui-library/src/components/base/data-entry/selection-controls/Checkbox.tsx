@@ -4,10 +4,7 @@ import * as React from 'react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { CheckIcon, Minus } from 'lucide-react';
 import { cn } from '../../../../utils/cn';
-import {
-  resolveTokens,
-  useTheme,
-} from '../../../../theme';
+import { resolveTokens, useTheme } from '../../../../theme';
 import { cva } from 'class-variance-authority';
 
 import type { ThemeTokensBase } from '../../../../theme/theme';
@@ -17,29 +14,28 @@ interface CheckboxProps extends React.ComponentProps<
 > {
   tokens?: Partial<ThemeTokensBase>;
   platform?: 'web' | 'mobile';
-  size?: 'regular' | 'small';
+  size?: 'regular' | 'small' | 'extraSmall';
   tone?: 'brand' | 'neutral' | 'destructive';
   label?: string;
   description?: string;
-  state?: 'checked' | 'indeterminate';
   disabled?: boolean;
 }
 
-const checkboxLabel = 'text-sm font-[550] leading-[1.3] tracking-[-0.04em]';
+const checkboxLabel =
+  'leading-[1.3]';
 
-const checkboxDescription = 'text-xs text-[--color-text-helper] leading-[1.3]';
-
-const checkboxFocus =
-  'focus-visible:ring-2 focus-visible:ring-[--color-focus-ring] focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+const checkboxDescription =
+  'leading-[1.3]';
 
 const checkboxBase =
-  'inline-flex items-center justify-center shrink-0 border rounded-md transition-colors outline-none focus-visible:ring-2 disabled:cursor-not-allowed';
+  'inline-flex items-center justify-center shrink-0 border rounded-md transition-colors outline-none disabled:cursor-not-allowed';
 
 const checkboxVariants = cva(checkboxBase, {
   variants: {
     size: {
       regular: 'h-5 w-5',
       small: 'h-4 w-4',
+      extraSmall: 'h-3.5 w-3.5',
     },
     tone: {
       brand: '',
@@ -70,7 +66,7 @@ const checkboxVariants = cva(checkboxBase, {
     // DISABLED + UNCHECKED
     {
       className:
-        'data-[disabled][data-state=unchecked]:bg-[--color-bg-disabled] data-[disabled][data-state=unchecked]:border-[--border-hover] data-[disabled][data-state=unchecked]:hover:bg-[--color-bg-disabled]]',
+        'data-[disabled][data-state=unchecked]:bg-[--color-bg-disabled] data-[disabled][data-state=unchecked]:border-[--border-hover] data-[disabled][data-state=unchecked]:hover:bg-[--color-bg-disabled]',
     },
 
     // DISABLED + CHECKED
@@ -78,7 +74,7 @@ const checkboxVariants = cva(checkboxBase, {
       className:
         'data-[disabled][data-state=checked]:bg-[--color-bg-disabled] data-[disabled][data-state=checked]:border-none data-[disabled][data-state=checked]:hover:bg-[--color-bg-disabled]',
     },
-    //  DISABLED + INDETERMINATE 
+    //  DISABLED + INDETERMINATE
     {
       className:
         'data-[disabled][data-state=indeterminate]:bg-[--color-bg-disabled] data-[disabled][data-state=indeterminate]:border-none data-[disabled][data-state=indeterminate]:hover:bg-[--color-bg-disabled]',
@@ -94,7 +90,6 @@ export function Checkbox({
   size,
   tone,
   label,
-  state,
   description,
   disabled,
   style,
@@ -102,34 +97,36 @@ export function Checkbox({
   ...props
 }: CheckboxProps) {
   const theme = useTheme();
-  const mergedTokens = resolveTokens(
-    { componentName: 'checkbox', tokens },
-    theme
-  ) as any ?? {};
+  const mergedTokens =
+    (resolveTokens({ componentName: 'checkbox', tokens }, theme) as any) ?? {};
 
+  const sizeTokens = mergedTokens?.sizes?.[size ?? 'regular'] ?? {};
   const styles = {
-    '--checkbox-width': mergedTokens?.track?.width ?? 36,
-    '--checkbox-height': mergedTokens?.track?.height ?? 20,
+    '--checkbox-font-weight': mergedTokens?.fontWeight ?? 400,
 
-    // TRACK Backgrounds
-    '--checkbox-background-color':
-      mergedTokens?.track?.background ?? 'var(--color-bg-200)',
+    '--checkbox-label-font-size': sizeTokens?.labelFontSize ?? '14px',
+    '--checkbox-description-font-size':
+      sizeTokens?.descriptionFontSize ?? '12px',
+    '--checkbox-label-font-weight': sizeTokens?.labelFontWeight ?? 400,
+    '--checkbox-description-font-weight': sizeTokens?.descriptionFontWeight ?? 400,
+    "--checkbox-label-color": sizeTokens?.labelColor ?? '#020303',
+    "--checkbox-description-color": sizeTokens?.descriptionColor ?? '#6E7991',
+
+
+    '--checkbox-icon-size': sizeTokens?.icon ?? '16px',
+    '--checkbox-background-color': mergedTokens?.track?.background ?? '#E2E5E9',
     '--checkbox-active-background-color':
-      mergedTokens.checked?.background ?? 'var(--color-accent-default)',
+      mergedTokens?.checked?.background ?? '#652BDF',
     '--checkbox-active-background-hover':
-      mergedTokens?.checked?.backgroundHover ?? 'var(--color-accent-dark)',
-    '--checkbox-background-disabled': 'var(--color-bg-200)',
+      mergedTokens?.checked?.backgroundHover ?? '#5A23B8',
 
-    // THUMB
-    '--checkbox-thumb-color':
-      mergedTokens?.thumb?.color ?? 'var(--color-bg-white)',
-    '--checkbox-thumb-disabled':
-      mergedTokens?.disabled?.thumb ?? 'var(--color-bg-disabled)',
+    '--checkbox-thumb-color': mergedTokens?.thumb?.color ?? '#A3AAB8',
+    '--checkbox-thumb-disabled': mergedTokens?.disabled?.thumb ?? '#A3AAB8',
   } as React.CSSProperties;
-
 
   return (
     <label
+      style={styles}
       className={cn(
         'flex items-start gap-3 cursor-pointer',
         disabled && 'cursor-not-allowed opacity-60'
@@ -137,28 +134,57 @@ export function Checkbox({
     >
       <CheckboxPrimitive.Root
         disabled={disabled}
+        checked={props.checked}
         style={styles}
         className={cn(
           checkboxVariants({ size, tone }),
-          className,
-          checkboxFocus
+          'focus-visible:ring-2 focus-visible:ring-[--checkbox-active-background-color] focus-visible:ring-offset-2',
+          className
         )}
         {...props}
       >
-        <CheckboxPrimitive.Indicator className="flex items-center justify-center text-white data-[state=checked]:data-[disabled]:text-[--color-text-disabled] data-[state=indeterminate]:data-[disabled]:text-[--color-text-disabled]">
-          {state === 'indeterminate' ? (
-            <Minus className={size === 'regular' ? 'h-4 w-4' : 'h-3 w-3'} />
+        <CheckboxPrimitive.Indicator
+          className="
+          flex items-center justify-center
+          text-[color:var(--checkbox-thumb-color)]
+          data-[disabled]:text-[color:var(--checkbox-thumb-disabled)]
+           "
+        >
+          {props.checked === 'indeterminate' ? (
+            <Minus className="h-[--checkbox-icon-size]   w-[--checkbox-icon-size] stroke-current" />
           ) : (
-            <CheckIcon className={size === 'regular' ? 'h-4 w-4' : 'h-3 w-3'} />
+            <CheckIcon
+              className="
+            h-[--checkbox-icon-size]
+            w-[--checkbox-icon-size]
+            stroke-current
+           "
+            />
           )}
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
 
       {(label || description) && (
         <div className="flex flex-col gap-0.5">
-          {label && <span className={checkboxLabel}>{label}</span>}
+          {label && (
+            <span
+              className={
+                checkboxLabel +
+                ' text-[color:var(--checkbox-label-color)] text-[length:var(--checkbox-label-font-size)] font-[var(--checkbox-label-font-weight)]'
+              }
+            >
+              {label}
+            </span>
+          )}
           {description && (
-            <span className={checkboxDescription}>{description}</span>
+            <span
+              className={
+                checkboxDescription +
+                ' text-[color:var(--checkbox-description-color)] text-[length:var(--checkbox-description-font-size)] font-[var(--checkbox-description-font-weight)]'
+              }
+            >
+              {description}
+            </span>
           )}
         </div>
       )}

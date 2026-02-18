@@ -4,36 +4,26 @@ import * as React from 'react';
 import { cn } from '../../../../utils/cn';
 import { Button } from '../../buttons';
 
+import { resolveTokens, useTheme } from '../../../../theme';
+import type { ThemeTokensBase } from '../../../../theme/theme';
+
 export type FileUploadState = 'default' | 'drag' | 'error' | 'disabled';
 
 export type FileUploadProps = {
-  /** Tipos permitidos (ej: ['application/pdf','image/jpeg','image/png']) */
   accept?: string[];
-  /** Tamaño máximo por archivo en MB */
   maxSizeMB?: number;
-  /** Múltiples archivos */
   multiple?: boolean;
-
-  /** Textos */
   title?: string;
+  tokens?: Partial<ThemeTokensBase>;
   description?: string;
   buttonLabel?: string;
-
-  /** Ícono superior */
   icon?: React.ReactNode;
-
-  /** Estado visual controlado desde afuera */
-  isDragging?: boolean;
-
-  /** Estado visual semántico */
   state?: FileUploadState;
-
-  /** Clases extra */
   className?: string;
-
-  /** Callbacks */
+  isDragging?: boolean;
   onFilesChange?: (files: File[]) => void;
   onError?: (errors: string[]) => void;
+  actions?: React.ReactNode;
 };
 
 function bytesToMB(bytes: number) {
@@ -47,22 +37,14 @@ function getAcceptAttr(accept?: string[]) {
 
 function DefaultUploadIcon() {
   return (
-    <svg
-      width="40"
-      height="40"
-      viewBox="0 0 48 48"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
       <path
         d="M24 6c.6 0 1 .4 1 1v18.6l4.3-4.3a1 1 0 0 1 1.4 1.4l-6 6a1 1 0 0 1-1.4 0l-6-6a1 1 0 0 1 1.4-1.4l4.3 4.3V7c0-.6.4-1 1-1Z"
         fill="currentColor"
-        opacity="0.9"
       />
       <path
         d="M10 30a1 1 0 0 1 1 1v5c0 1.7 1.3 3 3 3h20c1.7 0 3-1.3 3-3v-5a1 1 0 1 1 2 0v5c0 2.8-2.2 5-5 5H14c-2.8 0-5-2.2-5-5v-5a1 1 0 0 1 1-1Z"
         fill="currentColor"
-        opacity="0.9"
       />
     </svg>
   );
@@ -86,9 +68,52 @@ export function FileUpload({
   icon,
   state = 'default',
   className,
+  actions,
+  tokens,
   onFilesChange,
   onError,
 }: FileUploadProps) {
+  const theme = useTheme();
+
+  const mergedTokens =
+    (resolveTokens(
+      {
+        componentName: 'fileUpload',
+        tokens,
+      },
+      theme
+    ) as any) ?? {};
+
+  const styles = {
+    /* Container */
+    '--fu-bg': mergedTokens.container.background,
+    '--fu-padding': mergedTokens.container.padding,
+    '--fu-radius': mergedTokens.container.radius,
+
+    /* Dropzone */
+    '--fu-border-color': mergedTokens.dropzone.borderColor[state],
+    '--fu-border-width': mergedTokens.dropzone.borderWidth,
+    '--fu-border-style': mergedTokens.dropzone.borderStyle,
+    '--fu-gap': mergedTokens.dropzone.gap,
+
+    /* Icon */
+    '--fu-icon-size': mergedTokens.icon.size,
+    '--fu-icon-wrapper-size': mergedTokens.icon.wrapperSize,
+    '--fu-icon-color': mergedTokens.icon.color,
+    '--fu-icon-bg': mergedTokens.icon.wrapperBg,
+    '--fu-icon-radius': mergedTokens.icon.wrapperRadius,
+
+    /* Title */
+    '--fu-title-color': mergedTokens.title.color,
+    '--fu-title-size': mergedTokens.title.fontSize,
+    '--fu-title-weight': mergedTokens.title.fontWeight,
+
+    /* Description */
+    '--fu-desc-color': mergedTokens.description.color,
+    '--fu-desc-size': mergedTokens.description.fontSize,
+    '--fu-desc-weight': mergedTokens.description.fontWeight,
+  } as React.CSSProperties;
+
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const isDisabled = state === 'disabled';
 
@@ -144,12 +169,6 @@ export function FileUpload({
     if (files.length) onFilesChange?.(files);
   };
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const list = Array.from(e.target.files ?? []);
-    handleFiles(list);
-    e.target.value = '';
-  };
-
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     if (isDisabled) return;
 
@@ -161,72 +180,152 @@ export function FileUpload({
   };
 
   return (
-    <div
-      className={cn(
-        'w-full rounded-[16px] bg-[--color-white] p-6 sm:p-8',
-        className
-      )}
+    <section
+      style={{
+        ...styles,
+        background: 'var(--fu-bg)',
+        padding: 'var(--fu-padding)',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        textAlign: 'center',
+      }}
     >
       <div
-        role="button"
-        aria-disabled={isDisabled}
-        tabIndex={isDisabled ? -1 : 0}
-        onClick={handlePick}
-        onKeyDown={(e) => {
-          if (!isDisabled && (e.key === 'Enter' || e.key === ' ')) handlePick();
-        }}
-        onDrop={onDrop}
-        onDragOver={(e) => {
-          if (isDisabled) return;
-          e.preventDefault();
-          e.dataTransfer.dropEffect = 'copy';
-        }}
         className={cn(
-          'w-full rounded-[16px] border border-dashed',
-          'px-6 py-10 sm:px-10 sm:py-14',
-          'flex flex-col items-center justify-center gap-3 sm:gap-4',
-          'outline-none transition-colors',
-          stateStyles[state]
+          'w-full rounded-[16px] bg-[--color-white] p-6 sm:p-8',
+          className
         )}
       >
-        <div className="text-[--color-text-tertiary]">
-          {icon ?? <DefaultUploadIcon />}
-        </div>
-
-        <div className="text-center space-y-1">
-          <div className="text-base font-[550] leading-[1.3] tracking-[-0.04em] text-[--color-black]">
-            {title}
-          </div>
-
-          <div className="text-sm leading-[1.3] tracking-[-0.04em] text-[--color-text-tertiary]">
-            {description}
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <Button
-            variant="secondary"
-            disabled={isDisabled}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+        <div
+          role="button"
+          aria-disabled={isDisabled}
+          tabIndex={isDisabled ? -1 : 0}
+          onClick={handlePick}
+          onKeyDown={(e) => {
+            if (!isDisabled && (e.key === 'Enter' || e.key === ' '))
               handlePick();
+          }}
+          onDrop={onDrop}
+          onDragOver={(e) => {
+            if (isDisabled) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+          }}
+          className={cn(
+            'w-full rounded-[16px] border border-dashed',
+            'px-6 py-10 sm:px-10 sm:py-14',
+            'flex flex-col items-center justify-center gap-3 sm:gap-4',
+            'outline-none transition-colors',
+            stateStyles[state]
+          )}
+        >
+          {icon && (
+            <div
+              style={{
+                width: 'var(--fu-icon-size)',
+                height: 'var(--fu-icon-size)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--fu-icon-color)',
+                borderRadius: 'var(--fu-icon-radius)',
+              }}
+            >
+              {icon ?? <DefaultUploadIcon />}
+            </div>
+          )}
+
+          <div
+            style={{
+              display: 'flex center',
+              flexDirection: 'column',
+              gap: '4px',
             }}
           >
-            {buttonLabel}
-          </Button>
-        </div>
+            <h3
+              style={{
+                color: 'var(--fu-title-color)',
+                fontWeight: 'var(--fu-title-weight)',
+                fontSize: 'var(--fu-title-size)',
+                margin: 0,
+              }}
+            >
+              {title}
+            </h3>
 
-        <input
-          ref={inputRef}
-          type="file"
-          className="hidden"
-          multiple={multiple}
-          disabled={isDisabled}
-          accept={getAcceptAttr(accept)}
-          onChange={onInputChange}
-        />
+            {description && (
+              <p
+                style={{
+                  color: 'var(--fu-desc-color)',
+                  fontWeight: 'var(--fu-desc-weight)',
+                  fontSize: 'var(--fu-desc-size)',
+                  margin: 0,
+                }}
+              >
+                {description}
+              </p>
+            )}
+          </div>
+
+          <div className="pt-2">
+            {actions ? (
+              actions
+            ) : (
+              <Button
+                variant="secondary"
+                disabled={isDisabled}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handlePick();
+                }}
+              >
+                {buttonLabel}
+              </Button>
+            )}
+          </div>
+
+          <input
+            ref={inputRef}
+            type="file"
+            hidden
+            multiple={multiple}
+            disabled={isDisabled}
+            accept={getAcceptAttr(accept)}
+            onChange={(e) => {
+              const list = Array.from(e.target.files ?? []);
+              handleFiles(list);
+              e.target.value = '';
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
+
+/*
+uso:
+
+              <FileUpload
+                icon={<DefaultUploadIcon />}
+                title="Hacé clic o arrastrá los archivos para cargarlos"
+                description="Deben ser PDF, JPG o PNG de hasta 3 MB."
+                state="default"
+                onFilesChange={handleFiles}
+                onError={handleErrors}
+                 actions={
+                  <>
+                    <Button>Subir archivo</Button>
+                  </>
+              />
+
+              <FileUpload
+              actions={
+                <Button variant="primary">
+                  Subir archivo
+                </Button>
+                }
+              />
+*/

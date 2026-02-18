@@ -5,8 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:lib": "cd packages/ui-library && npm run build",
-    "prebuild": "npm run build:lib",
     "postinstall": "cd packages/ui-library && npm install",
     "start": "next start",
     "lint": "eslint"

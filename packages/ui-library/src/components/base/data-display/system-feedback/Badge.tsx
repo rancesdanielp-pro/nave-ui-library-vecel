@@ -26,6 +26,7 @@ function Badge({
   style,
   ...props
 }: React.ComponentProps<'span'> & {
+  children: React.ReactNode;
   tone?: BadgeTone;
   size?: BadgeSize;
   shape?: BadgeShape;
@@ -45,7 +46,7 @@ function Badge({
   const styles: React.CSSProperties = {
     /* base */
     fontWeight: mergedTokens?.base?.fontWeight ?? 500,
-    lineHeight: mergedTokens?.base?.lineHeight ?? '1',
+    lineHeight: mergedTokens?.base?.lineHeight ?? '1.3',
 
     /* size */
     fontSize: sizeTokens?.fontSize ?? '14px',

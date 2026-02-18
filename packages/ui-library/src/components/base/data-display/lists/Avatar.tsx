@@ -29,17 +29,21 @@ function Avatar({
   const Comp = asChild ? Slot : AvatarPrimitive.Root;
 
   const mergedTokens =
-    resolveTokens({ componentName: 'avatar', tokens }, theme) as any ?? {};
+    (resolveTokens({ componentName: 'avatar', tokens }, theme) as any) ?? {};
 
   const sizeTokens = mergedTokens?.sizes?.[size] ?? {};
 
-  const styles: React.CSSProperties = {
+  const styles = {
     width: sizeTokens?.size ?? '40px',
     height: sizeTokens?.size ?? '40px',
     border: sizeTokens?.border ?? 'none',
-    borderRadius: mergedTokens?.shape?.radius ?? '9999px',
+    borderRadius: mergedTokens?.shapes?.radius ?? '9999px',
+    '--avatar-font-size': sizeTokens?.fontSize ?? '14px',
+    '--avatar-fallback-bg': mergedTokens?.fallback?.background ?? '#e0e0e0',
+    '--avatar-fallback-color': mergedTokens?.fallback?.color ?? '#000000',
+    '--avatar-fallback-weight': mergedTokens?.fallback?.fontWeight ?? 550,
     ...style,
-  };
+  } as React.CSSProperties;
 
   return (
     <Comp
@@ -72,7 +76,14 @@ function AvatarFallback({
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
       className={cn(
-        'bg-muted flex size-full items-center justify-center rounded-full',
+        `
+        flex size-full items-center justify-center
+        rounded-full
+        bg-[--avatar-fallback-bg]
+        text-[color:var(--avatar-fallback-color)]
+        text-[length:var(--avatar-font-size)]
+        font-[var(--avatar-fallback-weight)]
+        `,
         className
       )}
       {...props}

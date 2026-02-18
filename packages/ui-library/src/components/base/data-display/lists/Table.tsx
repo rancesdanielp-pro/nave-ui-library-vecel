@@ -2,25 +2,10 @@
 
 import * as React from 'react';
 import { cn } from '../../../../utils/cn';
-import {
-  resolveTokens,
-  useTheme,
-} from '../../../../theme';
-
-type TableTokens = {
-  backgroundColor?: string;
-  borderColor?: string;
-  borderRadius?: string;
-  shadow?: string;
-  header?: React.CSSProperties | undefined;
-  row?: React.CSSProperties | undefined;
-  cell?: React.CSSProperties | undefined;
-  footer?: React.CSSProperties | undefined;
-};
-
-const TableStylesContext = React.createContext<TableTokens | null>(null);
-
+import { resolveTokens, useTheme } from '../../../../theme';
 import type { ThemeTokensBase } from '../../../../theme/theme';
+
+const TableStylesContext = React.createContext<any | null>(null);
 
 function Table({
   className,
@@ -28,14 +13,34 @@ function Table({
   ...props
 }: React.ComponentProps<'table'> & { tokens?: Partial<ThemeTokensBase> }) {
   const theme = useTheme();
-
+  
+  // resolveTokens aplana la estructura 'base' del componente definido en el JSON
   const mergedTokens = resolveTokens({ componentName: 'table', tokens }, theme) as any;
 
+  // Mapeo corregido: Se eliminan fallbacks violetas y se ajusta a la estructura del token
   const styles = {
+    // Contenedor principal
     '--table-bg': mergedTokens?.background ?? '#FFFFFF',
     '--table-border': mergedTokens?.border ?? '#E2E5E9',
     '--table-radius': mergedTokens?.radius ?? '16px',
-    '--table-shadow': mergedTokens?.shadow ?? 'var(--shadow-table)',
+    '--table-shadow': mergedTokens?.shadow ?? 'none',
+    
+    // Header (thead / th) - Corregido para usar el gris del token por defecto
+    '--th-bg': mergedTokens?.headerBackground ?? '#F9F9FA',
+    '--th-text': mergedTokens?.headerTextColor ?? '#6E7991', 
+    '--th-size': mergedTokens?.headerFontSize ?? '12px',
+    '--th-weight': mergedTokens?.headerFontWeight ?? '600',
+    
+    // Filas y Celdas (tr / td)
+    '--row-hover': mergedTokens?.rowHoverBackground ?? 'rgba(0,0,0,.03)',
+    '--row-selected': mergedTokens?.rowSelectedBackground ?? '#F4F0FF',
+    '--cell-text': mergedTokens?.cellTextColor ?? '#3A3F4B',
+    '--cell-size': mergedTokens?.cellFontSize ?? '14px',
+    
+    // Descripción de Celda (TableCellDescription)
+    '--cell-desc-text': mergedTokens?.descriptionColor ?? '#6E7991',
+    '--cell-desc-size': mergedTokens?.descriptionFontSize ?? '12px',
+    '--cell-desc-weight': mergedTokens?.descriptionFontWeight ?? '400',
   } as React.CSSProperties;
 
   return (
@@ -43,18 +48,11 @@ function Table({
       <div
         data-slot="table-container"
         style={styles}
-        className="
-          w-full
-          rounded-[--table-radius]
-          bg-[--table-bg]
-          border border-[--table-border]
-          shadow-[--table-shadow]
-          overflow-hidden
-        "
+        className="w-full rounded-[var(--table-radius)] bg-[var(--table-bg)] border border-[var(--table-border)] shadow-[var(--table-shadow)] overflow-hidden"
       >
         <table
           data-slot="table"
-          className={cn('w-full text-sm', className)}
+          className={cn('w-full text-sm border-collapse', className)}
           {...props}
         />
       </div>
@@ -63,25 +61,9 @@ function Table({
 }
 
 function TableHeader(props: React.ComponentProps<'thead'>) {
-  const tokens = React.useContext(TableStylesContext);
-
-  const styles = {
-    '--th-bg': tokens?.header?.backgroundColor ?? '#F9F9FA',
-    '--th-text': tokens?.header?.color ?? '#652BDF',
-    '--th-border': tokens?.header?.borderColor ?? '#E2E5E9',
-  } as React.CSSProperties;
-
   return (
     <thead
-      style={styles}
-      className="
-        bg-[--th-bg]
-        text-[--th-text]
-        text-xs
-        h-12
-        border-b border-[--th-border]
-        font-medium
-      "
+      className="bg-[var(--th-bg)] text-[var(--th-text)] border-b border-[var(--table-border)]"
       {...props}
     />
   );
@@ -97,15 +79,50 @@ function TableBody(props: React.ComponentProps<'tbody'>) {
   );
 }
 
-function TableFooter({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<'tfoot'>) {
+function TableRow(props: React.ComponentProps<'tr'>) {
+  return (
+    <tr
+      className="border-b border-[var(--table-border)] hover:bg-[var(--row-hover)] data-[state=selected]:bg-[var(--row-selected)] transition-colors"
+      {...props}
+    />
+  );
+}
+
+function TableHead(props: React.ComponentProps<'th'>) {
+  return (
+    <th
+      className="h-12 px-4 py-3 text-[var(--th-size)] font-[var(--th-weight)] text-left align-middle whitespace-nowrap uppercase tracking-wider"
+      {...props}
+    />
+  );
+}
+
+function TableCell(props: React.ComponentProps<'td'>) {
+  return (
+    <td
+      className="px-4 py-3 text-[var(--cell-size)] text-[var(--cell-text)] align-middle"
+      {...props}
+    />
+  );
+}
+
+function TableCellDescription({ className, ...props }: React.ComponentProps<'p'>) {
+  return (
+    <p
+      className={cn(
+        "text-[var(--cell-desc-size)] text-[var(--cell-desc-text)] font-[var(--cell-desc-weight)] leading-tight mt-0.5",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function TableFooter({ children, className, ...props }: React.ComponentProps<'tfoot'>) {
   return (
     <tfoot
       data-slot="table-footer"
-      className={cn('bg-white border-t border-[--border-default]', className)}
+      className={cn('bg-[var(--table-bg)] border-t border-[var(--table-border)]', className)}
       {...props}
     >
       <tr>
@@ -119,76 +136,11 @@ function TableFooter({
   );
 }
 
-function TableRow(props: React.ComponentProps<'tr'>) {
-  const tokens = React.useContext(TableStylesContext) as any ?? {};
-
-  const styles = {
-    '--row-text': tokens?.row?.color ?? '#3A3F4B',
-    '--row-hover': tokens?.row?.hoverBackground ?? 'rgba(0,0,0,.03)',
-    '--row-border': tokens?.row?.borderColor ?? '#E2E5E9',
-  } as React.CSSProperties;
-
-  return (
-    <tr
-      style={styles}
-      className="
-        text-[--row-text]
-        border-b border-[--row-border]
-        hover:bg-[--row-hover]
-        transition-colors
-      "
-      {...props}
-    />
-  );
-}
-
-function TableHead(props: React.ComponentProps<'th'>) {
-  return (
-    <th
-      className="
-        h-12
-        px-4
-        py-3
-        text-xs
-        font-medium
-        text-[--color-text-tertiary]
-        whitespace-nowrap
-        text-left
-        align-middle
-      "
-      {...props}
-    />
-  );
-}
-
-function TableCell(props: React.ComponentProps<'td'>) {
-  const tokens = React.useContext(TableStylesContext);
-
-  const styles = {
-    '--cell-text': tokens?.cell?.color ?? '#3A3F4B',
-    '--cell-size': tokens?.cell?.fontSize ?? '14px',
-  } as React.CSSProperties;
-
-  return (
-    <td
-      style={styles}
-      className="
-        px-4 py-3
-        text-[--cell-size]
-        text-[--cell-text]
-        whitespace-nowrap
-        align-middle
-      "
-      {...props}
-    />
-  );
-}
-
 function TableCaption(props: React.ComponentProps<'caption'>) {
   return (
     <caption
       data-slot="table-caption"
-      className={cn('mt-4 text-sm text-muted-foreground', props.className)}
+      className={cn('mt-4 text-sm text-slate-500', props.className)}
       {...props}
     />
   );
@@ -202,5 +154,6 @@ export {
   TableHead,
   TableRow,
   TableCell,
+  TableCellDescription,
   TableCaption,
 };

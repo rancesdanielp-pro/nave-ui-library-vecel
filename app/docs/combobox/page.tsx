@@ -33,9 +33,8 @@ export default function ComboboxPage() {
       {/* ───────────── SECCIÓN: IMPORTS ───────────── */}
       <ContentCards title="Imports">
         <CodeBlock
-          code={`import 'nave-ui-library/styles.css
-
-import { Combobox, Select } from 'nave-ui-library/react'`}
+          code={`import 'nave-ui-library/styles.css';
+                 import { Combobox, Select } from 'nave-ui-library/react'`}
         />
       </ContentCards>
 
@@ -49,11 +48,31 @@ import { Combobox, Select } from 'nave-ui-library/react'`}
         <ComponentExample
           preview={
             <div className="flex w-full gap-10">
-              <div className="w-full max-w-sm">
+              <div className="w-full max-w-sm flex flex-col gap-6">
+                <span>Default</span>
                 <Combobox
+                  label="Label"
                   items={frameworks}
                   placeholder="Seleccionar framework..."
                   value={framework}
+                  onValueChange={setFramework}
+                />
+                <span>Disabled</span>
+                <Combobox
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  disabled
+                  onValueChange={setFramework}
+                />
+                <span>Error</span>
+                <Combobox
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  error
                   onValueChange={setFramework}
                 />
 
@@ -67,8 +86,28 @@ import { Combobox, Select } from 'nave-ui-library/react'`}
                 )}
               </div>
 
-              <div className="w-full max-w-sm">
+              <div className="w-full max-w-sm flex flex-col gap-6">
+                <span>Default</span>
                 <Select
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  onValueChange={setFramework}
+                />
+                <span>Disabled</span>
+                <Select
+                  label="Label"
+                  disabled
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  onValueChange={setFramework}
+                />
+                <span>Error</span>
+                <Select
+                  label="Label"
+                  error
                   items={frameworks}
                   placeholder="Seleccionar framework..."
                   value={framework}
@@ -86,7 +125,85 @@ import { Combobox, Select } from 'nave-ui-library/react'`}
               </div>
             </div>
           }
-          code={`const frameworks = [\n  { label: 'Next.js', value: 'next' },\n  { label: 'SvelteKit', value: 'svelte' }\n]\n\n<Combobox \n  items={frameworks} \n  placeholder="Seleccionar..." \n/>`}
+          code={`
+                    <div className="flex w-full gap-10">
+              <div className="w-full max-w-sm flex flex-col gap-6">
+                <span>Default</span>
+                <Combobox
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  onValueChange={setFramework}
+                />
+                <span>Disabled</span>
+                <Combobox
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  disabled
+                  onValueChange={setFramework}
+                />
+                <span>Error</span>
+                <Combobox
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  error
+                  onValueChange={setFramework}
+                />
+
+                {framework && (
+                  <p className="mt-2 text-xs text-slate-400">
+                    Seleccionado:{' '}
+                    <span className="font-semibold text-brand">
+                      {framework}
+                    </span>
+                  </p>
+                )}
+              </div>
+
+              <div className="w-full max-w-sm flex flex-col gap-6">
+                <span>Default</span>
+                <Select
+                  label="Label"
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  onValueChange={setFramework}
+                />
+                <span>Disabled</span>
+                <Select
+                  label="Label"
+                  disabled
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  onValueChange={setFramework}
+                />
+                <span>Error</span>
+                <Select
+                  label="Label"
+                  error
+                  items={frameworks}
+                  placeholder="Seleccionar framework..."
+                  value={framework}
+                  onValueChange={setFramework}
+                />
+
+                {framework && (
+                  <p className="mt-2 text-xs text-slate-400">
+                    Seleccionado:{' '}
+                    <span className="font-semibold text-brand">
+                      {framework}
+                    </span>
+                  </p>
+                )}
+              </div>
+            </div>
+            `}
         />
       </ContentCards>
 
@@ -99,19 +216,122 @@ import { Combobox, Select } from 'nave-ui-library/react'`}
         <ComponentExample
           preview={
             <div className="flex flex-col gap-6 w-full max-w-sm">
+              <span>Combobox</span>
               <Combobox
-                size="md"
-                items={frameworks}
-                placeholder="Tamaño Default"
+                label="Label"
+                size="medium"
+                value={'item1'}
+                items={[
+                  { label: 'Item', value: 'item1' },
+                  { label: 'Item', value: 'item2' },
+                  { label: 'Item', value: 'item3' },
+                  { label: 'Item', value: 'item4' },
+                  { label: 'Item', value: 'item5' },
+                ]}
+                placeholder="Placeholder"
               />
               <Combobox
-                size="sm"
-                items={frameworks}
-                placeholder="Tamaño Small"
+                label="Label"
+                size="small"
+                value={'item6'}
+                items={[
+                  { label: 'Item', value: 'item6' },
+                  { label: 'Item', value: 'item7' },
+                  { label: 'Item', value: 'item8' },
+                  { label: 'Item', value: 'item9' },
+                  { label: 'Item', value: 'item10' },
+                ]}
+                placeholder="Placeholder"
+              />
+
+              <span>Select</span>
+              <Select
+                label="Label"
+                size="medium"
+                value={'item11'}
+                items={[
+                  { label: 'Item', value: 'item11' },
+                  { label: 'Item', value: 'item12' },
+                  { label: 'Item', value: 'item13' },
+                  { label: 'Item', value: 'item14' },
+                  { label: 'Item', value: 'item15' },
+                ]}
+                placeholder="Placeholder"
+              />
+              <Select
+                label="Label"
+                size="small"
+                value={'item16'}
+                items={[
+                  { label: 'Item', value: 'item16' },
+                  { label: 'Item', value: 'item17' },
+                  { label: 'Item', value: 'item18' },
+                  { label: 'Item', value: 'item19' },
+                  { label: 'Item', value: 'item20' },
+                ]}
+                placeholder="Placeholder"
               />
             </div>
           }
-          code={`<Combobox size="md" items={...} />\n<Combobox size="sm" items={...} />`}
+          code={`
+            <div className="flex flex-col gap-6 w-full max-w-sm">
+              <span>Combobox</span>
+              <Combobox
+                label="Label"
+                size="medium"
+                value={'item1'}
+                items={[
+                  { label: 'Item', value: 'item1' },
+                  { label: 'Item', value: 'item2' },
+                  { label: 'Item', value: 'item3' },
+                  { label: 'Item', value: 'item4' },
+                  { label: 'Item', value: 'item5' },
+                ]}
+                placeholder="Placeholder"
+              />
+              <Combobox
+                label="Label"
+                size="small"
+                value={'item6'}
+                items={[
+                  { label: 'Item', value: 'item6' },
+                  { label: 'Item', value: 'item7' },
+                  { label: 'Item', value: 'item8' },
+                  { label: 'Item', value: 'item9' },
+                  { label: 'Item', value: 'item10' },
+                ]}
+                placeholder="Placeholder"
+              />
+
+              <span>Select</span>
+              <Select
+                label="Label"
+                size="medium"
+                value={'item11'}
+                items={[
+                  { label: 'Item', value: 'item11' },
+                  { label: 'Item', value: 'item12' },
+                  { label: 'Item', value: 'item13' },
+                  { label: 'Item', value: 'item14' },
+                  { label: 'Item', value: 'item15' },
+                ]}
+                placeholder="Placeholder"
+              />
+              <Select
+                label="Label"
+                size="small"
+                value={'item16'}
+                items={[
+                  { label: 'Item', value: 'item16' },
+                  { label: 'Item', value: 'item17' },
+                  { label: 'Item', value: 'item18' },
+                  { label: 'Item', value: 'item19' },
+                  { label: 'Item', value: 'item20' },
+                ]}
+                placeholder="Placeholder"
+              />
+            </div>
+            `}
         />
       </ContentCards>
 
