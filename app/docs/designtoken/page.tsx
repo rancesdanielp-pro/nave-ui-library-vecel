@@ -59,8 +59,8 @@ export default function TokensStrategyPage() {
         key={`dot-${activeVariant.name}`}
         className="w-6 h-6 rounded-full border-2 transition-all duration-500 shadow-sm" 
         style={{ 
-          borderColor: activeVariant.tokens.foundations.colors.brand.primary, 
-          backgroundColor: activeVariant.tokens.foundations.colors.brand.primary 
+          borderColor: activeVariant.tokens.foundations.colors.brand['500'], 
+          backgroundColor: activeVariant.tokens.foundations.colors.brand['500'] 
         }} 
       />
     </div>
