@@ -8,95 +8,212 @@ export const tokenVariants = [
   {
     name: 'nave',
     schema: 'ui.theme.v1',
-    version: '4.0.0',
+    version: '4.0.1',
     tokens: {
       meta: {
-        theme: 'default',
+        theme: 'default-v-4.0.1',
       },
       foundations: {
         colors: {
           brand: {
-            primary: '#652BDF',
-            hover: '#3C168E',
-          },
-          semantic: {
-            success: '#16A34A',
-            warning: '#F59E0B',
-            danger: '#DC2626',
-            info: '#2563EB',
+            50: '#F6F2FD',
+            100: '#E6DCFA',
+            200: '#F4F0FF', // Agregado: Para active states
+            300: '#A78BFA',
+            500: '#652BDF', // primary
+            700: '#3C168E', // hover
+            900: '#1E0A52',
           },
           neutral: {
-            '0': '#FFFFFF',
-            '100': '#F9FAFB',
-            '200': '#E5E7EB',
-            '300': '#D1D5DB',
-            '400': '#9CA3AF',
-            '500': '#6B7280',
-            '700': '#374151',
-            '900': '#111827',
+            0: '#FFFFFF',
+            50: '#F9FAFB',
+            100: '#F3F4F6',
+            125: '#F0F0F0', // Agregado: Para icon wrappers
+            150: '#E2E5E9',
+            200: '#E5E7EB',
+            225: '#EEF2F7', // Agregado: Para subtle borders
+            300: '#D1D5DB',
+            350: '#C3C7D1',
+            400: '#9CA3AF',
+            450: '#A3AAB8',
+            500: '#6B7280',
+            550: '#9DA5B5',
+            600: '#4B5563',
+            650: '#6E7991',
+            700: '#374151',
+            750: '#3A3F4B',
+            800: '#1F2937',
+            850: '#020303',
+            900: '#111827',
+            950: '#F9F9FA',
+          },
+          feedback: {
+            success: {
+              50: '#F2FDF8',
+              500: '#16A34A',
+              700: '#128751',
+            },
+            warning: {
+              50: '#FEFAF0',
+              100: '#FEF3C7', // Agregado: Para promo banner
+              500: '#F59E0B',
+              700: '#C26E04',
+            },
+            error: {
+              50: '#FEEEEB',
+              100: '#FEF2F2', // Agregado: Para destructive alerts
+              500: '#DC2626',
+              600: '#FB3131',
+              700: '#C2040C',
+              800: '#FECFCD',
+            },
+            info: {
+              50: '#F0F5FE',
+              500: '#2563EB',
+              700: '#0465C2',
+            },
           },
         },
         typography: {
-          fontFamily: 'inherit',
-          sizes: {
-            xs: '12px',
-            sm: '14px',
-            md: '16px',
-            lg: '18px',
+          fontFamily: {
+            base: 'inherit',
           },
-          weights: {
-            regular: 400,
-            medium: 500,
-            semibold: 700,
-            bold: 700,
+          size: {
+            10: '10px',
+            12: '12px',
+            13: '13px', // Agregado: Para dropdown icons
+            14: '14px',
+            16: '16px',
+            18: '18px',
+            20: '20px',
+            24: '24px',
+            30: '30px', // Agregado: Para file upload icons
+            32: '32px', // Agregado: Para cifras destacadas (overview)
           },
-          lineHeights: {
+          weight: {
+            400: 400,
+            500: 500,
+            550: 550,
+            600: 600,
+            700: 700,
+          },
+          lineHeight: {
             tight: '1.2',
             normal: '1.4',
             relaxed: '1.6',
           },
-        },
-        radius: {
-          sm: '4px',
-          md: '8px',
-          lg: '12px',
-          full: '9999px',
+          letterSpacing: {
+            normal: '0',
+            tight: '-0.02em',
+            tighter: '-0.04em',
+          },
         },
         spacing: {
-          xs: '4px',
-          sm: '8px',
-          md: '12px',
-          lg: '16px',
-          xl: '24px',
+          0: '0px',
+          0.5: '2px', // Agregado: Para padding compacto
+          1: '4px',
+          1.25: '5px', // Agregado: Para micro desplazamientos
+          1.5: '6px', // Agregado: Para gaps compactos
+          1.75: '7px', // Agregado: Para offsets pequeños
+          2: '8px',
+          2.5: '10px',
+          3: '12px',
+          4: '16px',
+          4.5: '18px', // Agregado: Para separator vertical
+          5: '20px',
+          6: '24px',
+          6.5: '26px', // Agregado: Para switch small
+          7: '28px',
+          8: '32px',
+          8.5: '34px', // Agregado: Para switch regular
+          9: '36px',
+          10: '40px',
+          11: '44px',
+          12: '48px',
+          14: '56px', // Agregado: Para file upload padding
+          16: '64px', // Agregado: Para navbar height y sidebar collapsed
+          60: '240px', // Agregado: Para sidebar width
+        },
+        maxWidth: {
+          compact: '360px', // Agregado: Para banner compact
+          full: '1184px', // Agregado: Para banner full
+          container: '1440px', // Agregado: Para navbar container
+          dashboardMain: '767px', // Agregado: Para cards principales
+          dashboardRight: '337px', // Agregado: Para columna derecha
+          dashboardAccred: '347px', // Agregado: Para acreditaciones (columna)
+          sidebar: '240px', // Agregado: Para sidebar
+          dropdown: '12rem', // Agregado: Para dropdown minWidth
+        },
+        radius: {
+          none: '0px',
+          xs: '2px',
+          sm: '6px',
+          md: '8px',
+          lg: '12px',
+          xl: '16px',
+          '2xl': '18px',
+          full: '9999px',
+        },
+        shadow: {
+          none: 'none',
+          xs: '0 1px 2px rgba(0,0,0,0.04)',
+          sm: '0 1px 3px rgba(0,0,0,0.08)',
+          md: '0 4px 12px rgba(0,0,0,0.1)',
+          lg: '0 8px 24px rgba(0,0,0,0.12)',
+          focus: '0px 0px 0px 4px',
+          focusSm: '0px 0px 0px 2px',
+          dropdown:
+            '0px 2px 4px -1px rgba(0,0,0,0.06), 0px 4px 6px -1px rgba(0,0,0,0.1)',
+          drawer:
+            '0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 6px 12px -4px rgba(0, 0, 0, 0.1)',
+        },
+        border: {
+          width: {
+            0: '0',
+            1: '1px',
+            2: '2px',
+            4: '4px',
+          },
         },
         motion: {
           duration: {
-            fast: '150ms',
-            normal: '250ms',
+            fast: '120ms',
+            normal: '200ms',
+            slow: '300ms',
           },
           easing: {
-            standard: 'ease',
+            in: 'ease-in',
             out: 'ease-out',
+            inOut: 'ease-in-out',
+            standard: 'cubic-bezier(0.2, 0, 0, 1)',
           },
         },
-        shadow: {
-          sm: '0 1px 2px rgba(0,0,0,0.05)',
-          md: '0 4px 12px rgba(0,0,0,0.1)',
+        opacity: {
+          disabled: 0.4,
+          muted: 0.7,
+          overlay: 0.5,
         },
-        focus: {
-          ring: '0 0 0 2px {semanticTokens.border.focus}',
+        zIndex: {
+          base: 1,
+          dropdown: 1000,
+          modal: 1100,
+          overlay: 1200,
+          toast: 1300,
+          tooltip: 1400,
         },
-        interaction: {
-          focusRing: '0 0 0 2px {semanticTokens.border.focus}',
-        },
-        state: {
-          disabled: {
-            background: '{semanticTokens.surface.disabled}',
-            text: '{semanticTokens.text.disabled}',
+        other: {
+          backdropBlur: '4px', // Agregado: Para drawer overlay
+          cursor: {
+            grab: 'grab',
+            grabbing: 'grabbing',
           },
-        },
-        surface: {
+          borderStyle: {
+            dashed: 'dashed',
+          },
+          scrollBehavior: 'smooth',
+          maxHeight: '80vh', // Agregado: Para drawer content
           transparent: 'transparent',
+          auto: 'auto',
         },
       },
       semanticTokens: {
@@ -108,415 +225,470 @@ export const tokenVariants = [
         },
         surface: {
           default: '{foundations.colors.neutral.0}',
-          muted: '{foundations.colors.neutral.100}',
-          hover: '{foundations.colors.neutral.200}',
+          muted: '{foundations.colors.neutral.50}',
+          hover: '{foundations.colors.neutral.100}',
+          selected: '{foundations.colors.brand.50}',
         },
         border: {
-          default: '{foundations.colors.neutral.300}',
-          focus: '{foundations.colors.brand.primary}',
+          default: '{foundations.colors.neutral.200}',
+          focus: '{foundations.colors.brand.500}',
+          subtle: '{foundations.colors.neutral.100}',
         },
         action: {
-          primary: '{foundations.colors.brand.primary}',
-          secondary: '{foundations.colors.brand.secondary}',
-          primaryHover: '{foundations.colors.brand.hover}',
+          primary: '{foundations.colors.brand.500}',
+          primaryHover: '{foundations.colors.brand.700}',
+          secondary: '{foundations.colors.neutral.100}',
           disabled: '{foundations.colors.neutral.300}',
+        },
+        feedback: {
+          success: {
+            bg: '{foundations.colors.feedback.success.50}',
+            text: '{foundations.colors.feedback.success.700}',
+            border: '{foundations.colors.feedback.success.500}',
+            iconBg: '{semanticTokens.surface.muted}',
+            action: '{semanticTokens.text.primary}',
+          },
+          error: {
+            bg: '{foundations.colors.feedback.error.50}',
+            text: '{foundations.colors.feedback.error.700}',
+            border: '{foundations.colors.feedback.error.500}',
+          },
+          warning: {
+            bg: '{foundations.colors.feedback.warning.50}',
+            text: '{foundations.colors.feedback.warning.700}',
+            border: '{foundations.colors.feedback.warning.500}',
+          },
+          info: {
+            bg: '{foundations.colors.feedback.info.50}',
+            text: '{foundations.colors.feedback.info.700}',
+            border: '{foundations.colors.feedback.info.500}',
+          },
+        },
+        state: {
+          disabled: {
+            bg: '{foundations.colors.neutral.200}',
+            text: '{foundations.colors.neutral.400}',
+            border: '{foundations.colors.neutral.300}',
+          },
         },
       },
       components: {
         button: {
           base: {
             radius: '{foundations.radius.md}',
-            fontWeight: '{foundations.typography.weights.regular}',
+            fontWeight: '{foundations.typography.weight.400}',
             transition: '{foundations.motion.duration.fast}',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '{foundations.spacing.xs}',
+            gap: '{foundations.spacing.2}',
             outline: 'none',
           },
           sizes: {
             small: {
-              height: 36,
-              paddingX: 10,
-              fontSize: '14px',
-              fontWeight: 550,
+              height: '{foundations.spacing.9}',
+              paddingX: '{foundations.spacing.["2.5"]}',
+              fontSize: '{foundations.typography.size.14}',
+              fontWeight: '{foundations.typography.weight.550}',
             },
             medium: {
-              height: 40,
-              paddingX: 12,
-              fontSize: '14px',
-              fontWeight: 550,
+              height: '{foundations.spacing.10}',
+              paddingX: '{foundations.spacing.3}',
+              fontSize: '{foundations.typography.size.14}',
+              fontWeight: '{foundations.typography.weight.550}',
             },
             large: {
-              height: 44,
-              paddingX: 16,
-              fontSize: '16px',
-              fontWeight: 550,
+              height: '{foundations.spacing.11}',
+              paddingX: '{foundations.spacing.4}',
+              fontSize: '{foundations.typography.size.16}',
+              fontWeight: '{foundations.typography.weight.550}',
             },
           },
           variants: {
             primary: {
-              background: '#652BDF',
-              color: '#FFFFFF',
+              background: '{foundations.colors.brand.500}',
+              color: '{foundations.colors.neutral.0}',
               hover: {
-                background: '#3C168E',
+                background: '{foundations.colors.brand.700}',
               },
               focus: {
-                boxShadow: '0px 0px 0px 4px #652BDF',
+                boxShadow:
+                  '{foundations.shadow.focus} {foundations.colors.brand.500}',
               },
               disabled: {
-                background: '#E2E5E9',
-                color: '#A3AAB8',
+                background: '{foundations.colors.neutral.150}',
+                color: '{foundations.colors.neutral.450}',
               },
             },
             secondary: {
-              background: '#FFFFFF',
-              color: '#652BDF',
-
+              background: '{foundations.colors.neutral.0}',
+              color: '{foundations.colors.brand.500}',
               hover: {
-                background: '#E6DCFA',
-                color: '#3C168E',
+                background: '{foundations.colors.brand.100}',
+                color: '{foundations.colors.brand.700}',
               },
-
               focus: {
-                boxShadow: '0px 0px 0px 4px #652BDF',
+                boxShadow:
+                  '{foundations.shadow.focus} {foundations.colors.brand.500}',
               },
-
               disabled: {
-                background: 'transparent',
-                color: '#A3AAB8',
-                border: '#E2E5E9',
+                background: '{foundations.other.transparent}',
+                color: '{foundations.colors.neutral.450}',
+                border: '{foundations.colors.neutral.150}',
               },
             },
             tertiary: {
-              background: 'transparent',
-              color: '#652BDF',
+              background: '{foundations.other.transparent}',
+              color: '{foundations.colors.brand.500}',
               hover: {
-                background: 'transparent',
-                color: '#3C168E',
+                background: '{foundations.other.transparent}',
+                color: '{foundations.colors.brand.700}',
               },
               focus: {
-                boxShadow: '0px 0px 0px 4px #652BDF',
-                color: '#652BDF',
+                boxShadow:
+                  '{foundations.shadow.focus} {foundations.colors.brand.500}',
+                color: '{foundations.colors.brand.500}',
               },
               disabled: {
-                color: '#A3AAB8',
-                background: 'transparent',
+                color: '{foundations.colors.neutral.450}',
+                background: '{foundations.other.transparent}',
               },
             },
           },
         },
         label: {
-          fontSize: '{foundations.typography.sizes.sm}',
+          fontSize: '{foundations.typography.size.14}',
           color: '{semanticTokens.text.primary}',
-          padding: '{foundations.spacing.xs} {foundations.spacing.sm}',
-          fontWeight: '{foundations.typography.weights.medium}',
+          padding: '{foundations.spacing.2} {foundations.spacing.3}',
+          fontWeight: '{foundations.typography.weight.500}',
         },
         input: {
           base: {
-            background: '#FFFFFF',
-            boxShadow: '0px 1px 2px 0px rgba(18, 18, 23, 0.05)',
-            color: '#020303',
-            border: '1px solid #E2E5E9',
-            radius: '8px',
+            background: '{foundations.colors.neutral.0}',
+            boxShadow: '{foundations.shadow.xs}',
+            color: '{foundations.colors.neutral.850}',
+            border:
+              '{foundations.border.width.1} solid {foundations.colors.neutral.150}',
+            radius: '{foundations.radius.md}',
             hover: {
-              color: '#020303',
-              background: '#FFFFFF',
-              border: '1px solid #C3C7D1',
+              color: '{foundations.colors.neutral.850}',
+              background: '{foundations.colors.neutral.0}',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.neutral.350}',
             },
             focus: {
-              border: '1px solid #652BDF',
-              boxShadow: '0px 0px 0px 2px #E6DCFA',
-              color: '#020303',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.brand.500}',
+              boxShadow:
+                '{foundations.shadow.focusSm} {foundations.colors.brand.100}',
+              color: '{foundations.colors.neutral.850}',
             },
             filled: {
-              color: '#020303',
-              background: '#F9F9FA',
-              boxShadow: '0px 1px 2px 0px #1212170D',
+              color: '{foundations.colors.neutral.850}',
+              background: '{foundations.colors.neutral.950}',
+              boxShadow: '{foundations.shadow.xs}',
             },
             disabled: {
-              background: '#E2E5E9',
-              color: '#9DA5B5',
-              border: '1px solid #C3C7D1',
-              boxShadow: '0px 1px 2px 0px #1212170D',
+              background: '{foundations.colors.neutral.150}',
+              color: '{foundations.colors.neutral.550}',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.neutral.350}',
+              boxShadow: '{foundations.shadow.xs}',
             },
             error: {
-              background: '#FFFFFF',
-              border: '1px solid #FB3131',
-              color: '#FB3131',
-              boxShadow: '0px 1px 2px 0px #1212170D',
+              background: '{foundations.colors.neutral.0}',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.feedback.error.600}',
+              color: '{foundations.colors.feedback.error.600}',
+              boxShadow: '{foundations.shadow.xs}',
               filled: {
-                border: '1px solid #FB3131',
-                color: '#020303',
-                boxShadow: '0px 1px 2px 0px #1212170D',
+                border:
+                  '{foundations.border.width.1} solid {foundations.colors.feedback.error.600}',
+                color: '{foundations.colors.neutral.850}',
+                boxShadow: '{foundations.shadow.xs}',
               },
               focus: {
-                border: '1px solid #FB3131',
-                boxShadow: '0px 0px 0px 2px #FECFCD',
-                color: '#020303',
+                border:
+                  '{foundations.border.width.1} solid {foundations.colors.feedback.error.600}',
+                boxShadow:
+                  '{foundations.shadow.focusSm} {foundations.colors.feedback.error.800}',
+                color: '{foundations.colors.neutral.850}',
               },
               hover: {
-                border: '1px solid #C2040C',
-                boxShadow: '0px 0px 0px 2px #FECFCD',
-                color: '#020303',
+                border:
+                  '{foundations.border.width.1} solid {foundations.colors.feedback.error.700}',
+                boxShadow:
+                  '{foundations.shadow.focusSm} {foundations.colors.feedback.error.800}',
+                color: '{foundations.colors.neutral.850}',
               },
             },
           },
           sizes: {
             medium: {
-              height: '44px',
-              padding: '12px',
-              labelFontSize: '14px',
-              inputFontSize: '16px',
-              helperFontSize: '14px',
-              labelFontWeight: 550,
-              inputFontWeight: 400,
-              helperFontWeight: 400,
-              labelColor: '#020303',
-              helperColor: '#6E7991',
-              iconSize: '16px',
+              height: '{foundations.spacing.11}',
+              padding: '{foundations.spacing.3}',
+              labelFontSize: '{foundations.typography.size.14}',
+              inputFontSize: '{foundations.typography.size.16}',
+              helperFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              inputFontWeight: '{foundations.typography.weight.400}',
+              helperFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              helperColor: '{foundations.colors.neutral.650}',
+              iconSize: '{foundations.typography.size.16}',
             },
             small: {
-              height: '32px',
-              padding: '12px 10px',
-              labelFontSize: '14px',
-              inputFontSize: '14px',
-              helperFontSize: '14px',
-              labelFontWeight: 550,
-              inputFontWeight: 400,
-              helperFontWeight: 400,
-              labelColor: '#020303',
-              helperColor: '#6E7991',
-              iconSize: '16px',
+              height: '{foundations.spacing.8}',
+              padding: '{foundations.spacing.3} {foundations.spacing.["2.5"]}',
+              labelFontSize: '{foundations.typography.size.14}',
+              inputFontSize: '{foundations.typography.size.14}',
+              helperFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              inputFontWeight: '{foundations.typography.weight.400}',
+              helperFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              helperColor: '{foundations.colors.neutral.650}',
+              iconSize: '{foundations.typography.size.16}',
             },
           },
         },
         emptyState: {
           base: {
             container: {
-              background: 'transparent',
-              padding: '24px',
+              background: '{foundations.other.transparent}',
+              padding: '{foundations.spacing.6}',
             },
             icon: {
               size: {
-                small: '24px',
-                medium: '20px',
+                small: '{foundations.spacing.5}',
+                medium: '{foundations.spacing.6}',
               },
-              color: '#6E7991',
-              containerRadius: '4px',
+              color: '{foundations.colors.neutral.650}',
+              containerRadius: '{foundations.radius.xs}',
             },
             title: {
-              color: '#020303',
-              fontWeight: 550,
+              color: '{foundations.colors.neutral.850}',
+              fontWeight: '{foundations.typography.weight.550}',
               size: {
-                small: '16px',
-                medium: '18px',
+                small: '{foundations.typography.size.16}',
+                medium: '{foundations.typography.size.18}',
               },
             },
             description: {
-              color: '#6E7991',
-              fontWeight: 400,
+              color: '{foundations.colors.neutral.650}',
+              fontWeight: '{foundations.typography.weight.400}',
               size: {
-                small: '12px',
-                medium: '14px',
+                small: '{foundations.typography.size.12}',
+                medium: '{foundations.typography.size.14}',
               },
             },
             actions: {
-              gap: '8px',
+              gap: '{foundations.spacing.2}',
             },
           },
         },
         fileUpload: {
           base: {
             container: {
-              background: 'transparent',
-              padding: '24px',
+              background: '{foundations.other.transparent}',
+              padding: '{foundations.spacing.6}',
             },
             dropzone: {
-              radius: 'radius-xl',
-              borderStyle: 'dashed',
-              borderWidth: 'border-1',
-              borderColor: 'border-default',
-              paddingX: 'spacing-10',
-              paddingY: 'spacing-14',
-              gap: 'spacing-4',
+              radius: '{foundations.radius.xl}',
+              borderStyle: '{foundations.other.borderStyle.dashed}',
+              borderWidth: '{foundations.border.width.1}',
+              borderColor: '{semanticTokens.border.default}',
+              paddingX: '{foundations.spacing.10}',
+              paddingY: '{foundations.spacing.14}',
+              gap: '{foundations.spacing.4}',
             },
             icon: {
-              size: '30px',
-              color: '#6E7991',
-              wrapperSize: '48px',
-              wrapperRadius: '24px',
-              wrapperBg: '#F0F0F0',
+              size: '{foundations.typography.size.30}',
+              color: '{foundations.colors.neutral.650}',
+              wrapperSize: '{foundations.spacing.12}',
+              wrapperRadius: '{foundations.spacing.6}',
+              wrapperBg: '{foundations.colors.neutral.125}',
             },
             title: {
-              color: '#020303',
-              fontSize: '16px',
-              fontWeight: 550,
+              color: '{foundations.colors.neutral.850}',
+              fontSize: '{foundations.typography.size.16}',
+              fontWeight: '{foundations.typography.weight.550}',
             },
             description: {
-              color: '#6E7991',
-              fontSize: '14px',
-              fontWeight: 400,
+              color: '{foundations.colors.neutral.650}',
+              fontSize: '{foundations.typography.size.14}',
+              fontWeight: '{foundations.typography.weight.400}',
             },
             actions: {
-              gap: '8px',
+              gap: '{foundations.spacing.2}',
             },
           },
         },
         select: {
           base: {
-            background: '#FFFFFF',
-            boxShadow: '0px 1px 2px 0px rgba(18, 18, 23, 0.05)',
-            color: '#020303',
-            border: '1px solid #E2E5E9',
-            radius: '8px',
+            background: '{foundations.colors.neutral.0}',
+            boxShadow: '{foundations.shadow.xs}',
+            color: '{foundations.colors.neutral.850}',
+            border:
+              '{foundations.border.width.1} solid {foundations.colors.neutral.150}',
+            radius: '{foundations.radius.md}',
             hover: {
-              color: '#020303',
-              background: '#FFFFFF',
-              border: '1px solid #C3C7D1',
+              color: '{foundations.colors.neutral.850}',
+              background: '{foundations.colors.neutral.0}',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.neutral.350}',
             },
             focus: {
-              border: '1px solid #652BDF',
-              boxShadow: '0px 0px 0px 2px #E6DCFA',
-              color: '#020303',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.brand.500}',
+              boxShadow:
+                '{foundations.shadow.focusSm} {foundations.colors.brand.100}',
+              color: '{foundations.colors.neutral.850}',
             },
             filled: {
-              color: '#020303',
-              background: '#F9F9FA',
-              boxShadow: '0px 1px 2px 0px #1212170D',
+              color: '{foundations.colors.neutral.850}',
+              background: '{foundations.colors.neutral.950}',
+              boxShadow: '{foundations.shadow.xs}',
             },
             disabled: {
-              background: '#E2E5E9',
-              color: '#9DA5B5',
-              border: '1px solid #C3C7D1',
-              boxShadow: '0px 1px 2px 0px #1212170D',
+              background: '{foundations.colors.neutral.150}',
+              color: '{foundations.colors.neutral.550}',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.neutral.350}',
+              boxShadow: '{foundations.shadow.xs}',
             },
             error: {
-              background: '#FFFFFF',
-              border: '1px solid #FB3131',
-              color: '#FB3131',
-              boxShadow: '0px 1px 2px 0px #1212170D',
+              background: '{foundations.colors.neutral.0}',
+              border:
+                '{foundations.border.width.1} solid {foundations.colors.feedback.error.600}',
+              color: '{foundations.colors.feedback.error.600}',
+              boxShadow: '{foundations.shadow.xs}',
               filled: {
-                border: '1px solid #FB3131',
-                color: '#020303',
-                boxShadow: '0px 1px 2px 0px #1212170D',
+                border:
+                  '{foundations.border.width.1} solid {foundations.colors.feedback.error.600}',
+                color: '{foundations.colors.neutral.850}',
+                boxShadow: '{foundations.shadow.xs}',
               },
               focus: {
-                border: '1px solid #FB3131',
-                boxShadow: '0px 0px 0px 2px #FECFCD',
-                color: '#020303',
+                border:
+                  '{foundations.border.width.1} solid {foundations.colors.feedback.error.600}',
+                boxShadow:
+                  '{foundations.shadow.focusSm} {foundations.colors.feedback.error.800}',
+                color: '{foundations.colors.neutral.850}',
               },
               hover: {
-                border: '1px solid #C2040C',
-                boxShadow: '0px 0px 0px 2px #FECFCD',
-                color: '#020303',
+                border:
+                  '{foundations.border.width.1} solid {foundations.colors.feedback.error.700}',
+                boxShadow:
+                  '{foundations.shadow.focusSm} {foundations.colors.feedback.error.800}',
+                color: '{foundations.colors.neutral.850}',
               },
             },
           },
           sizes: {
             medium: {
-              height: '44px',
-              padding: '12px',
-              labelFontSize: '14px',
-              inputFontSize: '16px',
-              helperFontSize: '14px',
-              labelFontWeight: 550,
-              inputFontWeight: 400,
-              helperFontWeight: 400,
-              labelColor: '#020303',
-              helperColor: '#6E7991',
-              iconSize: '16px',
+              height: '{foundations.spacing.11}',
+              padding: '{foundations.spacing.3}',
+              labelFontSize: '{foundations.typography.size.14}',
+              inputFontSize: '{foundations.typography.size.16}',
+              helperFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              inputFontWeight: '{foundations.typography.weight.400}',
+              helperFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              helperColor: '{foundations.colors.neutral.650}',
+              iconSize: '{foundations.typography.size.16}',
             },
             small: {
-              height: '32px',
-              padding: '12px 10px',
-              labelFontSize: '14px',
-              inputFontSize: '14px',
-              helperFontSize: '14px',
-              labelFontWeight: 550,
-              inputFontWeight: 400,
-              helperFontWeight: 400,
-              labelColor: '#020303',
-              helperColor: '#6E7991',
-              iconSize: '16px',
+              height: '{foundations.spacing.8}',
+              padding: '{foundations.spacing.3} {foundations.spacing.["2.5"]}',
+              labelFontSize: '{foundations.typography.size.14}',
+              inputFontSize: '{foundations.typography.size.14}',
+              helperFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              inputFontWeight: '{foundations.typography.weight.400}',
+              helperFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              helperColor: '{foundations.colors.neutral.650}',
+              iconSize: '{foundations.typography.size.16}',
             },
           },
         },
         tooltip: {
-          background: '#020303',
-          color: '#FFFFFF',
+          background: '{foundations.colors.neutral.850}',
+          color: '{foundations.colors.neutral.0}',
           radius: '{foundations.radius.sm}',
-          fontSize: '14px',
-          fontWeight: 400,
-          lineHeight: '130%',
-          letterSpacing: '-0.04em',
+          fontSize: '{foundations.typography.size.14}',
+          fontWeight: '{foundations.typography.weight.400}',
+          lineHeight: '{foundations.typography.lineHeight.tight}',
+          letterSpacing: '{foundations.typography.letterSpacing.tighter}',
           textAlign: 'center',
-          caretColor: '#020303',
+          caretColor: '{foundations.colors.neutral.850}',
         },
         accordion: {
           base: {
             radius: '{foundations.radius.sm}',
-            borderWidth: '1px',
-            borderColor: '#E2E5E9',
-            background: '#FFFFFF',
+            borderWidth: '{foundations.border.width.1}',
+            borderColor: '{foundations.colors.neutral.150}',
+            background: '{foundations.colors.neutral.0}',
             transition: '{foundations.motion.duration.fast}',
             text: {
-              title: '#020303',
-              content: '#3A3F4B',
-              icon: '#6E7991',
+              title: '{foundations.colors.neutral.850}',
+              content: '{foundations.colors.neutral.750}',
+              icon: '{foundations.colors.neutral.650}',
             },
             states: {
               default: {
-                background: '#FFFFFF',
-                borderColor: 'transparent',
-                text: '#020303',
+                background: '{foundations.colors.neutral.0}',
+                borderColor: '{foundations.other.transparent}',
+                text: '{foundations.colors.neutral.850}',
               },
               hover: {
-                text: '#652BDF',
-                icon: '#652BDF',
+                text: '{foundations.colors.brand.500}',
+                icon: '{foundations.colors.brand.500}',
               },
               focus: {
-                borderColor: '#652BDF',
-                ring: '0px 0px 0px 4px #652BDF',
+                borderColor: '{foundations.colors.brand.500}',
+                ring: '{foundations.shadow.focus} {foundations.colors.brand.500}',
               },
             },
           },
           sizes: {
             small: {
               trigger: {
-                paddingY: '{foundations.spacing.sm}',
-                fontSize: '14px',
+                paddingY: '{foundations.spacing.3}',
+                fontSize: '{foundations.typography.size.14}',
               },
               content: {
-                fontSize: '14px',
-                paddingTop: '{foundations.spacing.xs}',
-                paddingBottom: '{foundations.spacing.sm}',
+                fontSize: '{foundations.typography.size.14}',
+                paddingTop: '{foundations.spacing.2}',
+                paddingBottom: '{foundations.spacing.3}',
               },
               icon: {
-                size: 14,
+                size: '{foundations.typography.size.14}',
               },
             },
             medium: {
               trigger: {
-                paddingY: '{foundations.spacing.md}',
-                fontSize: '16px',
+                paddingY: '{foundations.spacing.4}',
+                fontSize: '{foundations.typography.size.16}',
               },
               content: {
-                fontSize: '16px',
-                paddingTop: '{foundations.spacing.sm}',
-                paddingBottom: '{foundations.spacing.md}',
+                fontSize: '{foundations.typography.size.16}',
+                paddingTop: '{foundations.spacing.3}',
+                paddingBottom: '{foundations.spacing.4}',
               },
               icon: {
-                size: 16,
+                size: '{foundations.typography.size.16}',
               },
             },
           },
         },
         checkbox: {
           base: {
-            fontWeight: 400,
-            lineHeight: '1.3',
-            gap: '{foundations.spacing.sm}',
+            fontWeight: '{foundations.typography.weight.400}',
+            lineHeight: '{foundations.typography.lineHeight.normal}',
+            gap: '{foundations.spacing.3}',
             track: {
               radius: '{foundations.radius.sm}',
               background: '{semanticTokens.surface.muted}',
@@ -524,13 +696,13 @@ export const tokenVariants = [
               focusBorder: '{semanticTokens.border.focus}',
             },
             checked: {
-              background: '#652BDF',
-              backgroundHover: '#3C168E',
+              background: '{foundations.colors.brand.500}',
+              backgroundHover: '{foundations.colors.brand.700}',
             },
             disabled: {
-              background: '#E2E5E9',
-              border: '#E2E5E9',
-              text: '#A3AAB8',
+              background: '{foundations.colors.neutral.150}',
+              border: '{foundations.colors.neutral.150}',
+              text: '{foundations.colors.neutral.450}',
             },
             thumb: {
               color: '{semanticTokens.surface.default}',
@@ -541,54 +713,54 @@ export const tokenVariants = [
           },
           sizes: {
             regular: {
-              control: '20px',
-              labelFontSize: '16px',
-              descriptionFontSize: '14px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
-              icon: '16px',
+              control: '{foundations.spacing.5}',
+              labelFontSize: '{foundations.typography.size.16}',
+              descriptionFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
+              icon: '{foundations.typography.size.16}',
             },
             small: {
-              control: '16px',
-              labelFontSize: '14px',
-              descriptionFontSize: '12px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
-              icon: '14px',
+              control: '{foundations.spacing.4}',
+              labelFontSize: '{foundations.typography.size.14}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
+              icon: '{foundations.typography.size.14}',
             },
             extraSmall: {
-              control: '14px',
-              labelFontSize: '12px',
-              descriptionFontSize: '12px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
-              icon: '12px',
+              control: '{foundations.typography.size.14}',
+              labelFontSize: '{foundations.typography.size.12}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
+              icon: '{foundations.typography.size.12}',
             },
           },
         },
         badge: {
           base: {
-            fontWeight: '550',
-            lineHeight: '1.3',
+            fontWeight: '{foundations.typography.weight.550}',
+            lineHeight: '{foundations.typography.lineHeight.normal}',
           },
           sizes: {
             small: {
-              fontSize: '12px',
-              padding: '2px 8px',
+              fontSize: '{foundations.typography.size.12}',
+              padding: '{foundations.spacing.["0.5"]} {foundations.spacing.2}',
             },
             medium: {
-              fontSize: '14px',
-              padding: '4px 10px',
+              fontSize: '{foundations.typography.size.14}',
+              padding: '{foundations.spacing.1} {foundations.spacing.["2.5"]}',
             },
             large: {
-              fontSize: '16px',
-              padding: '6px 12px',
+              fontSize: '{foundations.typography.size.16}',
+              padding: '{foundations.spacing.["1.5"]} {foundations.spacing.3}',
             },
           },
           shapes: {
@@ -601,93 +773,93 @@ export const tokenVariants = [
           },
           tones: {
             success: {
-              background: '#F2FDF8',
-              color: '#128751',
+              background: '{foundations.colors.feedback.success.50}',
+              color: '{foundations.colors.feedback.success.700}',
             },
             warning: {
-              background: '#FEFAF0',
-              color: '#C26E04',
+              background: '{foundations.colors.feedback.warning.50}',
+              color: '{foundations.colors.feedback.warning.700}',
             },
             error: {
-              background: '#FEEEEB',
-              color: '#C2040C',
+              background: '{foundations.colors.feedback.error.50}',
+              color: '{foundations.colors.feedback.error.700}',
             },
             info: {
-              background: '#F0F5FE',
-              color: '#0465C2',
+              background: '{foundations.colors.feedback.info.50}',
+              color: '{foundations.colors.feedback.info.700}',
             },
             neutral: {
-              background: '#F9F9FA',
-              color: '#3A3F4B',
-              border: '#E2E5E9',
+              background: '{foundations.colors.neutral.950}',
+              color: '{foundations.colors.neutral.750}',
+              border: '{foundations.colors.neutral.150}',
             },
             brand: {
-              background: '#F6F2FD',
-              color: '#652BDF',
+              background: '{foundations.colors.brand.50}',
+              color: '{foundations.colors.brand.500}',
             },
           },
         },
         banner: {
           base: {
             radius: '{foundations.radius.lg}',
-            paddingX: '16px',
-            paddingY: '16px',
+            paddingX: '{foundations.spacing.4}',
+            paddingY: '{foundations.spacing.4}',
           },
           sizes: {
             full: {
-              maxWidth: '1184px',
+              maxWidth: '{foundations.maxWidth.full}',
             },
             compact: {
-              maxWidth: '360px',
+              maxWidth: '{foundations.maxWidth.compact}',
             },
           },
           tones: {
             success: {
-              background: '#F2FDF8',
-              border: '#128751',
+              background: '{foundations.colors.feedback.success.50}',
+              border: '{foundations.colors.feedback.success.700}',
               text: '{semanticTokens.text.primary}',
               iconBg: '{semanticTokens.feedback.success.iconBg}',
-              iconColor: '#128751',
+              iconColor: '{foundations.colors.feedback.success.700}',
               action: '{semanticTokens.feedback.success.action}',
             },
             warning: {
-              background: '#FEFAF0',
-              border: '#C26E04',
+              background: '{foundations.colors.feedback.warning.50}',
+              border: '{foundations.colors.feedback.warning.700}',
               text: '{semanticTokens.text.primary}',
               iconBg: '{semanticTokens.surface.muted}',
-              iconColor: '#C26E04',
+              iconColor: '{foundations.colors.feedback.warning.700}',
               action: '{semanticTokens.text.primary}',
             },
             error: {
-              background: '#FEEEEB',
-              border: '#C2040C',
+              background: '{foundations.colors.feedback.error.50}',
+              border: '{foundations.colors.feedback.error.700}',
               text: '{semanticTokens.text.primary}',
               iconBg: '{semanticTokens.surface.muted}',
-              iconColor: '#C2040C',
+              iconColor: '{foundations.colors.feedback.error.700}',
               action: '{semanticTokens.text.primary}',
             },
             info: {
-              background: '#F0F5FE',
-              border: '#0465C2',
+              background: '{foundations.colors.feedback.info.50}',
+              border: '{foundations.colors.feedback.info.700}',
               text: '{semanticTokens.text.primary}',
               iconBg: '{semanticTokens.surface.muted}',
-              iconColor: '#0465C2',
+              iconColor: '{foundations.colors.feedback.info.700}',
               action: '{semanticTokens.text.primary}',
             },
             neutral: {
-              background: '#F9F9FA',
-              border: '#E2E5E9',
+              background: '{foundations.colors.neutral.950}',
+              border: '{foundations.colors.neutral.150}',
               text: '{semanticTokens.text.primary}',
               iconBg: '{semanticTokens.surface.muted}',
-              iconColor: '#3A3F4B',
+              iconColor: '{foundations.colors.neutral.750}',
               action: '{semanticTokens.text.primary}',
             },
             brand: {
-              background: '#F6F2FD',
-              color: '#652BDF',
+              background: '{foundations.colors.brand.50}',
+              color: '{foundations.colors.brand.500}',
               text: '{semanticTokens.text.primary}',
               iconBg: '{semanticTokens.surface.muted}',
-              iconColor: '#652BDF',
+              iconColor: '{foundations.colors.brand.500}',
               action: '{semanticTokens.text.primary}',
             },
           },
@@ -698,116 +870,107 @@ export const tokenVariants = [
             color: '{semanticTokens.text.inverse}',
             linkColor: '{semanticTokens.text.inverse}',
             linkUnderline: true,
-            borderRadius: '16px',
-            padding: '12px 16px',
-            imageBg: 'lightgray',
+            borderRadius: '{foundations.radius.xl}',
+            padding: '{foundations.spacing.3} {foundations.spacing.4}',
+            imageBg: '{foundations.colors.neutral.200}',
           },
           secondary: {
-            background: '{foundations.colors.brand.secondary}',
+            background: '{foundations.colors.brand.100}',
             color: '{semanticTokens.text.primary}',
-            linkColor: '{foundations.colors.brand.primary}',
+            linkColor: '{foundations.colors.brand.500}',
             linkUnderline: false,
-            borderRadius: '16px',
-            padding: '12px 16px',
-            imageBg: '#E5E7EB',
+            borderRadius: '{foundations.radius.xl}',
+            padding: '{foundations.spacing.3} {foundations.spacing.4}',
+            imageBg: '{foundations.colors.neutral.200}',
           },
           tertiary: {
-            background: '{foundations.colors.feedback.warning}',
+            background: '{foundations.colors.feedback.warning.50}',
             color: '{semanticTokens.text.primary}',
-            linkColor: '{foundations.colors.feedback.warning}',
+            linkColor: '{foundations.colors.feedback.warning.500}',
             linkUnderline: true,
-            borderRadius: '16px',
-            padding: '12px 16px',
-            imageBg: '#FEF3C7',
+            borderRadius: '{foundations.radius.xl}',
+            padding: '{foundations.spacing.3} {foundations.spacing.4}',
+            imageBg: '{foundations.colors.feedback.warning.100}',
           },
         },
         alert: {
           base: {
             radius: '{foundations.radius.lg}',
-            paddingX: '16px',
-            paddingY: '12px',
-            gap: '12px',
-            labelColor: '#020303',
-            labelFontSize: '14px',
-            labelFontWeight: '600',
-            descriptionColor: '#3A3F4B',
-            descriptionFontSize: '12px',
-            descriptionFontWeight: '400',
-            linkFontSize: '12px',
-            linkFontWeight: '600',
-            iconContainerSize: '32px',
-            iconContainerRadius: '8px',
+            paddingX: '{foundations.spacing.4}',
+            paddingY: '{foundations.spacing.3}',
           },
-          sizes: {
-            inline: { width: '343px' },
-            'full-width': { width: '1184px' },
-            stacked: { width: '343px', flexDirection: 'column' },
-          },
+
           tones: {
             success: {
-              background: '#F2FDF8',
-              border: '#1AC776',
-              iconColor: '#1AC776',
-              linkColor: '#1AC776', // Mismo color que el tono
-              iconContainerBackground: '#D2F9E7',
+              background: '{foundations.colors.feedback.success.50}',
+              border: '{foundations.colors.feedback.success.700}',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.feedback.success.iconBg}',
+              iconColor: '{foundations.colors.feedback.success.700}',
+              action: '{semanticTokens.feedback.success.action}',
             },
             warning: {
-              background: '#FEFAF0',
-              border: '#FBAA31',
-              iconColor: '#FBAA31',
-              linkColor: '#FBAA31',
-              iconContainerBackground: '#FEECCD',
+              background: '{foundations.colors.feedback.warning.50}',
+              border: '{foundations.colors.feedback.warning.700}',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '{foundations.colors.feedback.warning.700}',
+              action: '{semanticTokens.text.primary}',
             },
             error: {
-              background: '#FEEEEB',
-              border: '#FB3131',
-              iconColor: '#FB3131',
-              linkColor: '#FB3131',
-              iconContainerBackground: '#FECFCD',
+              background: '{foundations.colors.feedback.error.50}',
+              border: '{foundations.colors.feedback.error.700}',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '{foundations.colors.feedback.error.700}',
+              action: '{semanticTokens.text.primary}',
             },
             info: {
-              background: '#F0F5FE',
-              border: '#057AF4',
-              iconColor: '#057AF4',
-              linkColor: '#057AF4',
-              iconContainerBackground: '#CDE2FE',
+              background: '{foundations.colors.feedback.info.50}',
+              border: '{foundations.colors.feedback.info.700}',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '{foundations.colors.feedback.info.700}',
+              action: '{semanticTokens.text.primary}',
             },
             neutral: {
-              background: '#F9F9FA',
-              border: '#E2E5E9',
-              iconColor: '#3A3F4B',
-              linkColor: '#3A3F4B',
-              iconContainerBackground: '#D2F9E7',
+              background: '{foundations.colors.neutral.950}',
+              border: '{foundations.colors.neutral.150}',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '{foundations.colors.neutral.750}',
+              action: '{semanticTokens.text.primary}',
             },
             destructive: {
-              background: '#FEF2F2',
-              border: '#DC2626',
-              iconColor: '#DC2626',
-              linkColor: '#DC2626',
-              iconContainerBackground: '#D2F9E7',
+              background: '{foundations.colors.feedback.error.100}',
+              border: '{foundations.colors.feedback.error.500}',
+              text: '{semanticTokens.text.primary}',
+              iconBg: '{semanticTokens.surface.muted}',
+              iconColor: '{foundations.colors.feedback.error.500}',
+              action: '{semanticTokens.text.primary}',
             },
           },
         },
         avatar: {
           sizes: {
             sm: {
-              size: '32px',
-              fontSize: '12px',
+              size: '{foundations.spacing.8}',
+              fontSize: '{foundations.typography.size.12}',
             },
             md: {
-              size: '36px',
-              fontSize: '14px',
+              size: '{foundations.spacing.9}',
+              fontSize: '{foundations.typography.size.14}',
             },
             lg: {
-              size: '44px',
-              fontSize: '14px',
+              size: '{foundations.spacing.11}',
+              fontSize: '{foundations.typography.size.14}',
             },
           },
           base: {
             fallback: {
-              background: '#F9F9FA',
-              color: '#020303',
-              fontWeight: 550,
+              background: '{foundations.colors.neutral.950}',
+              color: '{foundations.colors.neutral.850}',
+              fontWeight: '{foundations.typography.weight.550}',
             },
           },
           shapes: {
@@ -816,24 +979,24 @@ export const tokenVariants = [
         },
         radio: {
           base: {
-            fontWeight: 400,
-            lineHeight: '1.3',
-            gap: '{foundations.spacing.sm}',
+            fontWeight: '{foundations.typography.weight.400}',
+            lineHeight: '{foundations.typography.lineHeight.normal}',
+            gap: '{foundations.spacing.3}',
             outer: {
-              radius: '9999px',
-              background: '#FFFFFF',
-              border: '#E2E5E9',
-              hoverBorder: '#C3C7D1',
+              radius: '{foundations.radius.full}',
+              background: '{foundations.colors.neutral.0}',
+              border: '{foundations.colors.neutral.150}',
+              hoverBorder: '{foundations.colors.neutral.350}',
               focusBorder: '{semanticTokens.border.focus}',
             },
             checked: {
-              background: '#652BDF',
-              backgroundHover: '#3C168E',
+              background: '{foundations.colors.brand.500}',
+              backgroundHover: '{foundations.colors.brand.700}',
             },
             disabled: {
-              background: '#E2E5E9',
-              border: '#C3C7D1',
-              dot: '#A3AAB8',
+              background: '{foundations.colors.neutral.150}',
+              border: '{foundations.colors.neutral.350}',
+              dot: '{foundations.colors.neutral.450}',
             },
             motion: {
               duration: '{foundations.motion.duration.fast}',
@@ -842,66 +1005,64 @@ export const tokenVariants = [
           sizes: {
             regular: {
               outer: {
-                size: '20px',
+                size: '{foundations.spacing.5}',
               },
               dot: {
-                size: '12px',
+                size: '{foundations.spacing.3}',
               },
-              labelFontSize: '16px',
-              descriptionFontSize: '14px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              labelFontSize: '{foundations.typography.size.16}',
+              descriptionFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
-
             small: {
               outer: {
-                size: '16px',
+                size: '{foundations.spacing.4}',
               },
               dot: {
-                size: '8px',
+                size: '{foundations.spacing.2}',
               },
-              labelFontSize: '14px',
-              descriptionFontSize: '12px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              labelFontSize: '{foundations.typography.size.14}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
-
             extraSmall: {
               outer: {
-                size: '16px',
+                size: '{foundations.spacing.4}',
               },
               dot: {
-                size: '8px',
+                size: '{foundations.spacing.2}',
               },
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelFontSize: '14px',
-              descriptionFontSize: '12px',
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelFontSize: '{foundations.typography.size.14}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
           },
         },
         switch: {
           base: {
-            fontWeight: 400,
-            lineHeight: '1.3',
-            gap: '{foundations.spacing.sm}',
-            background: '#C3C7D1',
+            fontWeight: '{foundations.typography.weight.400}',
+            lineHeight: '{foundations.typography.lineHeight.normal}',
+            gap: '{foundations.spacing.3}',
+            background: '{foundations.colors.neutral.350}',
             track: {
-              offBackground: '#E2E5E9',
-              offBackgroundHover: '#A3AAB8',
-              onBackground: '#652BDF',
-              onBackgroundHover: '#3C168E',
+              offBackground: '{foundations.colors.neutral.150}',
+              offBackgroundHover: '{foundations.colors.neutral.450}',
+              onBackground: '{foundations.colors.brand.500}',
+              onBackgroundHover: '{foundations.colors.brand.700}',
             },
             disabled: {
-              track: '#A3AAB8',
-              handle: '#E2E5E9',
-              background: '#E2E5E9',
+              track: '{foundations.colors.neutral.450}',
+              handle: '{foundations.colors.neutral.150}',
+              background: '{foundations.colors.neutral.150}',
             },
             motion: {
               duration: '{foundations.motion.duration.fast}',
@@ -910,187 +1071,188 @@ export const tokenVariants = [
           sizes: {
             regular: {
               track: {
-                width: '34px',
-                height: '20px',
+                width: '{foundations.spacing.["8.5"]}',
+                height: '{foundations.spacing.5}',
               },
               handle: {
-                size: '16px',
-                translate: '7px',
+                size: '{foundations.spacing.4}',
+                translate: '{foundations.spacing.["1.75"]}',
               },
-              labelFontSize: '16px',
-              descriptionFontSize: '14px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              labelFontSize: '{foundations.typography.size.16}',
+              descriptionFontSize: '{foundations.typography.size.14}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
             small: {
               track: {
-                width: '26px',
-                height: '16px',
+                width: '{foundations.spacing.["6.5"]}',
+                height: '{foundations.spacing.4}',
               },
               handle: {
-                size: '12px',
-                translate: '5px',
+                size: '{foundations.spacing.3}',
+                translate: '{foundations.spacing.["1.25"]}',
               },
-              labelFontSize: '12px',
-              descriptionFontSize: '12px',
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              labelFontSize: '{foundations.typography.size.12}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
             extraSmall: {
               track: {
-                width: '26px',
-                height: '16px',
+                width: '{foundations.spacing.["6.5"]}',
+                height: '{foundations.spacing.4}',
               },
               handle: {
-                size: '12px',
-                translate: '5px',
+                size: '{foundations.spacing.3}',
+                translate: '{foundations.spacing.["1.25"]}',
               },
-              labelFontWeight: 400,
-              descriptionFontWeight: 400,
-              labelFontSize: '12px',
-              descriptionFontSize: '12px',
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              labelFontWeight: '{foundations.typography.weight.400}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelFontSize: '{foundations.typography.size.12}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
           },
         },
         dropdown: {
-          background: '#FFFFFF',
-          color: '#020303',
-          border: '1px solid #E2E5E9',
-          radius: '8px',
-          shadow: '0px_2px_4px_-1px_#0000000F,0px_4px_6px_-1px_#0000001A',
-          paddingX: '8px',
-          paddingY: '4px',
-          minWidth: '12rem',
-          fontSize: '14px',
-          fontWeight: 400,
-          lineHeight: '1.3',
+          background: '{foundations.colors.neutral.0}',
+          color: '{foundations.colors.neutral.850}',
+          border:
+            '{foundations.border.width.1} solid {foundations.colors.neutral.150}',
+          radius: '{foundations.radius.md}',
+          shadow: '{foundations.shadow.dropdown}',
+          paddingX: '{foundations.spacing.2}',
+          paddingY: '{foundations.spacing.1}',
+          minWidth: '{foundations.maxWidth.dropdown}',
+          fontSize: '{foundations.typography.size.14}',
+          fontWeight: '{foundations.typography.weight.400}',
+          lineHeight: '{foundations.typography.lineHeight.normal}',
           animation: {
-            duration: '120ms',
-            easing: 'ease-out',
+            duration: '{foundations.motion.duration.fast}',
+            easing: '{foundations.motion.easing.out}',
           },
           item: {
-            height: '36px',
-            gap: '4px',
-            color: '#020303',
-            background: '#FFFFFF',
-            hoverBackground: '#F9F9FA',
-            activeBackground: '#E2E5E9',
-            disabledOpacity: '0.4',
-            borderRadius: '8px',
-            iconSize: '13px',
-            iconColor: '#652BDF',
-            fontSize: '14px',
-            fontWeight: '400',
+            height: '{foundations.spacing.9}',
+            gap: '{foundations.spacing.1}',
+            color: '{foundations.colors.neutral.850}',
+            background: '{foundations.colors.neutral.0}',
+            hoverBackground: '{foundations.colors.neutral.950}',
+            activeBackground: '{foundations.colors.neutral.150}',
+            disabledOpacity: '{foundations.opacity.disabled}',
+            borderRadius: '{foundations.radius.md}',
+            iconSize: '{foundations.typography.size.13}',
+            iconColor: '{foundations.colors.brand.500}',
+            fontSize: '{foundations.typography.size.14}',
+            fontWeight: '{foundations.typography.weight.400}',
           },
           section: {
-            labelColor: '#6E7991',
-            separatorColor: '#E2E5E9',
+            labelColor: '{foundations.colors.neutral.650}',
+            separatorColor: '{foundations.colors.neutral.150}',
           },
         },
         separator: {
           base: {
             orientation: {
               vertical: {
-                width: '1px',
-                height: '18px',
+                width: '{foundations.border.width.1}',
+                height: '{foundations.spacing.["4.5"]}',
               },
               horizontal: {
-                width: 'auto',
-                height: '1px',
+                width: '{foundations.other.auto}',
+                height: '{foundations.border.width.1}',
               },
             },
-            color: '#E2E5E9',
-            opacity: '0.8',
+            color: '{foundations.colors.neutral.150}',
+            opacity: '{foundations.opacity.muted}',
           },
         },
         alertDialog: {
           base: {
             overlay: {
-              background: 'rgba(0,0,0,0.5)',
+              background: 'rgba(0,0,0,{foundations.opacity.overlay})',
             },
             content: {
-              background: '#FFFFFF',
-              radius: '18px',
-              borderColor: '#E2E5E9',
+              background: '{foundations.colors.neutral.0}',
+              radius: '{foundations.radius.2xl}',
+              borderColor: '{foundations.colors.neutral.150}',
             },
             title: {
-              color: '#020303',
-              fontSize: '18px',
+              color: '{foundations.colors.neutral.850}',
+              fontSize: '{foundations.typography.size.18}',
             },
             description: {
-              color: '#6E7991',
-              fontSize: '16px',
+              color: '{foundations.colors.neutral.650}',
+              fontSize: '{foundations.typography.size.16}',
             },
           },
         },
         card: {
           backgroundColor: '{semanticTokens.surface.default}',
           borderColor: '{semanticTokens.border.default}',
-          color: '#111827',
+          color: '{foundations.colors.neutral.900}',
           borderRadius: '{foundations.radius.lg}',
-          padding: '16px',
+          padding: '{foundations.spacing.4}',
           title: {
-            fontSize: '18px',
-            fontWeight: 550,
-            lineHeight: '130%',
-            letterSpacing: '-0.04em',
+            fontSize: '{foundations.typography.size.18}',
+            fontWeight: '{foundations.typography.weight.550}',
+            lineHeight: '{foundations.typography.lineHeight.tight}',
+            letterSpacing: '{foundations.typography.letterSpacing.tighter}',
           },
           variants: {
             primary: {
-              backgroundColor: '{foundations.colors.neutral}',
-              borderColor: '#E5E7EB',
+              backgroundColor: '{foundations.colors.neutral.0}',
+              borderColor: '{foundations.colors.neutral.200}',
             },
             secondary: {
-              backgroundColor: '#F9FAFB',
-              borderColor: 'transparent',
+              backgroundColor: '{foundations.colors.neutral.50}',
+              borderColor: '{foundations.other.transparent}',
             },
             tertiary: {
-              backgroundColor: '{foundations.colors.neutral}',
-              borderColor: '#652BDF',
+              backgroundColor: '{foundations.colors.neutral.0}',
+              borderColor: '{foundations.colors.brand.500}',
             },
           },
         },
         integrationCard: {
-          backgroundColor: '#F9F9FA',
-          borderColor: '#E5E7EB',
-          borderRadius: '16px',
+          backgroundColor: '{foundations.colors.neutral.950}',
+          borderColor: '{foundations.colors.neutral.200}',
+          borderRadius: '{foundations.radius.xl}',
           title: {
-            color: '#111827',
-            fontSize: '16px',
-            fontWeight: 550,
+            color: '{foundations.colors.neutral.900}',
+            fontSize: '{foundations.typography.size.16}',
+            fontWeight: '{foundations.typography.weight.550}',
           },
           description: {
-            color: '#6B7280',
-            fontSize: '14px',
+            color: '{foundations.colors.neutral.500}',
+            fontSize: '{foundations.typography.size.14}',
           },
           link: {
-            color: '#652BDF',
-            fontSize: '14px',
-            fontWeight: 550,
+            color: '{foundations.colors.brand.500}',
+            fontSize: '{foundations.typography.size.14}',
+            fontWeight: '{foundations.typography.weight.550}',
           },
           variants: {
             default: {
-              borderColor: '#E5E7EB',
+              borderColor: '{foundations.colors.neutral.200}',
             },
             subtle: {
-              borderColor: '#EEF2F7',
+              borderColor: '{foundations.colors.neutral.225}',
             },
             none: {
-              borderColor: 'transparent',
+              borderColor: '{foundations.other.transparent}',
             },
           },
         },
         dragslider: {
-          gap: '16px',
-          cursorGrab: 'grab',
-          cursorGrabbing: 'grabbing',
-          scrollBehavior: 'smooth',
+          gap: '{foundations.spacing.4}',
+          cursorGrab: '{foundations.other.cursor.grab}',
+          cursorGrabbing: '{foundations.other.cursor.grabbing}',
+          scrollBehavior: '{foundations.other.scrollBehavior}',
         },
         calendar: {
           base: {
@@ -1100,72 +1262,70 @@ export const tokenVariants = [
             muted: '{semanticTokens.text.muted}',
             border: '{semanticTokens.border.default}',
             item: {
-              size: '32px',
+              size: '{foundations.spacing.8}',
               radius: '{foundations.radius.sm}',
               default: {
                 color: '{semanticTokens.text.primary}',
-                background: 'transparent',
+                background: '{foundations.other.transparent}',
               },
               hover: {
-                background: '#E2E5E9',
+                background: '{foundations.colors.neutral.150}',
                 color: '{semanticTokens.text.primary}',
               },
               current: {
-                background: '#E2E5E9',
+                background: '{foundations.colors.neutral.150}',
                 color: '{semanticTokens.text.primary}',
               },
               active: {
-                background: '#652BDF',
+                background: '{foundations.colors.brand.500}',
                 color: '{semanticTokens.text.inverse}',
               },
             },
           },
         },
         popover: {
-          background: '#FFFFFF',
-          color: '#020303',
-          border: '#E2E5E9',
-          radius: '12px',
-          shadow: '0px_2px_4px_-1px_#0000000F,0px_4px_6px_-1px_#0000001A',
-          padding: '12px',
-          fontSize: '16px',
-          fontWeight: 400,
-          lineHeight: '1.3',
+          background: '{foundations.colors.neutral.0}',
+          color: '{foundations.colors.neutral.850}',
+          border: '{foundations.colors.neutral.150}',
+          radius: '{foundations.radius.lg}',
+          shadow: '{foundations.shadow.dropdown}',
+          padding: '{foundations.spacing.3}',
+          fontSize: '{foundations.typography.size.16}',
+          fontWeight: '{foundations.typography.weight.400}',
+          lineHeight: '{foundations.typography.lineHeight.normal}',
           header: {
-            fontSize: '16px',
-            fontWeight: '400',
-            color: '#020303',
+            fontSize: '{foundations.typography.size.16}',
+            fontWeight: '{foundations.typography.weight.400}',
+            color: '{foundations.colors.neutral.850}',
           },
           description: {
-            fontSize: '14px',
-            fontWeight: 400,
-            color: '#6E7991',
+            fontSize: '{foundations.typography.size.14}',
+            fontWeight: '{foundations.typography.weight.400}',
+            color: '{foundations.colors.neutral.650}',
           },
           divider: {
-            color: '#E2E5E9',
+            color: '{foundations.colors.neutral.150}',
           },
-
           motion: {
-            duration: '200ms',
-            easing: 'ease-out',
+            duration: '{foundations.motion.duration.normal}',
+            easing: '{foundations.motion.easing.out}',
           },
-
-          zIndex: '1000',
+          zIndex: '{foundations.zIndex.dropdown}',
         },
         pagination: {
           base: {
             // Contenedor y General
             radius: '{foundations.radius.md}',
-            gap: '{foundations.spacing.sm}', // Espacio entre botones
+            gap: '{foundations.spacing.2}', // Espacio entre botones
             // Botón de número de página (PageNumber - Required)
             pageNumber: {
-              fontSize: '{foundations.typography.sizes.sm}',
-              fontWeight: '{foundations.typography.weights.medium}',
+              fontSize: '{foundations.typography.size.14}',
+              fontWeight: '{foundations.typography.weight.500}',
               color: '{semanticTokens.text.primary}',
             },
             // Iconos (Previous/Next/Ellipsis Icons - Required)
             icon: {
-              size: '16px',
+              size: '{foundations.typography.size.16}',
               color: '{foundations.colors.neutral.500}',
             },
             // Estados de los items (Links)
@@ -1176,14 +1336,14 @@ export const tokenVariants = [
                 color: '{semanticTokens.text.primary}',
               },
               hover: {
-                background: '#E6DCFA',
+                background: '{foundations.colors.brand.100}',
                 border: '{semanticTokens.border.default}',
               },
               active: {
                 // Current Page - Required
-                background: '#F4F0FF',
+                background: '{foundations.colors.brand.200}',
                 text: '{semanticTokens.action.primary}',
-                border: 'transparent',
+                border: '{foundations.other.transparent}',
               },
               focus: {
                 // Active Focus - Required
@@ -1191,9 +1351,9 @@ export const tokenVariants = [
               },
               disabled: {
                 // Disabled state - Required
-                background: '#FFFFFF',
+                background: '{foundations.colors.neutral.0}',
                 text: '{foundations.colors.neutral.400}',
-                opacity: '0.5',
+                opacity: '{foundations.opacity.overlay}',
               },
             },
           },
@@ -1201,124 +1361,144 @@ export const tokenVariants = [
         tabs: {
           base: {
             tabsList: {
-              background: '#E2E5E9',
-              color: '#3A3F4B',
-              radius: '6px',
+              background: '{foundations.colors.neutral.150}',
+              color: '{foundations.colors.neutral.750}',
+              radius: '{foundations.radius.sm}',
             },
             tabsTrigger: {
-              color: '#3A3F4B',
+              color: '{foundations.colors.neutral.750}',
               hover: {
-                background: '#F9F9FA',
-                color: '#020303',
+                background: '{foundations.colors.neutral.950}',
+                color: '{foundations.colors.neutral.850}',
               },
               active: {
-                background: '#FFFFFF',
-                color: '#020303',
+                background: '{foundations.colors.neutral.0}',
+                color: '{foundations.colors.neutral.850}',
               },
               disabled: {
-                background: '#FFFFFF',
-                color: '#9DA5B5',
-                opacity: 0.5,
+                background: '{foundations.colors.neutral.0}',
+                color: '{foundations.colors.neutral.550}',
+                opacity: '{foundations.opacity.overlay}',
               },
             },
             tabsFocusRing: {
-              innerColor: '#FFFFFF',
-              outerColor: '#652BDF',
-              innerSize: '2px',
-              outerSize: '4px',
+              innerColor: '{foundations.colors.neutral.0}',
+              outerColor: '{foundations.colors.brand.500}',
+              innerSize: '{foundations.border.width.2}',
+              outerSize: '{foundations.border.width.4}',
             },
           },
           sizes: {
             medium: {
-              fontSize: '14px',
-              fontWeight: 500,
+              fontSize: '{foundations.typography.size.14}',
+              fontWeight: '{foundations.typography.weight.500}',
             },
             small: {
-              fontSize: '12px',
-              fontWeight: 500,
+              fontSize: '{foundations.typography.size.12}',
+              fontWeight: '{foundations.typography.weight.500}',
             },
           },
         },
         table: {
-          background: '{semanticTokens.surface.default}',
-          color: '{semanticTokens.text.primary}',
-          border: '{semanticTokens.border.default}',
-          radius: '{foundations.radius.md}',
-          hoverBackground: '{semanticTokens.surface.hover}',
-          selectedBackground: '#F4F0FF',
-          shadow: '{foundations.shadow.md}',
+          base: {
+            // Estilos del contenedor
+            background: '{semanticTokens.surface.default}',
+            border: '{semanticTokens.border.default}',
+            radius: '{foundations.radius.md}',
+            shadow: '{foundations.shadow.md}',
+            // Header (Cabeceras)
+            headerBackground: '{foundations.colors.neutral.950}',
+            headerTextColor: '{foundations.colors.neutral.650}',
+            headerFontSize: '{foundations.typography.size.12}',
+            headerFontWeight: '{foundations.typography.weight.600}',
+            // Filas y Celdas
+            rowHoverBackground: '{semanticTokens.surface.hover}',
+            rowSelectedBackground: '{foundations.colors.brand.200}',
+            cellTextColor: '{semanticTokens.text.primary}',
+            cellFontSize: '{foundations.typography.size.14}',
+            // Subtítulo de celda (Cell Description)
+            descriptionColor: '{foundations.colors.neutral.650}',
+            descriptionFontSize: '{foundations.typography.size.12}',
+            descriptionFontWeight: '{foundations.typography.weight.400}',
+          },
         },
         breadcrumb: {
           base: {
-            gap: '12px',
+            gap: '{foundations.spacing.3}',
             link: {
               default: {
-                color: '#652BDF',
-                fontWeight: 600,
+                color: '{foundations.colors.brand.500}',
+                fontWeight: '{foundations.typography.weight.600}',
               },
               hover: {
-                color: '#3C168E',
+                color: '{foundations.colors.brand.700}',
               },
             },
             page: {
-              color: '#6E7991',
-              fontWeight: 550,
+              color: '{foundations.colors.neutral.650}',
+              fontWeight: '{foundations.typography.weight.550}',
             },
             separator: {
-              color: '#9CA3AF',
-              size: '14px',
+              color: '{foundations.colors.neutral.400}',
+              size: '{foundations.typography.size.14}',
             },
           },
           sizes: {
-            medium: { fontSize: '14px', gap: '12px' },
-            small: { fontSize: '12px', gap: '8px' },
+            medium: {
+              fontSize: '{foundations.typography.size.14}',
+              gap: '{foundations.spacing.3}',
+            },
+            small: {
+              fontSize: '{foundations.typography.size.12}',
+              gap: '{foundations.spacing.2}',
+            },
           },
         },
         loader: {
           sizes: {
             small: {
-              size: 16,
-              labelFontWeight: 550,
-              descriptionFontWeight: 400,
-              labelFontSize: '16px',
-              descriptionFontSize: '12px',
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              size: '{foundations.typography.size.16}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelFontSize: '{foundations.typography.size.16}',
+              descriptionFontSize: '{foundations.typography.size.12}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
             medium: {
-              size: 20,
-              labelFontWeight: 550,
-              descriptionFontWeight: 400,
-              labelFontSize: '18px',
-              descriptionFontSize: '14px',
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              size: '{foundations.typography.size.20}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelFontSize: '{foundations.typography.size.18}',
+              descriptionFontSize: '{foundations.typography.size.14}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
             large: {
-              size: 24,
-              labelFontWeight: 550,
-              descriptionFontWeight: 400,
-              labelFontSize: '18px',
-              descriptionFontSize: '14px',
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              size: '{foundations.typography.size.24}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelFontSize: '{foundations.typography.size.18}',
+              descriptionFontSize: '{foundations.typography.size.14}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
             extraLarge: {
-              size: 32,
-              labelFontWeight: 550,
-              descriptionFontWeight: 400,
-              labelFontSize: '18px',
-              descriptionFontSize: '14px',
-              labelColor: '#020303',
-              descriptionColor: '#6E7991',
+              size: '{foundations.typography.size.32}',
+              labelFontWeight: '{foundations.typography.weight.550}',
+              descriptionFontWeight: '{foundations.typography.weight.400}',
+              labelFontSize: '{foundations.typography.size.18}',
+              descriptionFontSize: '{foundations.typography.size.14}',
+              labelColor: '{foundations.colors.neutral.850}',
+              descriptionColor: '{foundations.colors.neutral.650}',
             },
           },
           variants: {
             default: {
-              color: '#652BDF',
+              color: '{foundations.colors.brand.500}',
             },
             primary: {
-              color: '#652BDF',
+              color: '{foundations.colors.brand.500}',
             },
           },
         },
@@ -1326,19 +1506,17 @@ export const tokenVariants = [
           base: {
             // Título y Porcentaje (Arriba)
             labelColor: '{semanticTokens.text.primary}',
-            labelFontSize: '14px',
-            labelFontWeight: '550', // Semi Bold según Figma
-
+            labelFontSize: '{foundations.typography.size.14}',
+            labelFontWeight: '{foundations.typography.weight.550}', // Semi Bold según Figma
             // Descripción / Tiempo (Abajo)
             descriptionColor: '{semanticTokens.text.muted}',
-            descriptionFontSize: '12px',
-            descriptionFontWeight: '400',
-
+            descriptionFontSize: '{foundations.typography.size.12}',
+            descriptionFontWeight: '{foundations.typography.weight.400}',
             // Espaciado entre la barra y los textos
-            gap: '6px',
+            gap: '{foundations.spacing.["1.5"]}',
           },
           track: {
-            height: '6px', // Grosor de la barra según Figma
+            height: '{foundations.spacing.["1.5"]}', // Grosor de la barra según Figma
             radius: '{foundations.radius.full}',
             background: '{semanticTokens.surface.muted}', // Color del Track (fondo)
           },
@@ -1355,37 +1533,37 @@ export const tokenVariants = [
             container: {
               background: '{semanticTokens.surface.default}',
               border: '{semanticTokens.border.default}',
-              width: '240px',
-              collapsedWidth: '64px',
-              padding: '8px',
+              width: '{foundations.maxWidth.sidebar}',
+              collapsedWidth: '{foundations.spacing.16}',
+              padding: '{foundations.spacing.2}',
             },
             header: {
-              minHeight: '56px',
+              minHeight: '{foundations.spacing.14}',
               titleColor: '{semanticTokens.text.muted}',
-              titleFontSize: '14px',
-              titleFontWeight: '500',
+              titleFontSize: '{foundations.typography.size.14}',
+              titleFontWeight: '{foundations.typography.weight.500}',
             },
             item: {
               radius: '{foundations.radius.md}',
-              height: '36px',
-              paddingX: '8px',
-              gap: '12px',
-              fontSize: '14px',
-              fontWeight: '500',
+              height: '{foundations.spacing.9}',
+              paddingX: '{foundations.spacing.2}',
+              gap: '{foundations.spacing.3}',
+              fontSize: '{foundations.typography.size.14}',
+              fontWeight: '{foundations.typography.weight.500}',
               color: '{semanticTokens.text.muted}',
               hover: {
                 background: '{semanticTokens.surface.hover}',
                 color: '{semanticTokens.text.primary}',
               },
               active: {
-                background: '#F4F0FF',
+                background: '{foundations.colors.brand.200}',
                 color: '{semanticTokens.action.primary}',
               },
             },
             section: {
               titleColor: '{foundations.colors.neutral.400}',
-              titleFontSize: '10px',
-              gap: '16px',
+              titleFontSize: '{foundations.typography.size.10}',
+              gap: '{foundations.spacing.4}',
             },
             toggle: {
               color: '{foundations.colors.neutral.400}',
@@ -1398,31 +1576,31 @@ export const tokenVariants = [
         },
         navbar: {
           container: {
-            height: '64px',
-            background: '#FFFFFF',
-            border: '#E2E5E9',
+            height: '{foundations.spacing.16}',
+            background: '{foundations.colors.neutral.0}',
+            border: '{foundations.colors.neutral.150}',
             radius: '{foundations.radius.md}',
-            iconColor: '#9DA5B5',
+            iconColor: '{foundations.colors.neutral.550}',
           },
           content: {
-            maxWidth: '1440px',
-            paddingX: '{foundations.spacing.lg}',
+            maxWidth: '{foundations.maxWidth.container}',
+            paddingX: '{foundations.spacing.6}',
           },
           merchant: {
-            color: '#020303',
-            fontSize: '14px',
-            fontWeight: 550,
+            color: '{foundations.colors.neutral.850}',
+            fontSize: '{foundations.typography.size.14}',
+            fontWeight: '{foundations.typography.weight.550}',
           },
           action: {
-            gap: '{foundations.spacing.sm}',
+            gap: '{foundations.spacing.3}',
           },
           user: {
-            nameColor: '#020303',
-            roleColor: '#6E7991',
-            roleFontSize: '12px',
-            nameFontSize: '12px',
-            nameFontWeight: 550,
-            roleFontWeight: 400,
+            nameColor: '{foundations.colors.neutral.850}',
+            roleColor: '{foundations.colors.neutral.650}',
+            roleFontSize: '{foundations.typography.size.12}',
+            nameFontSize: '{foundations.typography.size.12}',
+            nameFontWeight: '{foundations.typography.weight.550}',
+            roleFontWeight: '{foundations.typography.weight.400}',
           },
           motion: {
             duration: '{foundations.motion.duration.fast}',
@@ -1431,40 +1609,39 @@ export const tokenVariants = [
         drawer: {
           base: {
             overlay: {
-              background: 'rgba(0,0,0,0.5)',
-              opacity: 0.4,
-              backdropBlur: '4px',
+              background: 'rgba(0,0,0,{foundations.opacity.overlay})',
+              opacity: '{foundations.opacity.disabled}',
+              backdropBlur: '{foundations.other.backdropBlur}',
             },
             content: {
-              background: '#FFFFFF',
-              radius: '2px',
-              borderColor: '#E2E5E9',
+              background: '{foundations.colors.neutral.0}',
+              radius: '{foundations.radius.xs}',
+              borderColor: '{foundations.colors.neutral.150}',
               color: '{semanticTokens.text.primary}',
-              borderWidth: '1px',
-              shadow:
-                '0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 6px 12px -4px rgba(0, 0, 0, 0.1)',
-              padding: '24px',
-              maxHeight: '80vh',
+              borderWidth: '{foundations.border.width.1}',
+              shadow: '{foundations.shadow.drawer}',
+              padding: '{foundations.spacing.6}',
+              maxHeight: '{foundations.other.maxHeight}',
             },
             header: {
-              gap: '8px',
+              gap: '{foundations.spacing.2}',
             },
             footer: {
-              paddingTop: '16px',
-              gap: '8px',
+              paddingTop: '{foundations.spacing.4}',
+              gap: '{foundations.spacing.2}',
               align: 'end',
             },
             title: {
-              color: '#020303',
-              fontSize: '24px',
+              color: '{foundations.colors.neutral.850}',
+              fontSize: '{foundations.typography.size.24}',
             },
             description: {
-              color: '#6E7991',
-              fontSize: '16px',
+              color: '{foundations.colors.neutral.650}',
+              fontSize: '{foundations.typography.size.16}',
             },
             close: {
-              size: '12px',
-              color: '#020303',
+              size: '{foundations.typography.size.12}',
+              color: '{foundations.colors.neutral.850}',
             },
           },
         },
@@ -1473,11 +1650,11 @@ export const tokenVariants = [
             color: '{semanticTokens.action.primary}',
           },
           sizes: {
-            xs: 12,
-            sm: 16,
-            md: 20,
-            lg: 24,
-            xl: 32,
+            xs: '{foundations.typography.size.12}',
+            sm: '{foundations.typography.size.16}',
+            md: '{foundations.typography.size.20}',
+            lg: '{foundations.typography.size.24}',
+            xl: '{foundations.typography.size.32}',
           },
           variants: {
             default: {
@@ -1487,31 +1664,25 @@ export const tokenVariants = [
               color: '{semanticTokens.text.muted}',
             },
             danger: {
-              color: '{foundations.colors.semantic.danger}',
+              color: '{foundations.colors.feedback.error.500}',
             },
             success: {
-              color: '{foundations.colors.semantic.success}',
+              color: '{foundations.colors.feedback.success.500}',
             },
           },
         },
       },
     },
   },
+  /*
   {
     name: 'galicia',
     tokens: {
-      /* =========================================================
-       * META
-       * ======================================================= */
       meta: {
         version: '2.0.0',
         theme: 'light',
         radiusScale: 'md',
       },
-
-      /* =========================================================
-       * FOUNDATIONS (valores puros)
-       * ======================================================= */
       foundations: {
         colors: {
           brand: {
@@ -1589,10 +1760,6 @@ export const tokenVariants = [
           md: '0 4px 12px rgba(0,0,0,0.1)',
         },
       },
-
-      /* =========================================================
-       * SEMANTIC TOKENS (significado)
-       * ======================================================= */
       semanticTokens: {
         text: {
           primary: '{foundations.colors.neutral.900}',
@@ -1619,10 +1786,6 @@ export const tokenVariants = [
           disabled: '{foundations.colors.neutral.300}',
         },
       },
-
-      /* =========================================================
-       * COMPONENT TOKENS (contratos)
-       * ======================================================= */
       components: {
         button: {
           base: {
@@ -1656,8 +1819,6 @@ export const tokenVariants = [
           focusBorder: '{semanticTokens.border.focus}',
           radius: '{foundations.radius.md}',
         },
-
-        /* select | combobox */
         select: {
           background: '{semanticTokens.surface.default}',
           color: '{semanticTokens.text.primary}',
@@ -2375,25 +2536,18 @@ export const tokenVariants = [
   {
     name: 'musimundo',
     tokens: {
-      /* =========================================================
-       * META
-       * ======================================================= */
       meta: {
         version: '2.0.0',
         theme: 'light',
         radiusScale: 'md',
       },
-
-      /* =========================================================
-       * FOUNDATIONS (valores puros)
-       * ======================================================= */
       foundations: {
         colors: {
           brand: {
-            primary: '#E30613' /* Rojo Musimundo */,
-            hover: '#C20510' /* Rojo Oscurecido */,
-            secondary: '#002B5C' /* Azul Marino Musimundo */,
-            accent: '#0056B3' /* Azul de enlaces/interacción */,
+            primary: '#E30613',
+            hover: '#C20510',
+            secondary: '#002B5C',
+            accent: '#0056B3',
           },
           semantic: {
             success: '#28A745',
@@ -2465,10 +2619,6 @@ export const tokenVariants = [
           md: '0 4px 12px rgba(0,0,0,0.1)',
         },
       },
-
-      /* =========================================================
-       * SEMANTIC TOKENS (significado)
-       * ======================================================= */
       semanticTokens: {
         text: {
           primary: '{foundations.colors.neutral.900}',
@@ -2495,10 +2645,6 @@ export const tokenVariants = [
           disabled: '{foundations.colors.neutral.300}',
         },
       },
-
-      /* =========================================================
-       * COMPONENT TOKENS (contratos)
-       * ======================================================= */
       components: {
         button: {
           base: {
@@ -2532,8 +2678,6 @@ export const tokenVariants = [
           focusBorder: '{semanticTokens.border.focus}',
           radius: '{foundations.radius.md}',
         },
-
-        /* select | combobox */
         select: {
           background: '{semanticTokens.surface.default}',
           color: '{semanticTokens.text.primary}',
@@ -3216,6 +3360,7 @@ export const tokenVariants = [
       },
     },
   },
+  */
 ];
 
 export const CHANNEL_BY_BRAND: Record<string, string> = {

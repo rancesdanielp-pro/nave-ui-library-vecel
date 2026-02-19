@@ -53,7 +53,7 @@ export default function DocsHome() {
                     : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
-                {variant.name}
+                {variant.name.charAt(0).toUpperCase() + variant.name.slice(1)}
               </button>
             );
           })}
